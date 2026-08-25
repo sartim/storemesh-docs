@@ -83,6 +83,7 @@ repository.
 
 The initial runtime validates line quantities, calculates immutable order
 totals from price snapshots, and supports cancellation transitions.
+Its PostgreSQL schema foundation is tracked in `migrations/001_orders.sql`.
 
 ## Documentation platform evolution
 
