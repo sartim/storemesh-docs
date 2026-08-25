@@ -161,6 +161,11 @@ lookups and Inventory reservations, including release compensation when order
 creation fails. Concrete gRPC client adapters and runtime wiring are the next
 step; the boundary keeps that integration testable without duplicating domain
 ownership.
+Concrete gRPC adapters now consume the published Product and Inventory Go
+contract modules. When `PRODUCT_SERVICE_ADDRESS` and
+`INVENTORY_SERVICE_ADDRESS` are configured alongside `DATABASE_URL`, Order
+Service uses the coordinated path; otherwise it retains the persistent-only
+mode for compatibility and isolated development.
 
 ## Documentation platform evolution
 
