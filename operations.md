@@ -12,6 +12,7 @@ repository to create the Kind cluster and install Argo CD:
 
 ```sh
 ./storemesh-scripts/scripts/create-kind-cluster.sh
+./storemesh-scripts/scripts/bootstrap-local-data-services.sh
 ./storemesh-scripts/scripts/bootstrap-argocd.sh
 ```
 

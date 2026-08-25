@@ -35,8 +35,8 @@ when milestone status or priority changes.
 | Production readiness | Complete | Liveness/readiness, metrics, OpenTelemetry tracing, structured logging, and secure workload defaults |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
 | Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1) |
-| Local data services | Planned | Provide a documented local PostgreSQL and Redis runtime, or an explicit external-development profile, before application sync |
-| GitOps deployment verification | Blocked | Six-node Kind cluster and Argo CD are ready; application sync requires PostgreSQL/Redis endpoints and externally supplied `storemesh-user-service-secrets` credentials ([bootstrap fix PR #3](https://github.com/sartim/storemesh-scripts/pull/3)) |
+| Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
+| GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
 | Additional domain services | Planned | Product, inventory, cart, order, payment, notification, and frontend services, each with clear ownership |
 | Edge composition / BFF | Deferred | Evaluate only after a client needs cross-service aggregation or client-specific composition |
 | Production platform hardening | Planned | External Secrets, ingress, certificate management, policy enforcement, dashboards, alerts, backup and recovery drills |
