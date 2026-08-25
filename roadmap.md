@@ -34,8 +34,8 @@ when milestone status or priority changes.
 | API contracts and transports | Complete | gRPC contracts, explicit HTTP handlers, OpenAPI generation, and transport authorization |
 | Production readiness | Complete | Liveness/readiness, metrics, OpenTelemetry tracing, structured logging, and secure workload defaults |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
-| Local platform bootstrap | In review | Repeatable Kind and Argo CD scripts in `storemesh-scripts` pull request #1 |
-| GitOps deployment verification | Planned | Deploy user service through Argo CD to Kind using externally supplied local credentials |
+| Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1) |
+| GitOps deployment verification | Blocked | Existing Kind control plane is unhealthy: etcd requests time out and the API server is in CrashLoopBackOff; recover or recreate the local cluster before Argo CD sync verification |
 | Additional domain services | Planned | Product, inventory, cart, order, payment, notification, and frontend services, each with clear ownership |
 | Edge composition / BFF | Deferred | Evaluate only after a client needs cross-service aggregation or client-specific composition |
 | Production platform hardening | Planned | External Secrets, ingress, certificate management, policy enforcement, dashboards, alerts, backup and recovery drills |
