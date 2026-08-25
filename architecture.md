@@ -52,9 +52,11 @@ owns catalog identity, SKU, pricing, currency, and product lifecycle state. It
 does not own inventory availability, cart state, orders, payments, or users.
 Its initial protobuf contract is published in the
 [`storemesh-product-service`](https://github.com/sartim/storemesh-product-service)
-repository before persistence and runtime implementation are added.
+repository as the boundary for the upcoming catalog runtime.
 The repository now includes reproducible generated gRPC, HTTP gateway, and
-OpenAPI artifacts from its Buf template.
+OpenAPI artifacts from its Buf template, plus an in-memory gRPC runtime for
+contract and behavior validation. PostgreSQL persistence remains the next
+Product Service step.
 
 ## Documentation platform evolution
 
