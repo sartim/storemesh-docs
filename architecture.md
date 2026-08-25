@@ -72,6 +72,15 @@ oversell-prevention semantics. Its PostgreSQL schema foundation is tracked in
 `migrations/001_inventory.sql`, with transactional repository operations for
 adjustment, reservation, and release.
 
+## Order service
+
+The Order Service owns order lifecycle, customer association, line-item price
+snapshots, totals, and cancellation. It coordinates Product and Inventory
+through their public contracts and does not directly own catalog or stock
+records. Its initial contract is published in the
+[`storemesh-order-service`](https://github.com/sartim/storemesh-order-service)
+repository.
+
 ## Documentation platform evolution
 
 The current documentation site uses Jekyll and Markdown on GitHub Pages. A
