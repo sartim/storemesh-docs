@@ -37,7 +37,7 @@ when milestone status or priority changes.
 | Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1) |
 | Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
 | GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
-| Additional domain services | In progress | Product and Inventory Services are deployed and healthy; Order Service contract, lifecycle runtime, and PostgreSQL schema foundation are available in [`storemesh-order-service`](https://github.com/sartim/storemesh-order-service) |
+| Additional domain services | In progress | Product and Inventory Services are deployed and healthy; Order Service contract, lifecycle runtime, PostgreSQL schema, and transactional persistence are available in [`storemesh-order-service`](https://github.com/sartim/storemesh-order-service). Deployment and cross-service coordination remain next. |
 | Edge composition / BFF | Deferred | Evaluate only after a client needs cross-service aggregation or client-specific composition |
 | Documentation platform evolution | Deferred | Re-evaluate a Next.js static-export site after API and domain-service maturity justifies interactive documentation |
 | Production platform hardening | Planned | External Secrets, ingress, certificate management, policy enforcement, dashboards, alerts, backup and recovery drills |

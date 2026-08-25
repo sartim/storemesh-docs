@@ -55,8 +55,8 @@ Its initial protobuf contract is published in the
 repository as the boundary for the upcoming catalog runtime.
 The repository now includes reproducible generated gRPC, HTTP gateway, and
 OpenAPI artifacts from its Buf template, plus an in-memory gRPC runtime for
-contract and behavior validation. PostgreSQL persistence remains the next
-Product Service now supports a PostgreSQL repository selected by
+contract and behavior validation. Product Service now supports a PostgreSQL
+repository selected by
 `DATABASE_URL` and JWT authorization when `JWT_SECRET` is configured; its
 schema is tracked in `migrations/001_products.sql`.
 
@@ -83,7 +83,11 @@ repository.
 
 The initial runtime validates line quantities, calculates immutable order
 totals from price snapshots, and supports cancellation transitions.
-Its PostgreSQL schema foundation is tracked in `migrations/001_orders.sql`.
+Its PostgreSQL schema foundation is tracked in `migrations/001_orders.sql`, and
+the runtime now switches to a transactional PostgreSQL repository when
+`DATABASE_URL` is configured. Order creation persists the order and all line
+items atomically; reads reload immutable price snapshots and cancellation is a
+guarded state transition.
 
 ## Documentation platform evolution
 
