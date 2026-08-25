@@ -37,6 +37,20 @@ kubectl -n storemesh-user-service create secret generic storemesh-user-service-s
 PostgreSQL and Redis endpoints referenced by those values must also be
 available before the user-service readiness check can pass.
 
+The local Kind baseline currently includes healthy Argo CD applications for
+the User, Product, Inventory, and Order Services. Product, Inventory, and
+Order use namespace-local secrets containing their PostgreSQL connection
+strings; the Order Service schema is applied from
+`storemesh-order-service/migrations/001_orders.sql` before synchronization.
+Verify the deployment with:
+
+```sh
+kubectl get applications -n argocd
+kubectl get pods -n storemesh-product-service
+kubectl get pods -n storemesh-inventory-service
+kubectl get pods -n storemesh-order-service
+```
+
 ## Health and observability
 
 | Endpoint | Meaning |
