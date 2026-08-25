@@ -9,6 +9,24 @@ Update this document in the pull request that changes a milestone’s state.
 Completed items should link to their evidence: a pull request, release, or
 deployment record.
 
+## Prioritization policy
+
+This roadmap is the source of truth for delivery sequencing. Prioritize work in
+this order:
+
+1. Security, correctness, and broken delivery paths.
+2. Capabilities required to run and observe the existing platform reliably.
+3. The next dependency-free domain milestone that advances the commerce flow.
+4. Developer experience and documentation that reduce repeated operational
+   work.
+5. Optional architecture, including a BFF, only when a demonstrated product
+   need justifies a new service boundary.
+
+Every material pull request must update the relevant documentation in this
+repository: architecture for boundary changes, operations for runtime or
+deployment changes, development guidance for workflow changes, and this roadmap
+when milestone status or priority changes.
+
 | Milestone | Status | Outcome |
 | --- | --- | --- |
 | Platform foundation | Complete | User service, Helm chart, Argo CD, Kind, scripts, and documentation repositories created |
