@@ -68,8 +68,10 @@ change the boundary rules.
 
 The BFF remains deferred until client journeys show measurable value from
 aggregation, client-specific response shaping, edge authentication, rate
-limiting, or routing. It must remain an orchestration and presentation layer
-and must not absorb Product, Inventory, Order, or User business ownership.
+limiting, or routing. A Go BFF is a first-class option for StoreMesh because it
+can reuse the existing protobuf and gRPC tooling. It must remain an
+orchestration and presentation layer and must not absorb Product, Inventory,
+Order, or User business ownership.
 
 ## Product service
 
