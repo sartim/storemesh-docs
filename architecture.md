@@ -88,6 +88,9 @@ the runtime now switches to a transactional PostgreSQL repository when
 `DATABASE_URL` is configured. Order creation persists the order and all line
 items atomically; reads reload immutable price snapshots and cancellation is a
 guarded state transition.
+The service also has a distroless multi-platform container workflow and is
+packaged for GitOps through the Order Service Helm chart and Argo CD
+application.
 
 ## Documentation platform evolution
 
