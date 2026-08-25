@@ -26,9 +26,3 @@ and container validation.
 - `gofmt` guarantees canonical formatting.
 - `go vet` catches standard Go correctness issues.
 - `golangci-lint` aggregates additional static checks and project lint rules.
-
-## Dependency policy
-
-Pin meaningful runtime and tooling versions. Do not add Python or `uv` for
-semantic versioning; Go modules, Helm chart versions, and Git tags are the
-relevant versioning mechanisms in the current stack.
