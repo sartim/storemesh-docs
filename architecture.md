@@ -67,7 +67,8 @@ reservation lifecycle. Product Service remains the source of product identity;
 orders will coordinate inventory operations through this service boundary.
 The initial contract is published in the
 [`storemesh-inventory-service`](https://github.com/sartim/storemesh-inventory-service)
-repository.
+repository, which now includes an in-memory runtime enforcing reservation and
+oversell-prevention semantics.
 
 ## Documentation platform evolution
 
