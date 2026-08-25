@@ -25,6 +25,43 @@ of truth for implementation status and deployment evidence.
 | Authorization | Persisted user roles and server-side role checks |
 | Observability | OpenTelemetry traces, Prometheus metrics, structured logs |
 
+## Recommended transport architecture
+
+StoreMesh should use protobuf and gRPC as the canonical service contract, with
+REST as the client-facing representation at the edge. This gives internal
+service calls strong typing, streaming support, deadlines, and consistent
+status semantics without forcing web and mobile clients to speak gRPC.
+
+The target shape is:
+
+```text
+Web / mobile / partner clients
+             │ REST/JSON over HTTPS
+             ▼
+       Go BFF / edge API
+             │ gRPC + protobuf
+             ▼
+ User ─── Product ─── Inventory ─── Order
+```
+
+The BFF should use generated gRPC clients and, where practical, generated
+gRPC-Gateway bindings for straightforward REST-to-gRPC translation. Handwritten
+BFF methods should be reserved for true composition, such as an order summary
+that combines order, product, inventory, and user data. Domain services should
+not each grow separate public REST implementations for the same business
+operations.
+
+During the transition, existing service-owned REST endpoints may remain for
+authentication, health, readiness, metrics, and compatibility. New client
+business workflows should converge on the BFF, while service-to-service
+traffic remains gRPC. REST should not be used for internal orchestration unless
+there is a clear external integration requirement.
+
+This decision avoids maintaining two independent business APIs per service,
+keeps composition in one edge boundary, and leaves room for GraphQL later if
+measured client requirements justify it. GraphQL is not part of the initial
+transport commitment.
+
 ## User service
 
 The user service is the current reference implementation. It exposes gRPC on
