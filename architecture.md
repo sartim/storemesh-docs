@@ -53,6 +53,8 @@ does not own inventory availability, cart state, orders, payments, or users.
 Its initial protobuf contract is published in the
 [`storemesh-product-service`](https://github.com/sartim/storemesh-product-service)
 repository before persistence and runtime implementation are added.
+The repository now includes reproducible generated gRPC, HTTP gateway, and
+OpenAPI artifacts from its Buf template.
 
 ## Documentation platform evolution
 
