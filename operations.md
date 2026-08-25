@@ -54,3 +54,7 @@ labels.
 Service and chart repositories use semantic versions. CI validates code and
 charts before merge; release workflows publish versioned artifacts. Argo CD
 reconciles the selected chart revision into the target cluster.
+
+The user-service release workflow explicitly dispatches container publication
+after creating a semantic version, because GitHub-token-created tags do not
+start a second workflow automatically.
