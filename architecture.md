@@ -156,6 +156,11 @@ guarded state transition.
 The service also has a distroless multi-platform container workflow and is
 packaged for GitOps through the Order Service Helm chart and Argo CD
 application.
+The repository now includes a coordination boundary for Product catalog
+lookups and Inventory reservations, including release compensation when order
+creation fails. Concrete gRPC client adapters and runtime wiring are the next
+step; the boundary keeps that integration testable without duplicating domain
+ownership.
 
 ## Documentation platform evolution
 
