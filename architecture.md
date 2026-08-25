@@ -11,6 +11,11 @@ Each StoreMesh domain service owns its business logic, persistence integration,
 and public contracts. Transport handlers are adapters around one domain service
 instead of separate implementations of business rules.
 
+![StoreMesh architecture overview](assets/storemesh-architecture-overview.png)
+
+The diagram is an overview; the repository and roadmap pages remain the source
+of truth for implementation status and deployment evidence.
+
 | Boundary | Current approach |
 | --- | --- |
 | Internal APIs | gRPC |
