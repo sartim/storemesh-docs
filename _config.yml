@@ -1,0 +1,6 @@
+title: StoreMesh
+description: Open-source commerce platform architecture and delivery guide
+theme: jekyll-theme-cayman
+markdown: kramdown
+github:
+  is_project_page: false
