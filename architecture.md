@@ -43,12 +43,33 @@ Service source → CI/security checks → container image → Helm chart
 Helm owns Kubernetes workload configuration. Argo CD continuously reconciles
 the desired state from Git. Kind is the local, repeatable platform target.
 
-## BFF decision
+## API composition and BFF decision
 
-A BFF is intentionally deferred. Adding one before a client has genuine
-cross-service composition needs adds another service boundary without reducing
-complexity. When needed, the BFF should be a separately owned edge service and
-must not absorb domain business logic.
+API composition is expected for richer client workflows, but it is not a
+requirement for every service call. A client can call a single domain service
+directly when that service owns the complete use case. A composed experience
+such as an order summary may eventually need Product, Inventory, Order, and
+User data combined into one client-oriented response.
+
+A future BFF would be an optional edge service for that composition. Its
+external protocol may be REST, GraphQL, or both, while its internal calls would
+normally use the domain services' gRPC contracts:
+
+```text
+Web/mobile client → BFF REST or GraphQL API → internal gRPC → domain services
+```
+
+REST and GraphQL are alternatives for the BFF's client-facing API, not
+mandatory requirements to introduce together. GraphQL is useful when clients
+need flexible, nested selection; REST is simpler when resource-oriented
+endpoints and HTTP caching are sufficient. The BFF could be implemented in
+Node.js/TypeScript, Go, or another supported platform; the language does not
+change the boundary rules.
+
+The BFF remains deferred until client journeys show measurable value from
+aggregation, client-specific response shaping, edge authentication, rate
+limiting, or routing. It must remain an orchestration and presentation layer
+and must not absorb Product, Inventory, Order, or User business ownership.
 
 ## Product service
 
