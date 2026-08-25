@@ -81,6 +81,9 @@ records. Its initial contract is published in the
 [`storemesh-order-service`](https://github.com/sartim/storemesh-order-service)
 repository.
 
+The initial runtime validates line quantities, calculates immutable order
+totals from price snapshots, and supports cancellation transitions.
+
 ## Documentation platform evolution
 
 The current documentation site uses Jekyll and Markdown on GitHub Pages. A
