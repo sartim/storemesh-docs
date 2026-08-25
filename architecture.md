@@ -68,7 +68,8 @@ orders will coordinate inventory operations through this service boundary.
 The initial contract is published in the
 [`storemesh-inventory-service`](https://github.com/sartim/storemesh-inventory-service)
 repository, which now includes an in-memory runtime enforcing reservation and
-oversell-prevention semantics.
+oversell-prevention semantics. Its PostgreSQL schema foundation is tracked in
+`migrations/001_inventory.sql`.
 
 ## Documentation platform evolution
 
