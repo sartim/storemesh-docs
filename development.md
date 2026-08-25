@@ -21,6 +21,9 @@ The service CI enforces `gofmt`, `go vet`, unit tests, race detection,
 golangci-lint, govulncheck, gosec SARIF reporting, Buf contract checks, CodeQL,
 and container validation.
 
+The platform scripts repository also runs Bash syntax validation and ShellCheck
+on every pull request and push to `main`.
+
 `golangci-lint` complements rather than replaces `gofmt` and `go vet`:
 
 - `gofmt` guarantees canonical formatting.
