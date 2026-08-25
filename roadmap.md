@@ -39,6 +39,7 @@ when milestone status or priority changes.
 | GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
 | Additional domain services | Planned | Product, inventory, cart, order, payment, notification, and frontend services, each with clear ownership |
 | Edge composition / BFF | Deferred | Evaluate only after a client needs cross-service aggregation or client-specific composition |
+| Documentation platform evolution | Deferred | Re-evaluate a Next.js static-export site after API and domain-service maturity justifies interactive documentation |
 | Production platform hardening | Planned | External Secrets, ingress, certificate management, policy enforcement, dashboards, alerts, backup and recovery drills |
 
 ## Milestone definition of done

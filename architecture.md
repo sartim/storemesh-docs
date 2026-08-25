@@ -44,3 +44,11 @@ A BFF is intentionally deferred. Adding one before a client has genuine
 cross-service composition needs adds another service boundary without reducing
 complexity. When needed, the BFF should be a separately owned edge service and
 must not absorb domain business logic.
+
+## Documentation platform evolution
+
+The current documentation site uses Jekyll and Markdown on GitHub Pages. A
+future Next.js static-export site is reserved as an option for interactive
+architecture views, richer search, API explorers, or versioned documentation.
+It should be reconsidered after the API contracts and domain-service surface
+have matured; it is not a current runtime dependency.
