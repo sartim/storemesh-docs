@@ -35,7 +35,7 @@ when milestone status or priority changes.
 | Production readiness | Complete | Liveness/readiness, metrics, OpenTelemetry tracing, structured logging, and secure workload defaults |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
 | Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1) |
-| GitOps deployment verification | Blocked | Existing Kind control plane is unhealthy: etcd requests time out and the API server is in CrashLoopBackOff; recover or recreate the local cluster before Argo CD sync verification |
+| GitOps deployment verification | In progress | Six-node Kind cluster recreated successfully and Argo CD is ready; application sync is waiting for externally supplied `storemesh-user-service-secrets` credentials ([bootstrap fix PR #2](https://github.com/sartim/storemesh-scripts/pull/2)) |
 | Additional domain services | Planned | Product, inventory, cart, order, payment, notification, and frontend services, each with clear ownership |
 | Edge composition / BFF | Deferred | Evaluate only after a client needs cross-service aggregation or client-specific composition |
 | Production platform hardening | Planned | External Secrets, ingress, certificate management, policy enforcement, dashboards, alerts, backup and recovery drills |
