@@ -45,6 +45,15 @@ cross-service composition needs adds another service boundary without reducing
 complexity. When needed, the BFF should be a separately owned edge service and
 must not absorb domain business logic.
 
+## Product service
+
+The Product Service is the first commerce-domain boundary after identity. It
+owns catalog identity, SKU, pricing, currency, and product lifecycle state. It
+does not own inventory availability, cart state, orders, payments, or users.
+Its initial protobuf contract is published in the
+[`storemesh-product-service`](https://github.com/sartim/storemesh-product-service)
+repository before persistence and runtime implementation are added.
+
 ## Documentation platform evolution
 
 The current documentation site uses Jekyll and Markdown on GitHub Pages. A
