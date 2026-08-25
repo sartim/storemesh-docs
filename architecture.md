@@ -56,7 +56,8 @@ repository as the boundary for the upcoming catalog runtime.
 The repository now includes reproducible generated gRPC, HTTP gateway, and
 OpenAPI artifacts from its Buf template, plus an in-memory gRPC runtime for
 contract and behavior validation. PostgreSQL persistence remains the next
-Product Service step.
+Product Service step; its initial schema foundation is tracked in
+`migrations/001_products.sql`.
 
 ## Documentation platform evolution
 
