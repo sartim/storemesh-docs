@@ -60,6 +60,15 @@ Product Service now supports a PostgreSQL repository selected by
 `DATABASE_URL` and JWT authorization when `JWT_SECRET` is configured; its
 schema is tracked in `migrations/001_products.sql`.
 
+## Inventory service
+
+The Inventory Service owns on-hand, reserved, and available quantities plus
+reservation lifecycle. Product Service remains the source of product identity;
+orders will coordinate inventory operations through this service boundary.
+The initial contract is published in the
+[`storemesh-inventory-service`](https://github.com/sartim/storemesh-inventory-service)
+repository.
+
 ## Documentation platform evolution
 
 The current documentation site uses Jekyll and Markdown on GitHub Pages. A

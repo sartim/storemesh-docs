@@ -9,6 +9,7 @@ title: Repository map
 | --- | --- |
 | [storemesh-user-service](https://github.com/sartim/storemesh-user-service) | Identity, users, roles, sessions, HTTP and gRPC contracts |
 | [storemesh-product-service](https://github.com/sartim/storemesh-product-service) | Product catalog contract and future product ownership boundary |
+| [storemesh-inventory-service](https://github.com/sartim/storemesh-inventory-service) | Stock quantities and reservation ownership boundary |
 | [storemesh-helm-repo](https://github.com/sartim/storemesh-helm-repo) | Helm charts and chart release automation |
 | [storemesh-argocd-repo](https://github.com/sartim/storemesh-argocd-repo) | Argo CD project and application definitions |
 | [storemesh-kind-cluster](https://github.com/sartim/storemesh-kind-cluster) | Local multi-node Kind cluster configuration |
