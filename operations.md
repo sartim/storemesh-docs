@@ -20,6 +20,22 @@ Before submitting the user-service application, create the Kubernetes Secret
 Use External Secrets or a secret manager for shared environments; never commit
 runtime credentials to a chart, manifest, script, or documentation page.
 
+The Secret must contain `DATABASE_URL`, `REDIS_URL`, and `JWT_SECRET` (at least
+32 characters). For a local-only cluster, create it from values kept outside
+Git, for example:
+
+```sh
+kubectl create namespace storemesh-user-service --dry-run=client -o yaml | kubectl apply -f -
+kubectl -n storemesh-user-service create secret generic storemesh-user-service-secrets \
+  --from-literal=DATABASE_URL="$DATABASE_URL" \
+  --from-literal=REDIS_URL="$REDIS_URL" \
+  --from-literal=JWT_SECRET="$JWT_SECRET" \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
+PostgreSQL and Redis endpoints referenced by those values must also be
+available before the user-service readiness check can pass.
+
 ## Health and observability
 
 | Endpoint | Meaning |
