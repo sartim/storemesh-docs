@@ -34,6 +34,13 @@ kubectl -n storemesh-user-service create secret generic storemesh-user-service-s
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
+For coordinated Order-to-Product calls, provide the same Product Service
+signing secret to Order Service as `PRODUCT_JWT_SECRET` through a Kubernetes
+Secret or external secret manager. Set `PRODUCT_JWT_ISSUER` and
+`PRODUCT_JWT_AUDIENCE` only when Product Service uses values different from
+`storemesh-product-service` and `storemesh-platform`. Never print or commit
+these values.
+
 PostgreSQL and Redis endpoints referenced by those values must also be
 available before the user-service readiness check can pass.
 

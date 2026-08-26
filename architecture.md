@@ -171,6 +171,10 @@ key and retries return the original order without reserving inventory again.
 An in-process gRPC integration test exercises the generated Product and
 Inventory clients with the coordination workflow; deployment-level tests can
 reuse the same scenario against the Kind services.
+Product Service enforces JWT authentication on gRPC calls. Order Service now
+supports short-lived service JWTs through `PRODUCT_JWT_SECRET`, with issuer and
+audience defaults matching Product Service; shared secret delivery remains an
+environment/secret-manager responsibility.
 
 ## Documentation platform evolution
 
