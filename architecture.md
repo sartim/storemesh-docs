@@ -166,6 +166,8 @@ contract modules. When `PRODUCT_SERVICE_ADDRESS` and
 `INVENTORY_SERVICE_ADDRESS` are configured alongside `DATABASE_URL`, Order
 Service uses the coordinated path; otherwise it retains the persistent-only
 mode for compatibility and isolated development.
+Create requests may include an `idempotency_key`; PostgreSQL enforces a unique
+key and retries return the original order without reserving inventory again.
 
 ## Documentation platform evolution
 
