@@ -82,6 +82,11 @@ host, TLS Secret, and controller-specific annotations in environment values.
 The domain gRPC services remain internal ClusterIP services and are not exposed
 through this Ingress.
 
+The service charts provide opt-in `PrometheusRule` resources for deployment
+availability; the User Service also includes a repeated-restart alert. Enable
+these rules only after installing a Prometheus Operator-compatible monitoring
+stack and supply any required release labels through environment values.
+
 The Argo CD repository includes a separate, explicitly applied cert-manager
 application pinned to Jetstack chart `v1.21.1`. Apply it only in an environment
 where certificate issuance, DNS/HTTP challenges, and the ingress controller
