@@ -15,8 +15,13 @@ alert on them.
 | --- | --- | --- |
 | Metrics and alerts | Prometheus Operator, Grafana, Alertmanager | SLO dashboards, recording rules, and notifications |
 | Logs | Fluent Bit, Elasticsearch managed by ECK, Kibana | Central search, retention, and operational investigation |
-| Traces | OpenTelemetry Collector and an approved OTLP trace backend | Cross-service request correlation |
+| Traces | OpenTelemetry Collector and Grafana Tempo (preferred) | Cross-service request correlation |
 | Mesh telemetry | Istio (optional), Prometheus, OpenTelemetry, optional Kiali | mTLS, traffic policy, service graph, and golden signals |
+
+Grafana Tempo is the preferred OTLP trace backend because it integrates with
+the selected Grafana metrics experience. The deployment chart must be sourced
+from the maintained Grafana Community repository and pinned after compatibility
+validation; the older Grafana `tempo-distributed` chart is deprecated.
 
 ECK is the lifecycle boundary for Elasticsearch and Kibana. It provides
 Kubernetes-native resources for versioned deployments, upgrades, credentials,
