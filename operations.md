@@ -49,6 +49,11 @@ the User, Product, Inventory, and Order Services. Product, Inventory, and
 Order use namespace-local secrets containing their PostgreSQL connection
 strings; the Order Service schema is applied from
 `storemesh-order-service/migrations/001_orders.sql` before synchronization.
+Apply `storemesh-product-service/migrations/001_products.sql` and
+`storemesh-inventory-service/migrations/001_inventory.sql` before exercising
+the coordinated workflow. A successful local verification created an order
+with a 2,500 minor-unit total, retried it with the same idempotency key, and
+confirmed inventory availability decreased only once.
 Verify the deployment with:
 
 ```sh

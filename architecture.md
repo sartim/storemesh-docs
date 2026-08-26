@@ -136,6 +136,9 @@ repository, which now includes an in-memory runtime enforcing reservation and
 oversell-prevention semantics. Its PostgreSQL schema foundation is tracked in
 `migrations/001_inventory.sql`, with transactional repository operations for
 adjustment, reservation, and release.
+When `DATABASE_URL` is configured, the deployed runtime uses this PostgreSQL
+repository rather than process-local memory, so reservations remain consistent
+across replicas.
 
 ## Order service
 
