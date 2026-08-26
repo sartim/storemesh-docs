@@ -29,3 +29,10 @@ on every pull request and push to `main`.
 - `gofmt` guarantees canonical formatting.
 - `go vet` catches standard Go correctness issues.
 - `golangci-lint` aggregates additional static checks and project lint rules.
+
+## Argo CD manifest validation
+
+The Argo CD repository runs CI on pull requests and `main` pushes. The workflow
+parses every YAML document and checks whitespace. Kubernetes schema validation
+remains environment-specific because some examples intentionally contain
+placeholders and depend on installed CRDs.
