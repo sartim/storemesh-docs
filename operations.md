@@ -76,6 +76,12 @@ provide opt-in `ExternalSecret` resources. Set
 disabled for the local Kind workflow, and `secrets.create` must not be enabled
 at the same time as an ExternalSecret for the same target.
 
+The User Service chart also provides an opt-in HTTPS Ingress. Enable it only
+when an ingress controller and certificate issuer are installed, then set the
+host, TLS Secret, and controller-specific annotations in environment values.
+The domain gRPC services remain internal ClusterIP services and are not exposed
+through this Ingress.
+
 ## Health and observability
 
 | Endpoint | Meaning |
