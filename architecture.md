@@ -23,7 +23,37 @@ of truth for implementation status and deployment evidence.
 | Contracts | Protocol Buffers, HTTP annotations, generated OpenAPI |
 | Authentication | JWT access and refresh tokens, Redis-backed sessions |
 | Authorization | Persisted user roles and server-side role checks |
-| Observability | OpenTelemetry traces, Prometheus metrics, structured logs |
+| Observability | Prometheus metrics, Elasticsearch/Kibana logs, OpenTelemetry and Istio telemetry |
+
+## Observability architecture
+
+Observability is a platform capability rather than a responsibility duplicated
+inside each domain service. Services emit structured JSON logs, Prometheus
+metrics, and W3C/OTLP trace context; the platform collects and correlates those
+signals:
+
+```text
+Services ── metrics ───────────────► Prometheus ─► Grafana/Alertmanager
+         ── JSON logs ─► Fluent Bit ► Elasticsearch (ECK) ► Kibana
+         ── OTLP traces ───────────► OpenTelemetry Collector ► trace backend
+Istio ──── access metrics/traces ───► Prometheus/OTel (with Kiali as an optional view)
+```
+
+Prometheus, Grafana, and Alertmanager are the initial metrics and alerting
+stack. Elasticsearch and Kibana, managed by the Elastic Cloud on Kubernetes
+(ECK) operator, are the selected centralized logging path, with Fluent Bit (or
+an equivalent node collector) forwarding logs and applying retention and
+redaction policy. Istio is an optional service-mesh layer for
+traffic policy, mTLS, access telemetry, and uniform tracing; it is not required
+for the current gRPC service boundaries. OpenTelemetry Collector is preferred
+as the stable ingestion boundary so the trace backend can be changed without
+modifying services.
+
+These components are installed in stages through Argo CD and remain opt-in for
+the local Kind profile. Production environments must define persistent storage,
+resource limits, retention, access control, and secret management before
+enabling Elasticsearch or a mesh. Application `PrometheusRule` resources are
+enabled only after a Prometheus Operator-compatible stack is available.
 
 ## Recommended transport architecture
 
