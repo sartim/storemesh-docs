@@ -159,11 +159,11 @@ guarded state transition.
 The service also has a distroless multi-platform container workflow and is
 packaged for GitOps through the Order Service Helm chart and Argo CD
 application.
-The repository now includes a coordination boundary for Product catalog
-lookups and Inventory reservations, including release compensation when order
-creation fails. Concrete gRPC client adapters and runtime wiring are the next
-step; the boundary keeps that integration testable without duplicating domain
-ownership.
+The repository includes a coordination boundary for Product catalog lookups
+and Inventory reservations, including release compensation when order creation
+fails. Concrete gRPC adapters and runtime wiring are deployed and covered by
+both in-process and Kind-based workflow verification; the boundary keeps the
+integration testable without duplicating domain ownership.
 Concrete gRPC adapters now consume the published Product and Inventory Go
 contract modules. When `PRODUCT_SERVICE_ADDRESS` and
 `INVENTORY_SERVICE_ADDRESS` are configured alongside `DATABASE_URL`, Order
