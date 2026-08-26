@@ -82,6 +82,11 @@ host, TLS Secret, and controller-specific annotations in environment values.
 The domain gRPC services remain internal ClusterIP services and are not exposed
 through this Ingress.
 
+The Argo CD repository includes a separate, explicitly applied cert-manager
+application pinned to Jetstack chart `v1.21.1`. Apply it only in an environment
+where certificate issuance, DNS/HTTP challenges, and the ingress controller
+have been approved; it is not part of the local Kind bootstrap.
+
 ## Health and observability
 
 | Endpoint | Meaning |
