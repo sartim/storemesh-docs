@@ -86,6 +86,8 @@ The Argo CD repository includes a separate, explicitly applied cert-manager
 application pinned to Jetstack chart `v1.21.1`. Apply it only in an environment
 where certificate issuance, DNS/HTTP challenges, and the ingress controller
 have been approved; it is not part of the local Kind bootstrap.
+An issuer template is available in the Argo CD repository; customize the ACME
+email, ingress class, and hostname prerequisites before applying it.
 
 ## Health and observability
 
