@@ -36,3 +36,6 @@ The Argo CD repository runs CI on pull requests and `main` pushes. The workflow
 parses every YAML document and checks whitespace. Kubernetes schema validation
 remains environment-specific because some examples intentionally contain
 placeholders and depend on installed CRDs.
+
+The manifest workflow uses Ruby's portable `YAML.load_stream` API so it remains
+compatible with the GitHub-hosted Ruby runner.
