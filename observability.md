@@ -44,3 +44,13 @@ All observability components are opt-in Argo CD applications and are excluded
 from the default local Kind bootstrap. Production enablement requires resource
 limits, persistent storage, network policies, secret delivery, retention, and
 restore evidence.
+
+## Service metrics contract
+
+Product, Inventory, and Order will expose Prometheus text exposition on an
+internal HTTP `/metrics` endpoint (port `8080` in the initial chart contract).
+The endpoint must be unauthenticated only inside the cluster and must not expose
+request bodies or credentials. Counters and histograms may use bounded labels
+such as service, method, and normalized route; user IDs, order IDs, SKUs, and
+raw URLs are prohibited. Each chart will add an opt-in `ServiceMonitor` after
+its service implements this contract.
