@@ -69,6 +69,13 @@ namespace; Order currently accepts workload traffic from its own namespace
 until the future BFF or ingress boundary is introduced. Review these policies
 when adding a new client-facing edge component.
 
+For production secret delivery, the User, Product, Inventory, and Order charts
+provide opt-in `ExternalSecret` resources. Set
+`externalSecrets.enabled=true`, a `secretStoreRef`, `remoteKey`, and
+`targetName` in an environment-specific values file. The default remains
+disabled for the local Kind workflow, and `secrets.create` must not be enabled
+at the same time as an ExternalSecret for the same target.
+
 ## Health and observability
 
 | Endpoint | Meaning |
