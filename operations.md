@@ -96,6 +96,25 @@ email, ingress class, and hostname prerequisites before applying it.
 
 ## Health and observability
 
+The observability rollout is intentionally staged:
+
+1. Install Prometheus Operator-compatible Prometheus, Grafana, and Alertmanager;
+   then enable the service `PrometheusRule` templates.
+2. Install an OpenTelemetry Collector and connect service OTLP exports to the
+   approved trace backend. If Istio is adopted, send mesh telemetry through the
+   same collection path and add Kiali only where a topology view is useful.
+3. Install the pinned Elastic Cloud on Kubernetes (ECK) operator and declare
+   the environment's Elasticsearch and Kibana resources. Install Fluent Bit (or
+   an approved equivalent) as a DaemonSet and forward redacted structured logs
+   to the ECK-managed Elasticsearch endpoint; expose Kibana only behind the
+   platform authentication boundary.
+
+The logging and metrics stores require environment-specific persistent volume,
+retention, sizing, network policy, and backup settings. ECK operator and
+Elasticsearch/Kibana versions must be pinned and upgraded independently from
+domain services. None of these stateful observability components is part of the
+default Kind bootstrap.
+
 | Endpoint | Meaning |
 | --- | --- |
 | `/healthz` | Process is alive; no dependency call |
