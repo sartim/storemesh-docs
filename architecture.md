@@ -35,7 +35,7 @@ signals:
 ```text
 Services ── metrics ───────────────► Prometheus ─► Grafana/Alertmanager
          ── JSON logs ─► Fluent Bit ► Elasticsearch (ECK) ► Kibana
-         ── OTLP traces ───────────► OpenTelemetry Collector ► trace backend
+         ── OTLP traces ───────────► OpenTelemetry Collector ► Grafana Tempo
 Istio ──── access metrics/traces ───► Prometheus/OTel (with Kiali as an optional view)
 ```
 
