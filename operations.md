@@ -94,6 +94,22 @@ have been approved; it is not part of the local Kind bootstrap.
 An issuer template is available in the Argo CD repository; customize the ACME
 email, ingress class, and hostname prerequisites before applying it.
 
+## Environment activation checklist
+
+Before enabling production-only platform resources, record approval for each
+item below:
+
+- [ ] cert-manager, ingress controller, DNS, and ACME rate-limit plan
+- [ ] Prometheus/Grafana/Alertmanager storage, access, and notification routes
+- [ ] Tempo storage backend, retention, and OTLP authentication
+- [ ] ECK Elasticsearch/Kibana sizing, TLS, retention, and backup policy
+- [ ] Fluent Bit endpoint, ExternalSecret credentials, and redaction review
+- [ ] Istio namespace enrollment, mTLS transition plan, and telemetry provider
+- [ ] PostgreSQL and observability restore rehearsal with measured RPO/RTO
+
+Apply Argo applications and example resources only after the corresponding
+approval is recorded. The local Kind profile remains intentionally disposable.
+
 ## Health and observability
 
 The observability rollout is intentionally staged:
