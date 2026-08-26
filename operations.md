@@ -63,6 +63,12 @@ kubectl get pods -n storemesh-inventory-service
 kubectl get pods -n storemesh-order-service
 ```
 
+The domain charts also install one-replica PodDisruptionBudgets and ingress
+NetworkPolicies. Product and Inventory accept gRPC traffic from the Order
+namespace; Order currently accepts workload traffic from its own namespace
+until the future BFF or ingress boundary is introduced. Review these policies
+when adding a new client-facing edge component.
+
 ## Health and observability
 
 | Endpoint | Meaning |

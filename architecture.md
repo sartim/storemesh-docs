@@ -79,6 +79,10 @@ Service source → CI/security checks → container image → Helm chart
 
 Helm owns Kubernetes workload configuration. Argo CD continuously reconciles
 the desired state from Git. Kind is the local, repeatable platform target.
+The domain charts now apply PodDisruptionBudgets and namespace-scoped gRPC
+ingress policies as the first production-hardening baseline. The policy model
+keeps Product and Inventory reachable from Order while leaving future BFF or
+ingress access as an explicit boundary change.
 
 ## API composition and BFF decision
 

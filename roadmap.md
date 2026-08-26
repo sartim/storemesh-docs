@@ -40,7 +40,7 @@ when milestone status or priority changes.
 | Additional domain services | Complete | Product, Inventory, and Order Services are deployed and healthy in the local Kind cluster. Inventory uses PostgreSQL-backed replica-safe reservations ([runtime PR #2](https://github.com/sartim/storemesh-inventory-service/pull/2)); Order consumes Product and Inventory gRPC contracts, authenticates to Product with service JWTs, coordinates price snapshots and reservations, and supports PostgreSQL-backed idempotent retries. The deployed workflow was verified end to end, including a successful order, a same-key retry, and persistent stock reduction. |
 | Edge composition / BFF | Deferred | Target a Go BFF exposing REST/JSON over HTTPS and consuming canonical internal gRPC APIs; implement after client journeys demonstrate cross-service aggregation or client-specific composition. GraphQL remains a later option, not an initial dependency. |
 | Documentation platform evolution | Deferred | Re-evaluate a Next.js static-export site after API and domain-service maturity justifies interactive documentation |
-| Production platform hardening | In progress | Establish External Secrets integration points, ingress and TLS boundaries, network policies, workload disruption safeguards, dashboards, alerts, and backup/recovery evidence |
+| Production platform hardening | In progress | Domain Helm charts now include one-replica PodDisruptionBudgets and gRPC ingress NetworkPolicies ([PR #9](https://github.com/sartim/storemesh-helm-repo/pull/9)); External Secrets integration points, ingress/TLS, dashboards, alerts, and backup/recovery evidence remain next |
 
 ## Milestone definition of done
 
