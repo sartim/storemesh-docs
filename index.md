@@ -16,6 +16,7 @@ delivery model, and the roadmap for contributors and operators.
 - [Development guide](development.md)
 - [Operations and deployment](operations.md)
 - [Observability](observability.md)
+- [Backup and recovery](backup-recovery.md)
 - [Roadmap](roadmap.md)
 
 ## Current platform baseline
