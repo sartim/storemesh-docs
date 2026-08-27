@@ -32,7 +32,7 @@ when milestone status or priority changes.
 | Platform foundation | Complete | User service, Helm chart, Argo CD, Kind, scripts, and documentation repositories created |
 | Identity and authorization | Complete | JWT authentication, refresh/logout, Redis sessions, persisted roles, and management operations |
 | API contracts and transports | Complete | gRPC contracts, explicit HTTP handlers, OpenAPI generation, and transport authorization |
-| Production readiness | In progress | User Service has liveness/readiness, Prometheus metrics, OpenTelemetry tracing, structured logging, and secure workload defaults; Product, Inventory, and Order still need the shared metrics endpoint and scrape integration |
+| Production readiness | In progress | User, Product, Inventory, and Order Services expose the shared `/metrics` contract with Go/process collectors; all four charts provide opt-in Prometheus scraping, while live discovery and production storage/access validation remain environment work |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
 | Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1) |
 | Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
@@ -50,9 +50,9 @@ roadmap is updated with evidence.
 
 ## Next prioritized work
 
-1. Implement the shared `/metrics` contract in Product, Inventory, and Order,
-   then add opt-in Helm `ServiceMonitor` resources and verify Prometheus
-   discovery across replicas.
+1. Enable the opt-in `ServiceMonitor` resources in a monitoring-enabled
+   environment and verify Prometheus discovery and scrape health across
+   Product, Inventory, and Order replicas.
 2. Complete a production-style restore rehearsal for PostgreSQL and the
    observability stores, recording measured RPO/RTO evidence.
 3. Activate cert-manager and HTTPS ingress in a controlled environment, then

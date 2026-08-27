@@ -87,6 +87,15 @@ availability; the User Service also includes a repeated-restart alert. Enable
 these rules only after installing a Prometheus Operator-compatible monitoring
 stack and supply any required release labels through environment values.
 
+The User, Product, Inventory, and Order charts also provide opt-in
+`ServiceMonitor` resources. Enable `serviceMonitor.enabled` in an
+environment-specific values file after installing the Prometheus Operator.
+The domain services expose `/metrics` on the named `http` Service port at
+port `8080`; the ServiceMonitor uses a 30-second interval and a 10-second
+scrape timeout by default. Confirm that the Prometheus instance selects the
+ServiceMonitor labels used by the environment, then verify targets and
+`up{}` values for every replica before enabling alert rules.
+
 The Argo CD repository includes a separate, explicitly applied cert-manager
 application pinned to Jetstack chart `v1.21.1`. Apply it only in an environment
 where certificate issuance, DNS/HTTP challenges, and the ingress controller
