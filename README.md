@@ -14,3 +14,6 @@ toolchain.
 Update `roadmap.md` in the same pull request that completes a milestone. Move
 the milestone between Planned, In Progress, and Complete, and link the related
 repository pull request or release.
+
+Use [`execution-plan.md`](execution-plan.md) for the active prioritized
+backlog, cross-repository dependencies, acceptance criteria, and decisions.

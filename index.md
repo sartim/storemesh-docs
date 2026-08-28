@@ -18,6 +18,7 @@ delivery model, and the roadmap for contributors and operators.
 - [Observability](observability.md)
 - [Backup and recovery](backup-recovery.md)
 - [Roadmap](roadmap.md)
+- [Execution plan](execution-plan.md)
 
 ## Current platform baseline
 
@@ -26,8 +27,9 @@ explicit HTTP handlers, and an internal gRPC API. It includes production
 readiness endpoints, Prometheus metrics, OpenTelemetry tracing, security
 scanning, Helm packaging, and Argo CD configuration.
 
-The platform does not currently include a BFF layer. The HTTP API is owned by
-the user service itself, while gRPC is reserved for internal service-to-service
-communication. A BFF becomes appropriate only when web or mobile clients need
-cross-service aggregation, client-specific composition, or an edge policy
-boundary that does not belong inside a domain service.
+The platform includes a Go BFF for the web edge. Browser clients use its
+REST/JSON API, while the BFF consumes the canonical internal gRPC APIs exposed
+by the domain services. The Next.js frontend is deployed behind the BFF and
+Istio ingress in local Kind. Argo CD manifests remain available for a future
+reachable GitOps environment, while current CI deployment uses explicit manual
+Helm Actions.
