@@ -28,23 +28,24 @@ milestones.
 
 ### P1 — Customer and admin frontend journeys
 
-**Status:** Ready to start  
+**Status:** Implemented; dashboard and integration hardening next
 **Repositories:** `storemesh-frontend`, `storemesh-bff`, `storemesh-docs`
 
-Deliver a usable first release around the existing REST BFF surface:
+The first usable release is now implemented around the existing REST BFF
+surface:
 
 - decode the authenticated session into a small client-side user context;
-- add role-aware navigation and an admin-only route/view;
-- add customer order history and order detail/cancel actions;
-- add admin user listing, role assignment/removal, and account deletion flows;
-- add loading, empty, error, and unauthorized states;
+- role-aware navigation and an admin-only view;
+- customer order history with pagination and cancellation;
+- admin user listing, role assignment/removal, and account deletion flows;
+- loading, empty, error, and unauthorized states;
 - use Recharts only for dashboard metrics after the operational data contract
   is settled.
 
-**Acceptance criteria:** a customer can sign in, browse products, create an
-order, and view their order history; an administrator can list users and manage
-roles; non-admin users cannot access the admin view; all journeys use BFF REST
-and no browser code calls internal gRPC services.
+**Acceptance criteria:** met in the frontend implementation; production-like
+integration coverage and final backend authorization hardening remain follow-up
+work. All journeys use BFF REST and no browser code calls internal gRPC
+services.
 
 ### P1 — Complete the missing order-history API contract
 
@@ -85,8 +86,8 @@ manual trigger and immutable image tag.
 | --- | --- | --- | --- | --- |
 | P0 | Resolve failing CI/action regressions when observed | Affected repository | Failure evidence | Ready as needed |
 | P1 | Add paginated `ListOrders` API and authorization rules | Order Service + BFF | Shared authorization interceptor for final enforcement | Implemented; authorization hardening next |
-| P1 | Implement frontend customer order history | Frontend | `ListOrders` | Planned |
-| P1 | Implement role-aware admin users and roles screens | Frontend + BFF | Existing admin routes | Planned |
+| P1 | Implement frontend customer order history | Frontend | `ListOrders` | Implemented; integration hardening next |
+| P1 | Implement role-aware admin users and roles screens | Frontend + BFF | Existing admin routes | Implemented; integration hardening next |
 | P1 | Add API and UI integration tests for the journeys | Service/BFF/frontend | Journey implementations | Planned |
 | P1 | Verify staging promotion workflow with a real target cluster | Helm + docs | Cluster credentials/context | Waiting for environment |
 | P2 | Enable and verify Prometheus `ServiceMonitor` discovery | Helm + Argo | Monitoring-enabled cluster | Planned |
