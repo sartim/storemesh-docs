@@ -48,13 +48,14 @@ and no browser code calls internal gRPC services.
 
 ### P1 — Complete the missing order-history API contract
 
-**Status:** Blocked on contract decision  
+**Status:** Implemented; frontend integration next
 **Repositories:** `storemesh-order-service`, `storemesh-bff`,
 `storemesh-frontend`
 
-The current Order Service/BFF surface supports create, get-by-id, and cancel,
-but not a list operation. Before implementing order history, add a paginated
-`ListOrders` contract with an explicit customer/admin authorization model.
+The Order Service and BFF now support a paginated `ListOrders` operation with
+customer and status filters. Customer history uses an explicit customer scope;
+administrative wide listing remains dependent on the shared authorization
+interceptor.
 
 **Acceptance criteria:** customer list requests are scoped to the authenticated
 customer; admin requests have an intentional scope/filter; pagination and
@@ -83,7 +84,7 @@ manual trigger and immutable image tag.
 | Priority | Item | Repository or owner | Depends on | Status |
 | --- | --- | --- | --- | --- |
 | P0 | Resolve failing CI/action regressions when observed | Affected repository | Failure evidence | Ready as needed |
-| P1 | Add paginated `ListOrders` API and authorization rules | Order Service + BFF | Contract decision | Next |
+| P1 | Add paginated `ListOrders` API and authorization rules | Order Service + BFF | Shared authorization interceptor for final enforcement | Implemented; authorization hardening next |
 | P1 | Implement frontend customer order history | Frontend | `ListOrders` | Planned |
 | P1 | Implement role-aware admin users and roles screens | Frontend + BFF | Existing admin routes | Planned |
 | P1 | Add API and UI integration tests for the journeys | Service/BFF/frontend | Journey implementations | Planned |
@@ -124,3 +125,4 @@ For each feature, check the applicable items before moving it to Complete:
 | Date | Change |
 | --- | --- |
 | 2026-08-28 | Added this execution tracker; made order-history API a prerequisite for the frontend journey; recorded current BFF, Next.js, Helm, Kind, and visualization decisions. |
+| 2026-08-28 | Added paginated `ListOrders` to the Order Service and BFF; frontend order history can now begin against the published contract. |
