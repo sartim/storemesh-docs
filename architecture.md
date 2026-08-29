@@ -11,7 +11,7 @@ Each StoreMesh domain service owns its business logic, persistence integration,
 and public contracts. Transport handlers are adapters around one domain service
 instead of separate implementations of business rules.
 
-![StoreMesh architecture overview](assets/storemesh-architecture-overview.png)
+![StoreMesh local architecture overview](assets/storemesh-architecture-overview-v2.png)
 
 The diagram is an overview; the repository and roadmap pages remain the source
 of truth for implementation status and deployment evidence.
@@ -23,7 +23,7 @@ of truth for implementation status and deployment evidence.
 | Contracts | Protocol Buffers, HTTP annotations, generated OpenAPI |
 | Authentication | JWT access and refresh tokens, Redis-backed sessions |
 | Authorization | Persisted user roles and server-side role checks |
-| Observability | Prometheus metrics, Elasticsearch/Kibana logs, OpenTelemetry and Istio telemetry |
+| Observability | Prometheus, Grafana, Alertmanager, Tempo, plus optional Elasticsearch/Kibana logging |
 
 ## Observability architecture
 
@@ -122,9 +122,9 @@ directly when that service owns the complete use case. A composed experience
 such as an order summary may eventually need Product, Inventory, Order, and
 User data combined into one client-oriented response.
 
-A future BFF would be an optional edge service for that composition. Its
-external protocol may be REST, GraphQL, or both, while its internal calls would
-normally use the domain services' gRPC contracts:
+The implemented Go BFF is the client-facing edge for the current web
+application. Its external protocol is REST, while its internal calls use the
+domain services' gRPC contracts:
 
 ```text
 Web/mobile client → BFF REST or GraphQL API → internal gRPC → domain services
@@ -137,12 +137,10 @@ endpoints and HTTP caching are sufficient. The BFF could be implemented in
 Node.js/TypeScript, Go, or another supported platform; the language does not
 change the boundary rules.
 
-The BFF remains deferred until client journeys show measurable value from
-aggregation, client-specific response shaping, edge authentication, rate
-limiting, or routing. A Go BFF is a first-class option for StoreMesh because it
-can reuse the existing protobuf and gRPC tooling. It must remain an
-orchestration and presentation layer and must not absorb Product, Inventory,
-Order, or User business ownership.
+The BFF remains an orchestration and presentation layer and must not absorb
+Product, Inventory, Order, or User business ownership. GraphQL remains a future
+option only if measured client requirements justify flexible nested selection;
+it is not part of the current implementation.
 
 ## Product service
 
