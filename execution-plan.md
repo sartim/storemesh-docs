@@ -183,3 +183,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Added the Order Service `event_outbox` migration and transactional `OrderCreated` write; publisher worker and consumer projections remain next. |
 | 2026-09-01 | Added the initial single-instance outbox publisher worker; production worker leasing, Kafka delivery hardening, and analytics consumers remain next. |
 | 2026-09-02 | Standardized the Go BFF on complementary REST and GraphQL: REST remains for resource/operational routes, while GraphQL is the composition surface for multi-domain client views. |
+| 2026-09-02 | Integrated the Next.js storefront catalog with the authenticated BFF GraphQL `products` query through a reusable TypeScript client; cart, order, and admin client migration remains next. |
