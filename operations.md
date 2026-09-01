@@ -130,6 +130,10 @@ enrolled namespaces, `istio-proxy` sidecars, and container readiness without
 changing cluster state. Confirm gRPC calls and telemetry after the check, then
 promote namespaces individually.
 
+The strict policy template is maintained in the Argo CD repository at
+`examples/istio-strict-grpc-policy.yaml`; apply it through an environment
+overlay, one namespace at a time, after gRPC smoke tests pass.
+
 The User, Product, Inventory, and Order charts also provide opt-in
 `ServiceMonitor` resources. Enable `serviceMonitor.enabled` in an
 environment-specific values file after installing the Prometheus Operator.
