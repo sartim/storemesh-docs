@@ -121,7 +121,7 @@ integration tests remain release work.
 | P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
 | P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Access/refresh persistence and startup refresh implemented on both |
 | P2 | Add native mobile product details and order history | Android/iOS + BFF | Product and `ListOrders` contracts | Implemented; integration hardening next |
-| P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Contract and native API methods added; persistence, routes, and UI next |
+| P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Cart contract, PostgreSQL persistence, local-memory fallback, BFF routes, and native API methods implemented; client sync/UI next |
 
 ## Cross-repository completion checklist
 
@@ -160,3 +160,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Documented optional ngrok access for physical-device and remote demos. Only the BFF port 8080 may be tunneled; internal services and observability ports remain local-only. |
 | 2026-09-01 | Advanced both native clients with refresh-session persistence, order history, product details, and reusable feature-file structure; checkout is now the next mobile milestone. |
 | 2026-09-01 | Defined the customer-owned cart boundary separately from orders; added the CartService protobuf contract and reusable native checkout API methods. Persistent storage, BFF routes, and client cart UI remain outstanding. |
+| 2026-09-01 | Added PostgreSQL cart persistence, local-memory fallback, and BFF cart routes; client synchronization and cart UI remain the next slice. |
