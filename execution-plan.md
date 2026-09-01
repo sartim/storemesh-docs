@@ -82,7 +82,7 @@ manual trigger and immutable image tag.
 
 ### P1 — Establish native mobile clients
 
-**Status:** Login/catalog MVP implemented on Android and iOS; commerce completion next
+**Status:** Login/catalog/order-history MVP implemented on Android and iOS; checkout next
 **Repositories:** `storemesh-android`, `storemesh-ios`, `storemesh-bff`,
 `storemesh-docs`
 
@@ -96,10 +96,10 @@ service-to-service only.
 **Acceptance criteria:** each client opens in its native IDE/toolchain, has a
 typed BFF client boundary, supports local emulator/device configuration, and
 implements login, catalog, checkout, and order history with platform-native
-tests and accessibility behavior. Android currently meets the splash, login,
-session, local API, drawer, catalog, search, and filtering slice; checkout and
-order history remain release work. iOS currently meets the native project and
-foundation slice.
+tests and accessibility behavior. Both clients now meet splash, login,
+refresh-session, local/ngrok API routing, drawer/menu, catalog, search,
+filtering, product details, and order-history slices. Checkout and mobile
+integration tests remain release work.
 
 ## Ordered backlog
 
@@ -119,8 +119,9 @@ foundation slice.
 | P3 | Reassess GraphQL | BFF + frontend | Concrete composition need | Deferred |
 | P1 | Create native Android foundation and catalog journey | Android + BFF | Stable REST contract | Android MVP slice implemented |
 | P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
-| P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Login implemented on both; refresh planned |
-| P2 | Add native mobile checkout and order history | Android/iOS + BFF | Authentication and order contract | Planned |
+| P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Access/refresh persistence and startup refresh implemented on both |
+| P2 | Add native mobile product details and order history | Android/iOS + BFF | Product and `ListOrders` contracts | Implemented; integration hardening next |
+| P1 | Add native mobile cart and checkout | Android/iOS + BFF | Authentication, order contract, idempotency | Next |
 
 ## Cross-repository completion checklist
 
@@ -157,3 +158,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Published the generated iOS Xcode project and added the Android splash/login/customer-catalog MVP slice. Android emulator development uses `10.0.2.2:8080` for the local BFF. Mobile release automation uses manually triggered `semantic-release` workflows that derive SemVer from Conventional Commits. |
 | 2026-09-01 | Release validation passed for backend tests, frontend production build, and Android debug packaging. Frontend CI lint now runs non-interactive TypeScript checking; iOS release validation targets the generated `storemesh-ios` scheme. Product, Inventory, and Order protobuf clone paths now use deep `proto.Clone` copies and pass `go vet`. |
 | 2026-09-01 | Documented optional ngrok access for physical-device and remote demos. Only the BFF port 8080 may be tunneled; internal services and observability ports remain local-only. |
+| 2026-09-01 | Advanced both native clients with refresh-session persistence, order history, product details, and reusable feature-file structure; checkout is now the next mobile milestone. |

@@ -39,3 +39,18 @@ placeholders and depend on installed CRDs.
 
 The manifest workflow uses Ruby's portable `YAML.load_stream` API so it remains
 compatible with the GitHub-hosted Ruby runner.
+
+## Native mobile structure
+
+Keep mobile clients organized by feature and responsibility rather than
+growing a single application entry file. Android keeps activity startup in
+`MainActivity`, app/session composition in `AppRoot`, authentication in
+`AuthScreen`, commerce UI in `ShopScreen`, and shared models/session storage in
+`Models`. iOS keeps `ContentView` as the composition root and separates auth
+and commerce views into feature files. API clients remain independent from UI
+and are the only mobile layer that knows the BFF route details.
+
+Both clients use the BFF REST/JSON boundary. Simulator/local builds default to
+the localhost BFF route; physical-device testing may supply an HTTPS ngrok
+origin through the documented platform configuration. Do not add direct
+mobile calls to internal gRPC services.
