@@ -149,6 +149,7 @@ For each feature, check the applicable items before moving it to Complete:
 | MetalLB and Istio remain environment capabilities | Useful for local/on-prem testing; managed environments may provide their own load balancer. |
 | Keycloak is the final identity authority | Keycloak will own authentication, OIDC sessions, credentials, and platform roles. User Service will retain customer profiles and domain data, but direct password login will be removed after the OIDC migration is validated. |
 | Keycloak rollout starts local-only | The first chart uses Keycloak `start-dev` for Kind development. Production requires an externalized database, managed secrets, TLS, realm backup/restore, and explicit OIDC client configuration. |
+| Kafka is an additive event backbone | Start with Confluent for Kubernetes and KRaft in local Kind, then add transactional outbox events before consumers or analytics pipelines. Kafka does not replace PostgreSQL, gRPC, or the BFF. |
 
 ## Change log
 
@@ -165,3 +166,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Added PostgreSQL cart persistence, local-memory fallback, and BFF cart routes; client synchronization and cart UI remain the next slice. |
 | 2026-09-01 | Chose Keycloak/OIDC as the final authentication architecture; User Service remains the customer-profile authority, while direct User Service password login will be retired after migration. |
 | 2026-09-01 | Added local StoreMesh realm import with separate web, Android, iOS, Grafana, Kiali, Kibana, and Argo CD clients; BFF JWKS validation, tool SSO, and application login migration remain next. |
+| 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |

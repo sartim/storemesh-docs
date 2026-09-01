@@ -31,6 +31,7 @@ when milestone status or priority changes.
 | --- | --- | --- |
 | Platform foundation | Complete | User service, Helm chart, Argo CD, Kind, scripts, and documentation repositories created |
 | Identity and authorization | In progress | Keycloak/OIDC is the target authentication authority; the local Keycloak Helm runtime now imports a StoreMesh realm with web, mobile, and platform-tool clients, while BFF JWKS validation, tool SSO, client migration, and retirement of direct User Service password login remain next |
+| Eventing and analytics platform | Planned | Adopt Kafka through Confluent for Kubernetes/KRaft as an additive event backbone for outbox events, analytics, notifications, and integrations; synchronous gRPC remains the core request path |
 | API contracts and transports | Complete | gRPC contracts, explicit HTTP handlers, OpenAPI generation, and transport authorization |
 | Production readiness | In progress | User, Product, Inventory, and Order Services expose the shared `/metrics` contract with Go/process collectors; all four charts provide opt-in Prometheus scraping, while live discovery and production storage/access validation remain environment work |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
