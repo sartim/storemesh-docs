@@ -169,3 +169,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Added local StoreMesh realm import with separate web, Android, iOS, Grafana, Kiali, Kibana, and Argo CD clients; BFF JWKS validation, tool SSO, and application login migration remain next. |
 | 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |
 | 2026-09-01 | Added the Order Service `event_outbox` migration and transactional `OrderCreated` write; publisher worker and consumer projections remain next. |
+| 2026-09-01 | Added the initial single-instance outbox publisher worker; production worker leasing, Kafka delivery hardening, and analytics consumers remain next. |
