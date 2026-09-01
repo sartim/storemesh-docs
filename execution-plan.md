@@ -117,7 +117,7 @@ integration tests remain release work.
 | P2 | Activate cert-manager and HTTPS in a controlled environment | Helm + Argo | DNS/certificate target | Planned |
 | P2 | Configure Fluent Bit redaction/TLS and validate Kibana | Argo + docs | ECK credentials | Planned |
 | P3 | Add admin dashboard visualizations with Recharts | Frontend + BFF | Stable metrics/data contract | Deferred |
-| P1 | Add GraphQL composition surface to the Go BFF | BFF + frontend | Stable domain gRPC contracts; schema and resolver tests | Product resolver endpoint implemented; cart/order composition next |
+| P1 | Add GraphQL composition surface to the Go BFF | BFF + frontend | Stable domain gRPC contracts; schema and resolver tests | Implemented for authenticated product, cart, and order reads; mutation layer next |
 | P1 | Create native Android foundation and catalog journey | Android + BFF | Stable REST contract | Android MVP slice implemented |
 | P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
 | P2 | Add native mobile authentication and secure session storage | Android/iOS + Keycloak/BFF | OIDC issuer and redirect clients | Android and iOS PKCE login, secure token storage, startup restoration, and authenticated catalog access implemented |

@@ -167,9 +167,9 @@ is a versioned GraphQL schema for composed catalog, cart, and order views while
 preserving the existing REST contract for compatibility.
 
 The schema contract is versioned in the BFF repository at
-`api/graphql/schema.graphqls`. Its first live resolver is the authenticated,
-paginated product query. Cart and order read models are the next composition
-slice and will combine multiple domain responses with client-oriented totals.
+`api/graphql/schema.graphqls`. Its live read resolvers are authenticated
+product, cart, and order queries. Cart and order results are scoped to the
+bearer-token subject and preserve the domain pagination/status contracts.
 Web and native clients can use GraphQL when a screen spans multiple domains;
 REST remains the preferred boundary for login, health, simple resource reads,
 and mutations until GraphQL mutation semantics and idempotency are fully
