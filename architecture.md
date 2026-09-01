@@ -330,13 +330,3 @@ Product Service enforces JWT authentication on gRPC calls. Order Service now
 supports short-lived service JWTs through `PRODUCT_JWT_SECRET`, with issuer and
 audience defaults matching Product Service; shared secret delivery remains an
 environment/secret-manager responsibility.
-
-## Documentation platform evolution
-
-The repository now includes a Next.js + TypeScript documentation site that
-consumes the existing Markdown files and can produce a static export. It adds
-an interactive architecture map, responsive section navigation, client-side
-search, a BFF API contract explorer, and versioned documentation routes. The
-site is a documentation delivery layer only and is not a runtime dependency of
-StoreMesh services. Jekyll and direct GitHub Markdown remain available during
-the publishing transition.
