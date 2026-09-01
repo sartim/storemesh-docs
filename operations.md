@@ -124,6 +124,12 @@ availability; the User Service also includes a repeated-restart alert. Enable
 these rules only after installing a Prometheus Operator-compatible monitoring
 stack and supply any required release labels through environment values.
 
+Before promoting Istio mTLS from `PERMISSIVE` to `STRICT`, run the read-only
+`storemesh-scripts/scripts/validate-istio-grpc.sh` check. It verifies the
+enrolled namespaces, `istio-proxy` sidecars, and container readiness without
+changing cluster state. Confirm gRPC calls and telemetry after the check, then
+promote namespaces individually.
+
 The User, Product, Inventory, and Order charts also provide opt-in
 `ServiceMonitor` resources. Enable `serviceMonitor.enabled` in an
 environment-specific values file after installing the Prometheus Operator.
