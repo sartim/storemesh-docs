@@ -53,20 +53,20 @@ roadmap is updated with evidence.
 
 ## Next prioritized work
 
-1. Enable the opt-in `ServiceMonitor` resources in a monitoring-enabled
-   environment and verify Prometheus discovery and scrape health across
-   Product, Inventory, and Order replicas.
-2. Complete a production-style restore rehearsal for PostgreSQL and the
-   observability stores, recording measured RPO/RTO evidence.
-3. Activate cert-manager and HTTPS ingress in a controlled environment, then
-   enroll Istio namespaces using the documented `PERMISSIVE`-to-`STRICT` plan.
-4. Configure Fluent Bit with ECK credentials, TLS, and redaction policy, and
-   validate Kibana queries before onboarding all namespaces.
-5. Complete the frontend customer and admin journeys, including role-aware
-   navigation and management screens backed by the BFF admin routes.
-6. Reassess GraphQL only if a concrete web/mobile journey demonstrates a need
-   for client-specific composition beyond the BFF REST surface.
-7. Integrate persistent cross-device cart state and server checkout into the native clients and web frontend,
-   including idempotency handling and successful-order confirmation.
-8. Keep mobile releases SemVer-tagged (`vMAJOR.MINOR.PATCH`) through the
+1. Complete BFF Keycloak issuer, audience, expiry, and JWKS validation across
+   all protected routes.
+2. Migrate the Next.js, Android, and iOS clients to Authorization Code + PKCE,
+   then retire direct User Service password login.
+3. Configure Grafana, Kiali, Kibana, and Argo CD with their Keycloak OIDC
+   clients and validate role mappings.
+4. Integrate persistent cross-device cart state and server checkout into the
+   native clients and web frontend.
+5. Add outbox leasing/claiming, publish Cart and Inventory events, and build
+   the first Kafka analytics projection.
+6. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
+   health across all domain services.
+7. Complete restore rehearsal, HTTPS/cert-manager activation, and Fluent Bit
+   redaction/TLS validation in a controlled environment.
+8. Reassess GraphQL only if a concrete journey requires composition beyond
+   the BFF REST surface; keep mobile releases SemVer-tagged through Actions.
    platform repositories' manually triggered GitHub Actions workflows.
