@@ -5,6 +5,14 @@ title: Operations
 
 # Operations and deployment
 
+## Local Kafka
+
+The `storemesh-kafka` chart is disabled by default and expects Confluent for
+Kubernetes CRDs to be installed first. It provisions a small KRaft cluster and
+initial event topics for orders, inventory, carts, and analytics. Use one
+replica only for local Kind; production requires multiple brokers, durable
+storage, TLS/SASL, ACLs, backups, and monitored consumer lag.
+
 ## Local Keycloak OIDC
 
 The `storemesh-keycloak` Helm chart imports the local `storemesh` realm with
