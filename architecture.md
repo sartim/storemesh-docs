@@ -44,8 +44,11 @@ stack. Elasticsearch and Kibana, managed by the Elastic Cloud on Kubernetes
 (ECK) operator, are the selected centralized logging path, with Fluent Bit (or
 an equivalent node collector) forwarding logs and applying retention and
 redaction policy. Istio is an optional service-mesh layer for
-traffic policy, mTLS, access telemetry, and uniform tracing; it is not required
-for the current gRPC service boundaries. OpenTelemetry Collector is preferred
+traffic policy, mTLS, access telemetry, and uniform tracing. It can manage the
+current internal gRPC boundaries because gRPC uses HTTP/2, including service
+discovery, mTLS, traffic shifting, timeout/retry policy, and mesh telemetry.
+It is not required for those boundaries: services can communicate directly over
+ClusterIP gRPC with their existing contracts and NetworkPolicies. OpenTelemetry Collector is preferred
 as the stable ingestion boundary so the trace backend can be changed without
 modifying services.
 
