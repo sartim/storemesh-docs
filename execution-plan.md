@@ -82,7 +82,7 @@ manual trigger and immutable image tag.
 
 ### P1 — Establish native mobile clients
 
-**Status:** Foundation created; feature implementation next
+**Status:** Android MVP in progress; iOS foundation published
 **Repositories:** `storemesh-android`, `storemesh-ios`, `storemesh-bff`,
 `storemesh-docs`
 
@@ -96,7 +96,10 @@ service-to-service only.
 **Acceptance criteria:** each client opens in its native IDE/toolchain, has a
 typed BFF client boundary, supports local emulator/device configuration, and
 implements login, catalog, checkout, and order history with platform-native
-tests and accessibility behavior.
+tests and accessibility behavior. Android currently meets the splash, login,
+session, local API, drawer, catalog, search, and filtering slice; checkout and
+order history remain release work. iOS currently meets the native project and
+foundation slice.
 
 ## Ordered backlog
 
@@ -106,7 +109,7 @@ tests and accessibility behavior.
 | P1 | Add paginated `ListOrders` API and authorization rules | Order Service + BFF | Shared authorization interceptor for final enforcement | Implemented; authorization hardening next |
 | P1 | Implement frontend customer order history | Frontend | `ListOrders` | Implemented; integration hardening next |
 | P1 | Implement role-aware admin users and roles screens | Frontend + BFF | Existing admin routes | Implemented; integration hardening next |
-| P1 | Add API and UI integration tests for the journeys | Service/BFF/frontend | Journey implementations | Planned |
+| P1 | Add API and UI integration tests for the journeys | Service/BFF/frontend/mobile | Journey implementations | In progress |
 | P1 | Verify staging promotion workflow with a real target cluster | Helm + docs | Cluster credentials/context | Waiting for environment |
 | P2 | Enable and verify Prometheus `ServiceMonitor` discovery | Helm + Argo | Monitoring-enabled cluster | Planned |
 | P2 | Run PostgreSQL and observability restore rehearsal | Scripts + docs | Backup target/storage | Planned |
@@ -114,9 +117,9 @@ tests and accessibility behavior.
 | P2 | Configure Fluent Bit redaction/TLS and validate Kibana | Argo + docs | ECK credentials | Planned |
 | P3 | Add admin dashboard visualizations with Recharts | Frontend + BFF | Stable metrics/data contract | Deferred |
 | P3 | Reassess GraphQL | BFF + frontend | Concrete composition need | Deferred |
-| P1 | Create native Android foundation and catalog journey | Android + BFF | Stable REST contract | Foundation created |
-| P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Foundation created |
-| P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Planned |
+| P1 | Create native Android foundation and catalog journey | Android + BFF | Stable REST contract | Android MVP slice implemented |
+| P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Foundation published |
+| P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Android login implemented; refresh and iOS planned |
 | P2 | Add native mobile checkout and order history | Android/iOS + BFF | Authentication and order contract | Planned |
 
 ## Cross-repository completion checklist
@@ -151,3 +154,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-08-28 | Added this execution tracker; made order-history API a prerequisite for the frontend journey; recorded current BFF, Next.js, Helm, Kind, and visualization decisions. |
 | 2026-08-28 | Added paginated `ListOrders` to the Order Service and BFF; frontend order history can now begin against the published contract. |
 | 2026-09-01 | Added native Android and iOS repository foundations and documented mobile priorities; no cross-platform UI framework is planned. |
+| 2026-09-01 | Published the generated iOS Xcode project and added the Android splash/login/customer-catalog MVP slice. Android emulator development uses `10.0.2.2:8080` for the local BFF. Mobile release automation is planned around manually triggered SemVer tags. |
