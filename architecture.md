@@ -65,16 +65,18 @@ enabled only after a Prometheus Operator-compatible stack is available.
 
 ## Recommended transport architecture
 
-StoreMesh should use protobuf and gRPC as the canonical service contract, with
-REST as the client-facing representation at the edge. This gives internal
-service calls strong typing, streaming support, deadlines, and consistent
-status semantics without forcing web and mobile clients to speak gRPC.
+StoreMesh uses protobuf and gRPC as the canonical service contract. The Go BFF
+is the client-facing edge: REST/JSON serves resource-oriented and operational
+requests, while GraphQL is the API-composition surface for views that span
+domains. This gives internal service calls strong typing, streaming support,
+deadlines, and consistent status semantics without forcing web and mobile
+clients to speak gRPC.
 
 The target shape is:
 
 ```text
 Web / mobile / partner clients
-             │ REST/JSON over HTTPS
+             │ REST/JSON or GraphQL over HTTPS
              ▼
        Go BFF / edge API
              │ gRPC + protobuf
@@ -82,12 +84,12 @@ Web / mobile / partner clients
  User ─── Product ─── Inventory ─── Order
 ```
 
-The BFF should use generated gRPC clients and, where practical, generated
-gRPC-Gateway bindings for straightforward REST-to-gRPC translation. Handwritten
-BFF methods should be reserved for true composition, such as an order summary
+The Go BFF should use generated gRPC clients and, where practical, generated
+gRPC-Gateway bindings for straightforward REST-to-gRPC translation. GraphQL
+resolvers should be reserved for true composition, such as an order summary
 that combines order, product, inventory, and user data. Domain services should
-not each grow separate public REST implementations for the same business
-operations.
+not each grow separate public REST or GraphQL implementations for the same
+business operations.
 
 During the transition, existing service-owned REST endpoints may remain for
 authentication, health, readiness, metrics, and compatibility. New client
@@ -95,10 +97,11 @@ business workflows should converge on the BFF, while service-to-service
 traffic remains gRPC. REST should not be used for internal orchestration unless
 there is a clear external integration requirement.
 
-This decision avoids maintaining two independent business APIs per service,
-keeps composition in one edge boundary, and leaves room for GraphQL later if
-measured client requirements justify it. GraphQL is not part of the initial
-transport commitment.
+This decision avoids maintaining two independent business APIs per service and
+keeps composition in one edge boundary. REST and GraphQL are complementary:
+REST is simpler for stable resources and HTTP caching, while GraphQL prevents
+client-specific composition endpoints from multiplying as screens need data
+from several domains.
 
 ## User service
 
@@ -131,8 +134,8 @@ such as an order summary may eventually need Product, Inventory, Order, and
 User data combined into one client-oriented response.
 
 The implemented Go BFF is the client-facing edge for the current web
-application. Its external protocol is REST, while its internal calls use the
-domain services' gRPC contracts:
+application. Its current external protocol is REST, with GraphQL as the next
+composition surface; both use the domain services' gRPC contracts internally:
 
 ```text
 Web/mobile client → BFF REST or GraphQL API → internal gRPC → domain services
@@ -151,17 +154,17 @@ Asynchronous event flows use a transactional outbox after the business write:
 Order/Cart/Inventory service → PostgreSQL + outbox → Kafka → analytics/notifications/integrations
 ```
 
-REST and GraphQL are alternatives for the BFF's client-facing API, not
-mandatory requirements to introduce together. GraphQL is useful when clients
-need flexible, nested selection; REST is simpler when resource-oriented
-endpoints and HTTP caching are sufficient. The BFF could be implemented in
-Node.js/TypeScript, Go, or another supported platform; the language does not
-change the boundary rules.
+REST and GraphQL are both part of the BFF design. GraphQL is the required
+composition mechanism for flexible, nested, multi-domain client views; REST is
+used for resource-oriented endpoints, webhooks, health, and operational routes
+where conventional HTTP semantics and caching are valuable. The BFF is
+implemented in Go for its gRPC support, concurrency, and small deployable
+runtime.
 
 The BFF remains an orchestration and presentation layer and must not absorb
-Product, Inventory, Order, or User business ownership. GraphQL remains a future
-option only if measured client requirements justify flexible nested selection;
-it is not part of the current implementation.
+Product, Inventory, Order, or User business ownership. The next BFF API slice
+is a versioned GraphQL schema for composed catalog, cart, and order views while
+preserving the existing REST contract for compatibility.
 
 ## Architecture benefits and trade-offs
 
@@ -173,10 +176,12 @@ clear ownership:
   client secrets in public applications. The trade-off is that local and
   production environments need careful issuer, redirect URI, role, secret, and
   key-rotation configuration.
-- **BFF REST/JSON with internal gRPC** gives browsers and mobile clients a
-  stable, conventional API while services retain strongly typed protobuf
-  contracts, deadlines, and efficient service-to-service calls. The trade-off
-  is an additional edge component that must be monitored and scaled.
+- **Go BFF with REST/GraphQL and internal gRPC** gives browsers and mobile
+  clients a stable resource API plus a deliberate composition layer, while
+  services retain strongly typed protobuf contracts, deadlines, and efficient
+  service-to-service calls. The trade-off is an additional edge component and
+  GraphQL schema/resolver governance that must be monitored, secured, and
+  scaled.
 - **Independent domain services** allow User, Product, Inventory, and Order to
   evolve and scale according to their workload while keeping business rules
   close to the owning service. The trade-off is distributed-system complexity:

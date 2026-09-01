@@ -22,7 +22,7 @@ milestones.
 - A feature is not complete until its implementation, tests, deployment path,
   and documentation are all represented.
 
-**Last updated:** 2026-09-01
+**Last updated:** 2026-09-02
 
 ## Current focus
 
@@ -44,8 +44,9 @@ surface:
 
 **Acceptance criteria:** met in the frontend implementation; production-like
 integration coverage and final backend authorization hardening remain follow-up
-work. All journeys use BFF REST and no browser code calls internal gRPC
-services.
+work. All journeys use the BFF and no browser code calls internal gRPC
+services. REST remains the resource/compatibility surface; the next
+composition slice adds GraphQL to the Go BFF for multi-domain client views.
 
 ### P1 — Complete the missing order-history API contract
 
@@ -116,7 +117,7 @@ integration tests remain release work.
 | P2 | Activate cert-manager and HTTPS in a controlled environment | Helm + Argo | DNS/certificate target | Planned |
 | P2 | Configure Fluent Bit redaction/TLS and validate Kibana | Argo + docs | ECK credentials | Planned |
 | P3 | Add admin dashboard visualizations with Recharts | Frontend + BFF | Stable metrics/data contract | Deferred |
-| P3 | Reassess GraphQL | BFF + frontend | Concrete composition need | Deferred |
+| P1 | Add GraphQL composition surface to the Go BFF | BFF + frontend | Stable domain gRPC contracts; schema and resolver tests | Planned next |
 | P1 | Create native Android foundation and catalog journey | Android + BFF | Stable REST contract | Android MVP slice implemented |
 | P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
 | P2 | Add native mobile authentication and secure session storage | Android/iOS + Keycloak/BFF | OIDC issuer and redirect clients | Android and iOS PKCE login, secure token storage, startup restoration, and authenticated catalog access implemented |
@@ -140,7 +141,7 @@ For each feature, check the applicable items before moving it to Complete:
 
 | Decision | Rationale |
 | --- | --- |
-| Browser clients use BFF REST/JSON; BFF uses internal gRPC | Keeps browser contracts stable while preserving canonical service-to-service contracts. |
+| Browser and mobile clients use BFF REST/JSON plus GraphQL composition; Go BFF uses internal gRPC | REST provides resource semantics and caching; GraphQL prevents client-specific multi-domain endpoints from multiplying; gRPC remains canonical between services. |
 | Next.js + React + TypeScript | Chosen frontend foundation for the first web client. |
 | Native mobile UI | Android uses Kotlin/Jetpack Compose; iOS uses Swift/SwiftUI. Product behavior and REST contracts align, while UI and platform integrations remain native. |
 | Recharts for initial visualizations | Small React/TypeScript footprint appropriate for admin charts; defer until metrics requirements are concrete. |
@@ -180,3 +181,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |
 | 2026-09-01 | Added the Order Service `event_outbox` migration and transactional `OrderCreated` write; publisher worker and consumer projections remain next. |
 | 2026-09-01 | Added the initial single-instance outbox publisher worker; production worker leasing, Kafka delivery hardening, and analytics consumers remain next. |
+| 2026-09-02 | Standardized the Go BFF on complementary REST and GraphQL: REST remains for resource/operational routes, while GraphQL is the composition surface for multi-domain client views. |

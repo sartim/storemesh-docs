@@ -39,7 +39,7 @@ when milestone status or priority changes.
 | Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
 | GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
 | Additional domain services | Complete | Product, Inventory, and Order Services are deployed and healthy in the local Kind cluster. Inventory uses PostgreSQL-backed replica-safe reservations ([runtime PR #2](https://github.com/sartim/storemesh-inventory-service/pull/2)); Order consumes Product and Inventory gRPC contracts, authenticates to Product with service JWTs, coordinates price snapshots and reservations, and supports PostgreSQL-backed idempotent retries. The deployed workflow was verified end to end, including a successful order, a same-key retry, and persistent stock reduction. |
-| Edge composition / BFF | In progress | Go BFF exposes REST/JSON routes, including authenticated admin management routes, while consuming canonical internal gRPC APIs. It is deployed with the Next.js frontend and Istio ingress in local Kind; production promotion remains pending environment setup. GraphQL remains a later option, not an initial dependency. |
+| Edge composition / BFF | In progress | Go BFF exposes REST/JSON routes, including authenticated admin management routes, while consuming canonical internal gRPC APIs. It is deployed with the Next.js frontend and Istio ingress in local Kind; production promotion remains pending environment setup. GraphQL is the planned composition surface for multi-domain views, introduced alongside REST rather than as a replacement. |
 | Web frontend | In progress | Next.js, React, and TypeScript frontend provides Keycloak login, catalog loading, editable account-scoped persistent cart, multi-line checkout, order history, and a role-aware admin area through the BFF. Payment and fulfillment workflows remain future scope. |
 | Native mobile clients | In progress | Android and iOS now have native splash/login, Keycloak PKCE, secure Keychain/Keystore access and refresh sessions, configurable localhost/ngrok API routing, catalog search/filtering, product details, customer order history, and reusable multi-line checkout API methods. Client cart synchronization and cart UI integration remain next. |
 | Documentation platform evolution | Deferred | Re-evaluate a Next.js static-export site after API and domain-service maturity justifies interactive documentation |
@@ -68,6 +68,7 @@ roadmap is updated with evidence.
    health across all domain services.
 7. Complete restore rehearsal, HTTPS/cert-manager activation, and Fluent Bit
    redaction/TLS validation in a controlled environment.
-8. Reassess GraphQL only if a concrete journey requires composition beyond
-   the BFF REST surface; keep mobile releases SemVer-tagged through Actions.
+8. Add the versioned GraphQL composition surface to the Go BFF for concrete
+   multi-domain journeys, while retaining REST for resource and operational
+   routes; keep mobile releases SemVer-tagged through Actions.
    platform repositories' manually triggered GitHub Actions workflows.

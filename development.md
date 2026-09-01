@@ -50,7 +50,8 @@ growing a single application entry file. Android keeps activity startup in
 and commerce views into feature files. API clients remain independent from UI
 and are the only mobile layer that knows the BFF route details.
 
-Both clients use the BFF REST/JSON boundary. Simulator/local builds default to
+Both clients use the BFF REST/JSON boundary for resource operations and will
+use its versioned GraphQL boundary for composed multi-domain views. Simulator/local builds default to
 the localhost BFF route; physical-device testing may supply an HTTPS ngrok
 origin through the documented platform configuration. Do not add direct
 mobile calls to internal gRPC services.
