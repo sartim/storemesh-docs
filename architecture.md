@@ -171,9 +171,10 @@ The schema contract is versioned in the BFF repository at
 product, cart, and order queries. Cart and order results are scoped to the
 bearer-token subject and preserve the domain pagination/status contracts.
 Web and native clients can use GraphQL when a screen spans multiple domains;
-REST remains the preferred boundary for login, health, simple resource reads,
-and mutations until GraphQL mutation semantics and idempotency are fully
-tested.
+REST remains the preferred boundary for login, health, and simple resource
+operations. GraphQL now supports authenticated cart replacement and order
+creation with customer scoping and idempotency; additional mutations require
+the same resolver-level authorization and retry guarantees.
 
 ## Architecture benefits and trade-offs
 
