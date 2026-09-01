@@ -170,6 +170,7 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Added the Android native AppAuth Authorization Code + PKCE callback and token exchange, with encrypted Keystore session storage; local emulator testing uses BFF `10.0.2.2:8080` and Keycloak `10.0.2.2:8081`. |
 | 2026-09-01 | Added the native iOS `ASWebAuthenticationSession` Authorization Code + PKCE component, token exchange, and `storemesh-ios://` callback registration; device integration and Keychain session wiring remain next. |
 | 2026-09-01 | Wired iOS OIDC into the app with a native login screen, Keychain token persistence, startup session restoration, logout, and authenticated BFF catalog requests. |
+| 2026-09-01 | Added non-applied Grafana and Argo CD Keycloak OIDC activation examples with Secret-backed confidential clients; local tool defaults remain unchanged until environment-specific role and callback validation is complete. |
 | 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |
 | 2026-09-01 | Added the Order Service `event_outbox` migration and transactional `OrderCreated` write; publisher worker and consumer projections remain next. |
 | 2026-09-01 | Added the initial single-instance outbox publisher worker; production worker leasing, Kafka delivery hardening, and analytics consumers remain next. |

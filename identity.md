@@ -77,3 +77,8 @@ The activation order is Keycloak health and issuer discovery, tool callback and
 secret configuration, role-mapping verification, then removal or restriction
 of local fallback accounts. Record the result in the environment's deployment
 evidence before calling platform SSO complete.
+
+Non-applied Grafana and Argo CD configuration examples are maintained in the
+[`storemesh-argocd-repo`](https://github.com/sartim/storemesh-argocd-repo/tree/main/examples)
+repository. They are templates only and require environment-specific issuer,
+HTTPS callback, secret, and role values before use.
