@@ -82,7 +82,7 @@ manual trigger and immutable image tag.
 
 ### P1 — Establish native mobile clients
 
-**Status:** Android MVP in progress; iOS foundation published
+**Status:** Login/catalog MVP implemented on Android and iOS; commerce completion next
 **Repositories:** `storemesh-android`, `storemesh-ios`, `storemesh-bff`,
 `storemesh-docs`
 
@@ -118,8 +118,8 @@ foundation slice.
 | P3 | Add admin dashboard visualizations with Recharts | Frontend + BFF | Stable metrics/data contract | Deferred |
 | P3 | Reassess GraphQL | BFF + frontend | Concrete composition need | Deferred |
 | P1 | Create native Android foundation and catalog journey | Android + BFF | Stable REST contract | Android MVP slice implemented |
-| P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Foundation published |
-| P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Android login implemented; refresh and iOS planned |
+| P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
+| P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Login implemented on both; refresh planned |
 | P2 | Add native mobile checkout and order history | Android/iOS + BFF | Authentication and order contract | Planned |
 
 ## Cross-repository completion checklist
