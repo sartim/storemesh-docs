@@ -22,7 +22,7 @@ milestones.
 - A feature is not complete until its implementation, tests, deployment path,
   and documentation are all represented.
 
-**Last updated:** 2026-08-28
+**Last updated:** 2026-09-01
 
 ## Current focus
 
@@ -80,6 +80,24 @@ contract.
 to an ephemeral Kind cluster; environment deployment requires an explicit
 manual trigger and immutable image tag.
 
+### P1 — Establish native mobile clients
+
+**Status:** Foundation created; feature implementation next
+**Repositories:** `storemesh-android`, `storemesh-ios`, `storemesh-bff`,
+`storemesh-docs`
+
+StoreMesh will have two independent native clients. Android uses Kotlin,
+Jetpack Compose, Material 3, and coroutines/Flow. iOS uses Swift, SwiftUI,
+Swift concurrency, and platform-native navigation/accessibility. Neither client
+will use Flutter, React Native, Kotlin Multiplatform, or a shared cross-platform
+UI layer. Both clients consume the BFF REST/JSON surface; internal gRPC remains
+service-to-service only.
+
+**Acceptance criteria:** each client opens in its native IDE/toolchain, has a
+typed BFF client boundary, supports local emulator/device configuration, and
+implements login, catalog, checkout, and order history with platform-native
+tests and accessibility behavior.
+
 ## Ordered backlog
 
 | Priority | Item | Repository or owner | Depends on | Status |
@@ -96,6 +114,10 @@ manual trigger and immutable image tag.
 | P2 | Configure Fluent Bit redaction/TLS and validate Kibana | Argo + docs | ECK credentials | Planned |
 | P3 | Add admin dashboard visualizations with Recharts | Frontend + BFF | Stable metrics/data contract | Deferred |
 | P3 | Reassess GraphQL | BFF + frontend | Concrete composition need | Deferred |
+| P1 | Create native Android foundation and catalog journey | Android + BFF | Stable REST contract | Foundation created |
+| P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Foundation created |
+| P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Planned |
+| P2 | Add native mobile checkout and order history | Android/iOS + BFF | Authentication and order contract | Planned |
 
 ## Cross-repository completion checklist
 
@@ -116,6 +138,7 @@ For each feature, check the applicable items before moving it to Complete:
 | --- | --- |
 | Browser clients use BFF REST/JSON; BFF uses internal gRPC | Keeps browser contracts stable while preserving canonical service-to-service contracts. |
 | Next.js + React + TypeScript | Chosen frontend foundation for the first web client. |
+| Native mobile UI | Android uses Kotlin/Jetpack Compose; iOS uses Swift/SwiftUI. Product behavior and REST contracts align, while UI and platform integrations remain native. |
 | Recharts for initial visualizations | Small React/TypeScript footprint appropriate for admin charts; defer until metrics requirements are concrete. |
 | Direct Helm Actions for current deploys | No reachable remote Argo CD server is available; deployments must be explicit manual GitHub Actions runs. |
 | Temporary Kind for CI smoke | Provides repeatable open-source validation without requiring a remote cluster. |
@@ -127,3 +150,4 @@ For each feature, check the applicable items before moving it to Complete:
 | --- | --- |
 | 2026-08-28 | Added this execution tracker; made order-history API a prerequisite for the frontend journey; recorded current BFF, Next.js, Helm, Kind, and visualization decisions. |
 | 2026-08-28 | Added paginated `ListOrders` to the Order Service and BFF; frontend order history can now begin against the published contract. |
+| 2026-09-01 | Added native Android and iOS repository foundations and documented mobile priorities; no cross-platform UI framework is planned. |

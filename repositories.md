@@ -16,6 +16,9 @@ title: Repository map
 | [storemesh-kind-cluster](https://github.com/sartim/storemesh-kind-cluster) | Local multi-node Kind cluster configuration |
 | [storemesh-scripts](https://github.com/sartim/storemesh-scripts) | Repeatable local platform operations |
 | [storemesh-docs](https://github.com/sartim/storemesh-docs) | Architecture, roadmap, and contributor guide |
+| [storemesh-frontend](https://github.com/sartim/storemesh-frontend) | Next.js, React, and TypeScript web storefront and admin dashboard |
+| [storemesh-android](https://github.com/sartim/storemesh-android) | Native Kotlin Android client using Jetpack Compose |
+| [storemesh-ios](https://github.com/sartim/storemesh-ios) | Native Swift iOS client using SwiftUI |
 
 ## Ownership rule
 
