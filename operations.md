@@ -109,6 +109,16 @@ host, TLS Secret, and controller-specific annotations in environment values.
 The domain gRPC services remain internal ClusterIP services and are not exposed
 through this Ingress.
 
+### Istio and internal gRPC
+
+When the opt-in Istio applications are synchronized, Argo CD labels the User,
+Product, Inventory, Order, BFF, and frontend namespaces with
+`istio-injection=enabled`. New pods must be restarted after enrollment for
+sidecars to appear. The mesh policy initially uses `PeerAuthentication` mode
+`PERMISSIVE`, allowing existing direct gRPC and sidecar mTLS traffic during
+migration. Verify `2/2` pods, gRPC health, and Kiali topology before changing
+each namespace to `STRICT`; do not enable strict mTLS globally as a first step.
+
 The service charts provide opt-in `PrometheusRule` resources for deployment
 availability; the User Service also includes a repeated-restart alert. Enable
 these rules only after installing a Prometheus Operator-compatible monitoring
