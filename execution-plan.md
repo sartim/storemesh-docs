@@ -185,3 +185,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-02 | Standardized the Go BFF on complementary REST and GraphQL: REST remains for resource/operational routes, while GraphQL is the composition surface for multi-domain client views. |
 | 2026-09-02 | Integrated the Next.js storefront with the authenticated BFF GraphQL `products`, `cart`, `orders`, `updateCart`, `clearCart`, and `createOrder` operations; cancellation and admin actions remain REST-backed. |
 | 2026-09-02 | Reprioritized the roadmap around Kind stability, complete Keycloak downstream migration, native GraphQL adoption, integration tests, and observability validation. |
+| 2026-09-02 | Reduced the local Argo Kind profile to one replica per StoreMesh application and recovered the existing control-plane container; Kiali, kube-state-metrics, Redis readiness, and stale terminating pods still require a clean cluster validation run. |
