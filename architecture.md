@@ -128,6 +128,13 @@ domain services' gRPC contracts:
 
 ```text
 Web/mobile client → BFF REST or GraphQL API → internal gRPC → domain services
+
+For the target identity architecture, human users authenticate through a
+Keycloak OIDC realm. The BFF and platform tools receive application-specific
+OIDC tokens; User Service remains the owner of StoreMesh customer profiles and
+domain data, not the long-term password authority. The local Keycloak Helm
+chart is development-only until realm configuration and token validation are
+completed.
 ```
 
 REST and GraphQL are alternatives for the BFF's client-facing API, not

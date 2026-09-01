@@ -30,7 +30,7 @@ when milestone status or priority changes.
 | Milestone | Status | Outcome |
 | --- | --- | --- |
 | Platform foundation | Complete | User service, Helm chart, Argo CD, Kind, scripts, and documentation repositories created |
-| Identity and authorization | Complete | JWT authentication, refresh/logout, Redis sessions, persisted roles, and management operations |
+| Identity and authorization | In progress | Keycloak/OIDC is the target authentication authority; the local Keycloak Helm runtime is now available, while realm/client provisioning, BFF JWKS validation, tool SSO, and retirement of direct User Service password login remain next |
 | API contracts and transports | Complete | gRPC contracts, explicit HTTP handlers, OpenAPI generation, and transport authorization |
 | Production readiness | In progress | User, Product, Inventory, and Order Services expose the shared `/metrics` contract with Go/process collectors; all four charts provide opt-in Prometheus scraping, while live discovery and production storage/access validation remain environment work |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
