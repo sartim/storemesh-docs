@@ -19,8 +19,8 @@ this order:
 3. The next dependency-free domain milestone that advances the commerce flow.
 4. Developer experience and documentation that reduce repeated operational
    work.
-5. Optional architecture, including a BFF, only when a demonstrated product
-   need justifies a new service boundary.
+5. Architecture improvements, including BFF composition, only when they are
+   tied to a demonstrated client or operational need.
 
 Every material pull request must update the relevant documentation in this
 repository: architecture for boundary changes, operations for runtime or
@@ -30,7 +30,7 @@ when milestone status or priority changes.
 | Milestone | Status | Outcome |
 | --- | --- | --- |
 | Platform foundation | Complete | User service, Helm chart, Argo CD, Kind, scripts, and documentation repositories created |
-| Identity and authorization | In progress | Keycloak/OIDC is the target authentication authority; the local realm, BFF JWKS validation, web PKCE foundation, and Android/iOS native PKCE flows are implemented. Platform-tool SSO, final role validation, and retirement of direct User Service password login remain next |
+| Identity and authorization | In progress | Keycloak/OIDC is the target authority; the local realm, BFF JWKS validation, web PKCE foundation, and Android/iOS native PKCE flows are implemented. The legacy User Service HS256 JWT path and separate Order-to-Product service JWT remain transitional; downstream Keycloak-token validation, platform-tool SSO, final role validation, and password-login retirement remain next |
 | Eventing and analytics platform | In progress | Order Service now writes transactional `OrderCreated` records to a PostgreSQL outbox; Kafka publishing and downstream analytics consumers remain next |
 | API contracts and transports | Complete | gRPC contracts, explicit HTTP handlers, OpenAPI generation, and transport authorization |
 | Production readiness | In progress | User, Product, Inventory, and Order Services expose the shared `/metrics` contract with Go/process collectors; all four charts provide opt-in Prometheus scraping, while live discovery and production storage/access validation remain environment work |
@@ -39,9 +39,9 @@ when milestone status or priority changes.
 | Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
 | GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
 | Additional domain services | Complete | Product, Inventory, and Order Services are deployed and healthy in the local Kind cluster. Inventory uses PostgreSQL-backed replica-safe reservations ([runtime PR #2](https://github.com/sartim/storemesh-inventory-service/pull/2)); Order consumes Product and Inventory gRPC contracts, authenticates to Product with service JWTs, coordinates price snapshots and reservations, and supports PostgreSQL-backed idempotent retries. The deployed workflow was verified end to end, including a successful order, a same-key retry, and persistent stock reduction. |
-| Edge composition / BFF | In progress | Go BFF exposes REST/JSON routes, including authenticated admin management routes, while consuming canonical internal gRPC APIs. It is deployed with the Next.js frontend and Istio ingress in local Kind; production promotion remains pending environment setup. GraphQL is the planned composition surface for multi-domain views, introduced alongside REST rather than as a replacement. |
-| Web frontend | In progress | Next.js, React, and TypeScript frontend provides Keycloak login, catalog loading, editable account-scoped persistent cart, multi-line checkout, order history, and a role-aware admin area through the BFF. Payment and fulfillment workflows remain future scope. |
-| Native mobile clients | In progress | Android and iOS now have native splash/login, Keycloak PKCE, secure Keychain/Keystore access and refresh sessions, configurable localhost/ngrok API routing, catalog search/filtering, product details, customer order history, and reusable multi-line checkout API methods. Client cart synchronization and cart UI integration remain next. |
+| Edge composition / BFF | In progress | Go BFF exposes REST/JSON for resource and operational routes plus authenticated GraphQL queries and mutations for products, cart, orders, cart replacement, and idempotent order creation, backed by canonical internal gRPC APIs. Production promotion remains pending environment setup; resolver hardening and client adoption remain next. |
+| Web frontend | In progress | Next.js, React, and TypeScript frontend provides Keycloak login, GraphQL-backed catalog/cart/order/checkout flows, a role-aware admin area, and REST-backed cancellation/admin operations. Payment, fulfillment, GraphQL cancellation, and admin mutations remain future scope. |
+| Native mobile clients | In progress | Android and iOS have native splash/login, Keycloak PKCE, secure Keychain/Keystore sessions, configurable localhost/ngrok routing, catalog search/filtering, product details, order history, and native cart/checkout foundations. Android cart checkout is implemented; native GraphQL adoption, iOS checkout UI, and mobile integration tests remain next. |
 | Documentation platform evolution | Deferred | Re-evaluate a Next.js static-export site after API and domain-service maturity justifies interactive documentation |
 | Production platform hardening | In progress | Domain Helm charts include one-replica PodDisruptionBudgets and gRPC ingress NetworkPolicies ([PR #9](https://github.com/sartim/storemesh-helm-repo/pull/9)), opt-in ExternalSecret resources ([PR #10](https://github.com/sartim/storemesh-helm-repo/pull/10)), an opt-in User Service HTTPS Ingress ([PR #11](https://github.com/sartim/storemesh-helm-repo/pull/11)), a pinned cert-manager Argo CD application ([PR #4](https://github.com/sartim/storemesh-argocd-repo/pull/4)), a non-applied Let's Encrypt issuer template ([PR #5](https://github.com/sartim/storemesh-argocd-repo/pull/5)), opt-in Prometheus alert rules ([PR #12](https://github.com/sartim/storemesh-helm-repo/pull/12)), and opt-in Istio sidecar enrollment with a `PERMISSIVE` gRPC mTLS migration policy ([Argo CD commit b04e728](https://github.com/sartim/storemesh-argocd-repo/commit/b04e728)); Istio is optional to install per environment but supported by the local gRPC deployment path. Staged observability now covers Prometheus/Grafana/Alertmanager ([monitoring PR #8](https://github.com/sartim/storemesh-argocd-repo/pull/8)), OpenTelemetry with Istio telemetry when the mesh is enabled ([Tempo PR #9](https://github.com/sartim/storemesh-argocd-repo/pull/9), [Istio PR #11](https://github.com/sartim/storemesh-argocd-repo/pull/11)), and ECK-managed Elasticsearch/Kibana with Fluent Bit ([operator PR #6](https://github.com/sartim/storemesh-argocd-repo/pull/6), [logging template PR #7](https://github.com/sartim/storemesh-argocd-repo/pull/7), [Fluent Bit template PR #10](https://github.com/sartim/storemesh-argocd-repo/pull/10)). Backup/recovery requirements and an environment activation checklist are documented; restore evidence and approved production activation remain next |
 
@@ -53,22 +53,22 @@ roadmap is updated with evidence.
 
 ## Next prioritized work
 
-1. Complete BFF Keycloak issuer, audience, expiry, and JWKS validation across
-   all protected routes.
-2. Complete Authorization Code + PKCE migration for Next.js, Android, and iOS
-   (Android callback/token exchange is now implemented), then retire direct
-   User Service password login.
-3. Configure Grafana, Kiali, Kibana, and Argo CD with their Keycloak OIDC
-   clients and validate role mappings.
-4. Integrate persistent cross-device cart state and server checkout into the
-   native clients and web frontend.
-5. Add outbox leasing/claiming, publish Cart and Inventory events, and build
-   the first Kafka analytics projection.
-6. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
+1. Stabilize the local Kind control plane and complete a clean application,
+   Istio, Prometheus, Kiali, Kibana, and Grafana validation run.
+2. Complete Keycloak token acceptance in downstream protected service paths,
+   configure platform-tool OIDC role mappings, and remove direct User Service
+   password login after migration evidence.
+3. Adopt the BFF GraphQL contract in Android and iOS, finish iOS checkout UI,
+   and add client integration tests for cart persistence and order creation.
+4. Add cross-repository API/UI integration tests and harden admin/order
+   authorization, including GraphQL resolver authorization tests.
+5. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
    health across all domain services.
+6. Add outbox leasing/claiming, publish Cart and Inventory events, and build
+   the first Kafka analytics projection.
 7. Complete restore rehearsal, HTTPS/cert-manager activation, and Fluent Bit
    redaction/TLS validation in a controlled environment.
-8. Add the versioned GraphQL composition surface to the Go BFF for concrete
-   multi-domain journeys, while retaining REST for resource and operational
-   routes; keep mobile releases SemVer-tagged through Actions.
+8. Add GraphQL cancellation/admin mutations only after authorization,
+   idempotency, and audit requirements are defined; keep mobile releases
+   SemVer-tagged through Actions.
    platform repositories' manually triggered GitHub Actions workflows.

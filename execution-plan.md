@@ -28,7 +28,7 @@ milestones.
 
 ### P1 — Customer and admin frontend journeys
 
-**Status:** Implemented; dashboard and integration hardening next
+**Status:** Implemented; GraphQL adoption and integration hardening next
 **Repositories:** `storemesh-frontend`, `storemesh-bff`, `storemesh-docs`
 
 The first usable release is now implemented around the existing REST BFF
@@ -50,7 +50,7 @@ composition slice adds GraphQL to the Go BFF for multi-domain client views.
 
 ### P1 — Complete the missing order-history API contract
 
-**Status:** Implemented; frontend integration next
+**Status:** Implemented; GraphQL/client integration next
 **Repositories:** `storemesh-order-service`, `storemesh-bff`,
 `storemesh-frontend`
 
@@ -83,7 +83,7 @@ manual trigger and immutable image tag.
 
 ### P1 — Establish native mobile clients
 
-**Status:** Login/catalog/order-history MVP implemented on Android and iOS, including native OIDC/PKCE session flows; checkout and cart UI integration next
+**Status:** Native MVP implemented; Android checkout complete, iOS checkout and GraphQL client integration next
 **Repositories:** `storemesh-android`, `storemesh-ios`, `storemesh-bff`,
 `storemesh-docs`
 
@@ -91,8 +91,8 @@ StoreMesh will have two independent native clients. Android uses Kotlin,
 Jetpack Compose, Material 3, and coroutines/Flow. iOS uses Swift, SwiftUI,
 Swift concurrency, and platform-native navigation/accessibility. Neither client
 will use Flutter, React Native, Kotlin Multiplatform, or a shared cross-platform
-UI layer. Both clients consume the BFF REST/JSON surface; internal gRPC remains
-service-to-service only.
+UI layer. Both clients consume the BFF REST/JSON and GraphQL surfaces; internal
+gRPC remains service-to-service only.
 
 **Acceptance criteria:** each client opens in its native IDE/toolchain, has a
 typed BFF client boundary, supports local emulator/device configuration, and
@@ -122,7 +122,7 @@ integration tests remain release work.
 | P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
 | P2 | Add native mobile authentication and secure session storage | Android/iOS + Keycloak/BFF | OIDC issuer and redirect clients | Android and iOS PKCE login, secure token storage, startup restoration, and authenticated catalog access implemented |
 | P2 | Add native mobile product details and order history | Android/iOS + BFF | Product and `ListOrders` contracts | Implemented; integration hardening next |
-| P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Cart contract, PostgreSQL persistence, local-memory fallback, BFF routes, native API methods, and Android cart-list UI implemented; native checkout integration remains next |
+| P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Cart contract, PostgreSQL persistence, local-memory fallback, BFF routes, web GraphQL checkout, Android cart/checkout, and native API methods implemented; iOS checkout UI and mobile integration tests remain next |
 
 ## Cross-repository completion checklist
 
@@ -177,10 +177,11 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Updated web checkout to submit all saved cart lines with idempotency protection and clear the persisted cart only after successful order creation. |
 | 2026-09-02 | Added authenticated persistent-cart API methods to Android and iOS, aligned with the BFF cart contract; native cart UI and checkout integration remain next. |
 | 2026-09-02 | Added the native iOS cart sheet with account-backed loading, quantity controls, and clear-cart support; native checkout submission and Android cart UI remain next. |
-| 2026-09-02 | Completed the Android native cart-list UI with account-sync messaging, quantity controls, line totals, subtotal summary, and unavailable-product handling; checkout integration remains next. |
+| 2026-09-02 | Completed the Android native cart-list UI and checkout with account-sync messaging, quantity controls, line totals, subtotal summary, customer-scoped order creation, and post-success cart clearing. |
 | 2026-09-02 | Added an Istio enrollment validation script that checks domain namespace labels, injected `istio-proxy` sidecars, and readiness before strict gRPC mTLS promotion; the disposable local cluster is currently unavailable for runtime validation. |
 | 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |
 | 2026-09-01 | Added the Order Service `event_outbox` migration and transactional `OrderCreated` write; publisher worker and consumer projections remain next. |
 | 2026-09-01 | Added the initial single-instance outbox publisher worker; production worker leasing, Kafka delivery hardening, and analytics consumers remain next. |
 | 2026-09-02 | Standardized the Go BFF on complementary REST and GraphQL: REST remains for resource/operational routes, while GraphQL is the composition surface for multi-domain client views. |
 | 2026-09-02 | Integrated the Next.js storefront with the authenticated BFF GraphQL `products`, `cart`, `orders`, `updateCart`, `clearCart`, and `createOrder` operations; cancellation and admin actions remain REST-backed. |
+| 2026-09-02 | Reprioritized the roadmap around Kind stability, complete Keycloak downstream migration, native GraphQL adoption, integration tests, and observability validation. |
