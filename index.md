@@ -11,6 +11,8 @@ delivery model, and the roadmap for contributors and operators.
 
 ## Start here
 
+- [Interactive architecture map](architecture/)
+- [BFF API explorer](api-explorer/)
 - [Architecture](architecture.md)
 - [Identity and OIDC](identity.md)
 - [Repository map](repositories.md)

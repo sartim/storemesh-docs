@@ -1,7 +1,8 @@
 # StoreMesh documentation
 
-The published StoreMesh project guide. GitHub Pages deploys the Markdown files
-in this repository from the `main` branch.
+The published StoreMesh project guide. The repository keeps Markdown as the
+canonical source and now includes a Next.js + TypeScript site for richer
+navigation and interactive views.
 
 This repository is the architectural and operational reference for StoreMesh.
 It covers service boundaries, client integration, local development, delivery,
@@ -11,9 +12,22 @@ service-level test instructions.
 
 ## Local preview
 
-GitHub Pages renders this site with Jekyll. The source remains plain Markdown,
-so it can also be read directly on GitHub without installing a documentation
-toolchain.
+Run the Next.js site locally:
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`. `npm run build` creates a static `out/` export.
+The site includes a responsive docs index, client-side section search,
+versioned routes (`/docs/current/...` and `/docs/v0.1/...`), an interactive
+architecture map, and a BFF API contract explorer. The root Markdown files
+remain directly readable on GitHub and remain the content source for both
+Jekyll and Next.js.
+
+The legacy Jekyll configuration remains available while the Next.js publishing
+workflow is evaluated; this keeps the migration reversible.
 
 ## Keeping the roadmap current
 

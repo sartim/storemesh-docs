@@ -26,6 +26,21 @@ milestones.
 
 ## Current focus
 
+### P2 — Next.js documentation platform MVP
+
+**Status:** Implemented locally; publishing cutover next
+**Repository:** `storemesh-docs`
+
+The documentation repository now has a static-exportable Next.js site over the
+existing Markdown source. The MVP includes responsive navigation, search,
+versioned routes, an interactive architecture map, and a BFF API contract
+explorer. Keep Markdown canonical until the site is connected to the chosen
+publishing workflow.
+
+**Acceptance criteria:** `npm run build` passes; all tracked guide pages are
+available through current and baseline version routes; the architecture map
+and API explorer render without a backend; direct Markdown remains readable.
+
 ### P1 — Customer and admin frontend journeys
 
 **Status:** Implemented; GraphQL adoption and integration hardening next

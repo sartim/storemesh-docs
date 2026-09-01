@@ -333,8 +333,10 @@ environment/secret-manager responsibility.
 
 ## Documentation platform evolution
 
-The current documentation site uses Jekyll and Markdown on GitHub Pages. A
-future Next.js static-export site is reserved as an option for interactive
-architecture views, richer search, API explorers, or versioned documentation.
-It should be reconsidered after the API contracts and domain-service surface
-have matured; it is not a current runtime dependency.
+The repository now includes a Next.js + TypeScript documentation site that
+consumes the existing Markdown files and can produce a static export. It adds
+an interactive architecture map, responsive section navigation, client-side
+search, a BFF API contract explorer, and versioned documentation routes. The
+site is a documentation delivery layer only and is not a runtime dependency of
+StoreMesh services. Jekyll and direct GitHub Markdown remain available during
+the publishing transition.
