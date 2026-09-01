@@ -155,6 +155,39 @@ Product, Inventory, Order, or User business ownership. GraphQL remains a future
 option only if measured client requirements justify flexible nested selection;
 it is not part of the current implementation.
 
+## Architecture benefits and trade-offs
+
+This architecture is designed to keep the platform evolvable while preserving
+clear ownership:
+
+- **Keycloak + OIDC + PKCE** centralizes authentication, supports single sign-on
+  across the web, mobile clients, and platform tools, and avoids embedding
+  client secrets in public applications. The trade-off is that local and
+  production environments need careful issuer, redirect URI, role, secret, and
+  key-rotation configuration.
+- **BFF REST/JSON with internal gRPC** gives browsers and mobile clients a
+  stable, conventional API while services retain strongly typed protobuf
+  contracts, deadlines, and efficient service-to-service calls. The trade-off
+  is an additional edge component that must be monitored and scaled.
+- **Independent domain services** allow User, Product, Inventory, and Order to
+  evolve and scale according to their workload while keeping business rules
+  close to the owning service. The trade-off is distributed-system complexity:
+  contracts, retries, timeouts, idempotency, and observability must be managed
+  explicitly.
+- **Transactional outbox + Kafka** keeps business writes reliable while
+  enabling asynchronous analytics, notifications, and integrations without
+  coupling those consumers to request latency. The trade-off is eventual
+  consistency and the operational burden of brokers, consumer lag, retries,
+  ordering, and schema evolution.
+- **Kubernetes, Helm, and Argo CD** make deployments repeatable and provide a
+  path from disposable Kind development to managed environments. The trade-off
+  is platform overhead; local components remain opt-in so development does not
+  require the full production stack.
+- **Prometheus, Grafana, Tempo, ECK/Kibana, Fluent Bit, and Kiali** provide
+  metrics, traces, logs, and mesh topology views that shorten diagnosis time.
+  The trade-off is storage, retention, access-control, and backup planning for
+  stateful observability systems.
+
 ## Identity, OIDC, and PKCE
 
 Keycloak is the final identity authority for StoreMesh. It owns credentials,
