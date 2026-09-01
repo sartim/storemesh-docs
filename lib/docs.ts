@@ -14,9 +14,10 @@ export async function getDocument(slug: string) {
   const source = await fs.readFile(path.join(process.cwd(), `${slug}.md`), "utf8");
   const parsed = matter(source);
   const processed = await remark().use(remarkGfm).use(remarkHtml).process(parsed.content);
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const html = String(processed)
-    .replace(/href="([./a-z0-9-]+)\.md"/gi, 'href="/docs/$1/"')
-    .replace(/src="assets\//g, 'src="/assets/');
+    .replace(/href="([./a-z0-9-]+)\.md"/gi, `href="${basePath}/docs/$1/"`)
+    .replace(/src="assets\//g, `src="${basePath}/assets/`);
 
   return { ...metadata, html };
 }

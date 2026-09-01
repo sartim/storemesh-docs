@@ -29,6 +29,11 @@ Jekyll and Next.js.
 The legacy Jekyll configuration remains available while the Next.js publishing
 workflow is evaluated; this keeps the migration reversible.
 
+GitHub Pages deploys the Next.js static export from `.github/workflows/pages.yml`
+on pushes to `main` or a manual workflow dispatch. The project-site base path is
+configured as `/storemesh-docs`; after the workflow succeeds, the site is
+available at `https://sartim.github.io/storemesh-docs/`.
+
 ## Keeping the roadmap current
 
 Update `roadmap.md` in the same pull request that completes a milestone. Move
