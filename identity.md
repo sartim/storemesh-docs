@@ -56,3 +56,24 @@ observability ports through the tunnel.
 - Rotate signing keys and verify BFF JWKS refresh behavior during key rotation.
 - Retire direct User Service password login only after all clients use PKCE and
   migration/rollback evidence is recorded.
+
+## Platform-tool SSO status
+
+The local Keycloak realm import reserves clients for Grafana, Kiali, Kibana, and
+Argo CD, but client registration alone does not enable SSO. Each tool still
+requires an environment-specific OIDC configuration, callback URL, role
+mapping, and confidential client secret. The current local defaults are:
+
+| Tool | Current local access | OIDC rollout requirement |
+| --- | --- | --- |
+| Grafana | Local admin login | Configure `auth.generic_oauth`, issuer, scopes, role mapping, and a Secret-backed client secret |
+| Kiali | Anonymous local access | Change the Kiali auth strategy to OpenID and map approved roles |
+| Kibana | ECK-generated `elastic` user | Configure the Elastic OIDC provider and callback settings with protected credentials |
+| Argo CD | Local admin credential | Configure Argo CD Dex/OIDC, group claims, and admin role mapping |
+
+This staged approach keeps the disposable Kind cluster usable while avoiding
+committing secrets or accidentally changing access policy in a shared cluster.
+The activation order is Keycloak health and issuer discovery, tool callback and
+secret configuration, role-mapping verification, then removal or restriction
+of local fallback accounts. Record the result in the environment's deployment
+evidence before calling platform SSO complete.

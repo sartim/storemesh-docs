@@ -27,6 +27,10 @@ only. Before any shared-environment deployment, use managed secrets, HTTPS
 redirect URLs, an external PostgreSQL database, and non-`start-dev` mode.
 The complete authority model and Authorization Code + PKCE flow are documented
 in [Identity and OIDC](identity.md).
+Realm client registration is only the identity-provider prerequisite; platform
+tool SSO remains an explicit environment activation step with Secret-backed
+confidential client credentials and role mapping. See the platform-tool status
+matrix in [Identity and OIDC](identity.md).
 
 ## Local platform
 
