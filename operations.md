@@ -5,6 +5,14 @@ title: Operations
 
 # Operations and deployment
 
+## Local Keycloak OIDC
+
+The `storemesh-keycloak` Helm chart imports the local `storemesh` realm with
+separate clients for the web app, Android, iOS, Grafana, Kiali, Kibana, and
+Argo CD. Its localhost callback URLs and development secrets are for Kind
+only. Before any shared-environment deployment, use managed secrets, HTTPS
+redirect URLs, an external PostgreSQL database, and non-`start-dev` mode.
+
 ## Local platform
 
 Clone the configuration repositories beside one another, then use the scripts

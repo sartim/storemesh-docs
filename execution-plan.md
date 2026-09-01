@@ -164,4 +164,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Defined the customer-owned cart boundary separately from orders; added the CartService protobuf contract and reusable native checkout API methods. Persistent storage, BFF routes, and client cart UI remain outstanding. |
 | 2026-09-01 | Added PostgreSQL cart persistence, local-memory fallback, and BFF cart routes; client synchronization and cart UI remain the next slice. |
 | 2026-09-01 | Chose Keycloak/OIDC as the final authentication architecture; User Service remains the customer-profile authority, while direct User Service password login will be retired after migration. |
-| 2026-09-01 | Added the local-only `storemesh-keycloak` Helm chart; realm import, application clients, BFF JWKS validation, and observability-tool SSO remain next. |
+| 2026-09-01 | Added local StoreMesh realm import with separate web, Android, iOS, Grafana, Kiali, Kibana, and Argo CD clients; BFF JWKS validation, tool SSO, and application login migration remain next. |
