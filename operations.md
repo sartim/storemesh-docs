@@ -13,6 +13,11 @@ initial event topics for orders, inventory, carts, and analytics. Use one
 replica only for local Kind; production requires multiple brokers, durable
 storage, TLS/SASL, ACLs, backups, and monitored consumer lag.
 
+Order events are first written to the Order Service PostgreSQL outbox. Kafka
+publishing must be retryable and idempotent; operators should monitor pending
+outbox age, publish failures, and consumer lag before treating analytics as
+complete.
+
 ## Local Keycloak OIDC
 
 The `storemesh-keycloak` Helm chart imports the local `storemesh` realm with
