@@ -147,6 +147,7 @@ For each feature, check the applicable items before moving it to Complete:
 | Direct Helm Actions for current deploys | No reachable remote Argo CD server is available; deployments must be explicit manual GitHub Actions runs. |
 | Temporary Kind for CI smoke | Provides repeatable open-source validation without requiring a remote cluster. |
 | MetalLB and Istio remain environment capabilities | Useful for local/on-prem testing; managed environments may provide their own load balancer. |
+| Keycloak is the final identity authority | Keycloak will own authentication, OIDC sessions, credentials, and platform roles. User Service will retain customer profiles and domain data, but direct password login will be removed after the OIDC migration is validated. |
 
 ## Change log
 
@@ -161,3 +162,4 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Advanced both native clients with refresh-session persistence, order history, product details, and reusable feature-file structure; checkout is now the next mobile milestone. |
 | 2026-09-01 | Defined the customer-owned cart boundary separately from orders; added the CartService protobuf contract and reusable native checkout API methods. Persistent storage, BFF routes, and client cart UI remain outstanding. |
 | 2026-09-01 | Added PostgreSQL cart persistence, local-memory fallback, and BFF cart routes; client synchronization and cart UI remain the next slice. |
+| 2026-09-01 | Chose Keycloak/OIDC as the final authentication architecture; User Service remains the customer-profile authority, while direct User Service password login will be retired after migration. |
