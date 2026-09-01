@@ -8,8 +8,22 @@ title: Identity and OIDC
 ## Authority model
 
 Keycloak is the StoreMesh identity authority. It owns credentials, OIDC
-sessions, tokens, and platform roles. User Service owns customer profiles and
-domain data. New clients should not implement a second password authority.
+sessions, user access/refresh tokens, and platform roles. User Service owns
+customer profiles and domain data. New clients should not implement a second
+password authority.
+
+There are currently two JWT paths during migration:
+
+- **Keycloak user JWT:** the OIDC access token used by web, Android, and iOS.
+  The BFF validates its RS256 signature through Keycloak JWKS, issuer,
+  audience, expiry, and claims.
+- **Legacy User Service JWT:** the password-login compatibility endpoint still
+  issues HS256 access/refresh tokens signed with `JWT_SECRET`. This path is
+  temporary and must not be used for new clients or shared environments.
+
+These tokens are not interchangeable. A valid Keycloak JWT cannot be verified
+with the legacy User Service `JWT_SECRET`, and a legacy User Service JWT is not
+a Keycloak OIDC token.
 
 ## Client flow
 
@@ -22,7 +36,7 @@ Authorization Code + PKCE:
 4. The client exchanges the code and verifier at the token endpoint.
 5. The client stores tokens in the browser session or platform-secure storage
    and sends the access token as `Authorization: Bearer` to the BFF.
-6. The BFF validates the JWT signature using Keycloak JWKS, plus issuer,
+6. The BFF validates the Keycloak JWT signature using Keycloak JWKS, plus issuer,
    audience, expiry, and role claims, before making internal gRPC calls.
 
 PKCE protects public clients because no client secret is shipped in browser or
@@ -54,8 +68,17 @@ observability ports through the tunnel.
   clients with protected secrets.
 - Map only required Keycloak roles to platform tools and BFF authorization.
 - Rotate signing keys and verify BFF JWKS refresh behavior during key rotation.
-- Retire direct User Service password login only after all clients use PKCE and
+- Retire direct User Service password login only after all clients use PKCE,
+  downstream services accept the Keycloak token contract, and
   migration/rollback evidence is recorded.
+
+## Service-to-service JWT
+
+Order Service also has a separate machine-to-machine JWT option for calls to
+Product Service. It is signed with the Product Service shared secret and is
+unrelated to human OIDC access tokens. This is a transitional service-auth
+mechanism; production deployments should prefer Istio mTLS and/or workload
+identity, with authorization claims enforced at the receiving service.
 
 ## Platform-tool SSO status
 

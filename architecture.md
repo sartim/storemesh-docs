@@ -216,6 +216,27 @@ OIDC sessions, access and refresh tokens, and platform roles. The User Service
 remains the customer-profile and user-domain authority; it is not the long-term
 password authority after the client migration is complete.
 
+### Token responsibilities during migration
+
+JWT is still used, but there are separate token classes with different
+issuers, signing keys, and audiences:
+
+- **Keycloak user access JWTs** are issued through OIDC Authorization Code +
+  PKCE for web, Android, and iOS. The Go BFF validates these RS256 tokens with
+  Keycloak JWKS, issuer, audience, expiry, and role claims.
+- **User Service legacy JWTs** are issued by the temporary password-login
+  compatibility endpoint and signed with the User Service `JWT_SECRET` using
+  HS256. They are not Keycloak tokens and will be removed after downstream
+  services accept the Keycloak token contract.
+- **Service-to-service JWTs** are currently used optionally by Order Service
+  when calling Product Service. They authenticate the workload call and are
+  separate from human user tokens. Istio mTLS/workload identity is the target
+  production direction for this boundary.
+
+Therefore, “JWT” in this architecture does not mean that User Service remains
+the identity provider. Keycloak is the target and user-facing authority; the
+other JWT paths are transitional compatibility or workload authentication.
+
 Browser, Android, and iOS clients use separate public OIDC clients and the
 Authorization Code flow with PKCE. The clients open Keycloak in the system
 browser, receive an authorization code through their registered redirect URI,
