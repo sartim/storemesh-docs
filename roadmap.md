@@ -55,8 +55,9 @@ roadmap is updated with evidence.
 
 1. Complete BFF Keycloak issuer, audience, expiry, and JWKS validation across
    all protected routes.
-2. Migrate the Next.js, Android, and iOS clients to Authorization Code + PKCE,
-   then retire direct User Service password login.
+2. Complete Authorization Code + PKCE migration for Next.js, Android, and iOS
+   (Android callback/token exchange is now implemented), then retire direct
+   User Service password login.
 3. Configure Grafana, Kiali, Kibana, and Argo CD with their Keycloak OIDC
    clients and validate role mappings.
 4. Integrate persistent cross-device cart state and server checkout into the
