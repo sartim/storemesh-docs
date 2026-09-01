@@ -11,7 +11,7 @@ Each StoreMesh domain service owns its business logic, persistence integration,
 and public contracts. Transport handlers are adapters around one domain service
 instead of separate implementations of business rules.
 
-![StoreMesh local architecture overview](assets/storemesh-architecture-overview-v2.png)
+![StoreMesh architecture overview](assets/storemesh-architecture-overview-v3.png)
 
 The diagram is an overview; the repository and roadmap pages remain the source
 of truth for implementation status and deployment evidence.
@@ -21,8 +21,8 @@ of truth for implementation status and deployment evidence.
 | Internal APIs | gRPC |
 | Direct HTTP APIs | Gin handlers owned by each service |
 | Contracts | Protocol Buffers, HTTP annotations, generated OpenAPI |
-| Authentication | JWT access and refresh tokens, Redis-backed sessions |
-| Authorization | Persisted user roles and server-side role checks |
+| Authentication | Keycloak OIDC; Authorization Code + PKCE for web and native clients |
+| Authorization | Validated OIDC claims and mapped Keycloak roles; User Service owns customer profiles |
 | Observability | Prometheus, Grafana, Alertmanager, Tempo, plus optional Elasticsearch/Kibana logging |
 
 ## Observability architecture
@@ -154,6 +154,36 @@ The BFF remains an orchestration and presentation layer and must not absorb
 Product, Inventory, Order, or User business ownership. GraphQL remains a future
 option only if measured client requirements justify flexible nested selection;
 it is not part of the current implementation.
+
+## Identity, OIDC, and PKCE
+
+Keycloak is the final identity authority for StoreMesh. It owns credentials,
+OIDC sessions, access and refresh tokens, and platform roles. The User Service
+remains the customer-profile and user-domain authority; it is not the long-term
+password authority after the client migration is complete.
+
+Browser, Android, and iOS clients use separate public OIDC clients and the
+Authorization Code flow with PKCE. The clients open Keycloak in the system
+browser, receive an authorization code through their registered redirect URI,
+and exchange that code for tokens. Client secrets are not embedded in web or
+mobile applications. The BFF validates bearer access tokens against the
+configured issuer, audience, expiry, signature, and Keycloak JWKS before
+calling internal gRPC services.
+
+```text
+Web / Android / iOS
+        │ Authorization Code + PKCE
+        ▼
+     Keycloak ── OIDC access token ──► BFF
+                                      │ validate JWT + roles
+                                      ▼
+                              internal gRPC services
+```
+
+Local Kind uses development-only Keycloak configuration and localhost/custom
+scheme redirects. Shared or physical-device testing must use HTTPS, managed
+secrets, explicitly registered redirect URIs, and a reachable issuer; tunnel
+URLs and credentials must remain outside Git.
 
 ## Product service
 
