@@ -82,7 +82,7 @@ manual trigger and immutable image tag.
 
 ### P1 — Establish native mobile clients
 
-**Status:** Login/catalog/order-history MVP implemented on Android and iOS; checkout next
+**Status:** Login/catalog/order-history MVP implemented on Android and iOS, including native OIDC/PKCE session flows; checkout and cart UI integration next
 **Repositories:** `storemesh-android`, `storemesh-ios`, `storemesh-bff`,
 `storemesh-docs`
 
@@ -119,7 +119,7 @@ integration tests remain release work.
 | P3 | Reassess GraphQL | BFF + frontend | Concrete composition need | Deferred |
 | P1 | Create native Android foundation and catalog journey | Android + BFF | Stable REST contract | Android MVP slice implemented |
 | P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
-| P2 | Add native mobile authentication and secure session storage | Android/iOS + User Service | Login/refresh contract | Access/refresh persistence and startup refresh implemented on both |
+| P2 | Add native mobile authentication and secure session storage | Android/iOS + Keycloak/BFF | OIDC issuer and redirect clients | Android and iOS PKCE login, secure token storage, startup restoration, and authenticated catalog access implemented |
 | P2 | Add native mobile product details and order history | Android/iOS + BFF | Product and `ListOrders` contracts | Implemented; integration hardening next |
 | P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Cart contract, PostgreSQL persistence, local-memory fallback, BFF routes, and native API methods implemented; client sync/UI next |
 
@@ -168,7 +168,7 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Chose Keycloak/OIDC as the final authentication architecture; User Service remains the customer-profile authority, while direct User Service password login will be retired after migration. |
 | 2026-09-01 | Added local StoreMesh realm import with separate web, Android, iOS, Grafana, Kiali, Kibana, and Argo CD clients; BFF JWKS validation, tool SSO, and application login migration remain next. |
 | 2026-09-01 | Added the Android native AppAuth Authorization Code + PKCE callback and token exchange, with encrypted Keystore session storage; local emulator testing uses BFF `10.0.2.2:8080` and Keycloak `10.0.2.2:8081`. |
-| 2026-09-01 | Added the native iOS `ASWebAuthenticationSession` Authorization Code + PKCE component, token exchange, and `storemesh-ios://` callback registration; device integration and Keychain session wiring remain next. |
+| 2026-09-01 | Added the native iOS `ASWebAuthenticationSession` Authorization Code + PKCE component, token exchange, `storemesh-ios://` callback registration, Keychain token persistence, startup restoration, logout, and authenticated catalog access. |
 | 2026-09-01 | Wired iOS OIDC into the app with a native login screen, Keychain token persistence, startup session restoration, logout, and authenticated BFF catalog requests. |
 | 2026-09-01 | Added non-applied Grafana and Argo CD Keycloak OIDC activation examples with Secret-backed confidential clients; local tool defaults remain unchanged until environment-specific role and callback validation is complete. |
 | 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |
