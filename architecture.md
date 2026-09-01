@@ -48,7 +48,12 @@ traffic policy, mTLS, access telemetry, and uniform tracing. It can manage the
 current internal gRPC boundaries because gRPC uses HTTP/2, including service
 discovery, mTLS, traffic shifting, timeout/retry policy, and mesh telemetry.
 It is not required for those boundaries: services can communicate directly over
-ClusterIP gRPC with their existing contracts and NetworkPolicies. OpenTelemetry Collector is preferred
+ClusterIP gRPC with their existing contracts and NetworkPolicies. In this
+project, the local deployment path does support Istio for those gRPC calls:
+the Argo CD applications enroll the service namespaces, inject sidecars, and
+apply `PERMISSIVE` mTLS during migration. Therefore “optional” describes
+whether an environment must install Istio, not whether Istio can be used when
+it is installed. OpenTelemetry Collector is preferred
 as the stable ingestion boundary so the trace backend can be changed without
 modifying services.
 
