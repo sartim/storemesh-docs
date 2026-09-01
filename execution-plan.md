@@ -122,7 +122,7 @@ integration tests remain release work.
 | P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
 | P2 | Add native mobile authentication and secure session storage | Android/iOS + Keycloak/BFF | OIDC issuer and redirect clients | Android and iOS PKCE login, secure token storage, startup restoration, and authenticated catalog access implemented |
 | P2 | Add native mobile product details and order history | Android/iOS + BFF | Product and `ListOrders` contracts | Implemented; integration hardening next |
-| P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Cart contract, PostgreSQL persistence, local-memory fallback, BFF routes, and native API methods implemented; client sync/UI next |
+| P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Cart contract, PostgreSQL persistence, local-memory fallback, BFF routes, native API methods, and Android cart-list UI implemented; native checkout integration remains next |
 
 ## Cross-repository completion checklist
 
@@ -177,6 +177,7 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-01 | Updated web checkout to submit all saved cart lines with idempotency protection and clear the persisted cart only after successful order creation. |
 | 2026-09-02 | Added authenticated persistent-cart API methods to Android and iOS, aligned with the BFF cart contract; native cart UI and checkout integration remain next. |
 | 2026-09-02 | Added the native iOS cart sheet with account-backed loading, quantity controls, and clear-cart support; native checkout submission and Android cart UI remain next. |
+| 2026-09-02 | Completed the Android native cart-list UI with account-sync messaging, quantity controls, line totals, subtotal summary, and unavailable-product handling; checkout integration remains next. |
 | 2026-09-02 | Added an Istio enrollment validation script that checks domain namespace labels, injected `istio-proxy` sidecars, and readiness before strict gRPC mTLS promotion; the disposable local cluster is currently unavailable for runtime validation. |
 | 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |
 | 2026-09-01 | Added the Order Service `event_outbox` migration and transactional `OrderCreated` write; publisher worker and consumer projections remain next. |
