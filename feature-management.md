@@ -63,6 +63,8 @@ The sibling `storemesh-scripts` repository provides
 `scripts/activate-flagsmith-local.sh` to perform this activation without
 putting the key in Git or shell output. It requires the operator to provide
 `FLAGSMITH_SERVER_KEY` and the in-cluster `FLAGSMITH_BASE_URL` explicitly.
+The helper also creates the Flagsmith Django secret key before synchronization,
+so the local chart does not depend on an image-based secret-generation Job.
 
 GitHub Actions and Helm remain the source of truth for deployment flags and
 must not be replaced by runtime product flags. Changes to either class should
