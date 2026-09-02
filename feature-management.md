@@ -59,6 +59,11 @@ store that key in a Kubernetes Secret, and enable the BFF Helm values. Normal
 Kind bootstrap remains usable without Flagsmith; the BFF falls back to its
 safe defaults when no key is configured.
 
+The sibling `storemesh-scripts` repository provides
+`scripts/activate-flagsmith-local.sh` to perform this activation without
+putting the key in Git or shell output. It requires the operator to provide
+`FLAGSMITH_SERVER_KEY` and the in-cluster `FLAGSMITH_BASE_URL` explicitly.
+
 GitHub Actions and Helm remain the source of truth for deployment flags and
 must not be replaced by runtime product flags. Changes to either class should
 be reviewed, linked to a roadmap item, and tested with the relevant default
