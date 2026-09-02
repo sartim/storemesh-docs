@@ -35,7 +35,7 @@ when milestone status or priority changes.
 | API contracts and transports | Complete | gRPC contracts, explicit HTTP handlers, OpenAPI generation, and transport authorization |
 | Production readiness | In progress | User, Product, Inventory, and Order Services expose the shared `/metrics` contract with Go/process collectors; all four charts provide opt-in Prometheus scraping, while live discovery and production storage/access validation remain environment work |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
-| Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1) |
+| Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1); resource-heavy platform smoke validation now runs in disposable GitHub Actions Kind environments |
 | Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
 | GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
 | Additional domain services | Complete | Product, Inventory, and Order Services are deployed and healthy in the local Kind cluster. Inventory uses PostgreSQL-backed replica-safe reservations ([runtime PR #2](https://github.com/sartim/storemesh-inventory-service/pull/2)); Order consumes Product and Inventory gRPC contracts, authenticates to Product with service JWTs, coordinates price snapshots and reservations, and supports PostgreSQL-backed idempotent retries. The deployed workflow was verified end to end, including a successful order, a same-key retry, and persistent stock reduction. |
@@ -53,7 +53,8 @@ roadmap is updated with evidence.
 
 ## Next prioritized work
 
-1. Stabilize the local Kind control plane and complete a clean application,
+1. Run the disposable GitHub Actions Kind platform smoke workflow and tune the
+   local Kind profile based on its diagnostics; complete a clean application,
    Istio, Prometheus, Kiali, Kibana, and Grafana validation run.
 2. Complete Keycloak token acceptance in downstream protected service paths,
    configure platform-tool OIDC role mappings, and remove direct User Service

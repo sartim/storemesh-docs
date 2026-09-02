@@ -41,6 +41,18 @@ publishing workflow.
 available through current and baseline version routes; the architecture map
 and API explorer render without a backend; direct Markdown remains readable.
 
+### P1 — Disposable platform validation in GitHub Actions
+
+**Status:** Implemented; first workflow run pending
+**Repositories:** `storemesh-scripts`, `storemesh-kind-cluster`,
+`storemesh-argocd-repo`
+
+The `Kind platform smoke` workflow now owns the repeatable CPU-heavy validation
+path: it creates a temporary Kind cluster on a GitHub-hosted runner, bootstraps
+data services and Argo CD, validates application rollouts, Istio enrollment,
+Prometheus/Kiali, and ECK logging, collects diagnostics, and deletes the
+cluster. Local Docker remains the interactive development path.
+
 ### P1 — Customer and admin frontend journeys
 
 **Status:** Implemented; GraphQL adoption and integration hardening next
