@@ -173,6 +173,7 @@ For each feature, check the applicable items before moving it to Complete:
 | Native mobile UI | Android uses Kotlin/Jetpack Compose; iOS uses Swift/SwiftUI. Product behavior and REST contracts align, while UI and platform integrations remain native. |
 | Recharts for initial visualizations | Small React/TypeScript footprint appropriate for admin charts; defer until metrics requirements are concrete. |
 | Direct Helm Actions for current deploys | No reachable remote Argo CD server is available; deployments must be explicit manual GitHub Actions runs. |
+| Feature flag boundary | GitHub Actions and Helm own reproducible infrastructure/deployment configuration. OpenFeature with self-hosted Flagsmith will own runtime product flags across the BFF and clients; the BFF evaluates server-authoritative flags and exposes only client-safe values. Flagsmith availability must not be required to bootstrap the platform. |
 | Temporary Kind for CI smoke | Provides repeatable open-source validation without requiring a remote cluster. |
 | MetalLB and Istio remain environment capabilities | Useful for local/on-prem testing; managed environments may provide their own load balancer. |
 | Keycloak is the final identity authority | Keycloak will own authentication, OIDC sessions, credentials, and platform roles. User Service will retain customer profiles and domain data, but direct password login will be removed after the OIDC migration is validated. |

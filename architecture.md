@@ -161,6 +161,37 @@ where conventional HTTP semantics and caching are valuable. The BFF is
 implemented in Go for its gRPC support, concurrency, and small deployable
 runtime.
 
+## Release and feature management
+
+StoreMesh separates infrastructure rollout controls from runtime product
+behavior:
+
+```text
+GitHub Actions + Helm
+    └── infrastructure and deployment flags
+
+Flagsmith
+    └── runtime product flags
+          ├── Go BFF
+          ├── Next.js frontend
+          ├── Android
+          └── iOS
+
+Keycloak
+    └── identity and authorization
+```
+
+GitHub Actions and Helm remain the source of truth for installing or changing
+platform components, image versions, resource sizing, networking, and other
+deployment configuration. A deployment must not depend on Flagsmith being
+available. Flagsmith is reserved for runtime product behavior such as gradual
+checkout rollout, UI changes, Kafka analytics consumers, and operational
+application kill switches. OpenFeature is the application-facing abstraction
+so clients are not coupled directly to a feature-flag vendor. The BFF is the
+authoritative server-side evaluation boundary; only client-safe evaluated flags
+are exposed to web and mobile clients. Feature flags never replace Keycloak
+authentication or authorization.
+
 The BFF remains an orchestration and presentation layer and must not absorb
 Product, Inventory, Order, or User business ownership. The next BFF API slice
 is a versioned GraphQL schema for composed catalog, cart, and order views while
