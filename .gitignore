@@ -1,5 +1,6 @@
 /.next/
 /out/
+/public/assets/
 /node_modules/
 /tsconfig.tsbuildinfo
 npm-debug.log*
