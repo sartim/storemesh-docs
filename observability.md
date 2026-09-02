@@ -31,6 +31,17 @@ redaction before indexing.
 
 ## Rollout order
 
+## Functional validation data
+
+The disposable Kind workflow validates observability with application traffic,
+not only pod readiness. When local bootstrap supplies the demo credentials,
+the User Service idempotently creates the demo customer and administrator
+accounts. The StoreMesh scripts then import the demo catalog and orders and
+generate authenticated customer and admin requests through the BFF. This
+produces useful request, gRPC, database, trace, and log signals for
+Prometheus/Grafana, Tempo/Kiali, and ECK/Kibana checks. Demo credentials must
+remain limited to local or CI environments.
+
 1. Install the pinned Prometheus Operator-compatible stack and enable the
    service `PrometheusRule` resources.
 2. Install OpenTelemetry Collector and configure OTLP exporters. Add Istio
