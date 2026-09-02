@@ -34,6 +34,11 @@ matrix in [Identity and OIDC](identity.md).
 
 ## Local platform
 
+Kind requires a running Docker daemon because each cluster node is a Docker
+container. Start Docker Desktop before running the cluster bootstrap scripts;
+the create script performs this preflight check and reports the recovery step
+when Docker is unavailable.
+
 Clone the configuration repositories beside one another, then use the scripts
 repository to create the Kind cluster and install Argo CD:
 
