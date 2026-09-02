@@ -192,6 +192,34 @@ authoritative server-side evaluation boundary; only client-safe evaluated flags
 are exposed to web and mobile clients. Feature flags never replace Keycloak
 authentication or authorization.
 
+### Feature-management architecture
+
+![StoreMesh feature-management architecture](assets/feature-management-architecture.png)
+
+Feature management has three deliberately separate responsibilities:
+
+| Concern | Owner | Examples | Failure posture |
+| --- | --- | --- | --- |
+| Deployment and infrastructure | GitHub Actions + Helm | image versions, replicas, ingress, telemetry, optional operators | Deployments remain reproducible without Flagsmith |
+| Runtime product behavior | Flagsmith through the BFF | checkout rollout, UI variants, mobile capabilities, application kill switches | Each client uses a safe local default if the flag service is unavailable |
+| Identity and authorization | Keycloak | login, OIDC clients, roles, access to Grafana/Kiali/Kibana | Authorization is enforced by tokens and server-side policy, never by a UI flag |
+
+The runtime flag lifecycle is: define a flag and its owner, select a safe
+default, evaluate it in the BFF, expose only explicitly approved client-safe
+values through `GET /api/v1/config`, instrument usage, roll out gradually,
+and remove the flag after the feature is stable. Flags that control server
+security, billing, data integrity, or authorization must remain server-side and
+must never be returned by the client configuration endpoint.
+
+This separation improves delivery speed and safety: product experiments and
+emergency rollbacks can happen without rebuilding every client, infrastructure
+changes stay reviewable and reproducible in Git, and a vendor outage does not
+make the storefront unusable. It also reduces blast radius because the BFF
+controls what reaches browsers and mobile apps while Keycloak remains the
+source of truth for access decisions. The trade-off is additional lifecycle
+work: flags need owners, expiry dates, telemetry, documentation, and periodic
+cleanup to prevent stale branches and inconsistent client behavior.
+
 The BFF remains an orchestration and presentation layer and must not absorb
 Product, Inventory, Order, or User business ownership. The next BFF API slice
 is a versioned GraphQL schema for composed catalog, cart, and order views while

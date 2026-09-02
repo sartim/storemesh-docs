@@ -53,7 +53,9 @@ backlog, cross-repository dependencies, acceptance criteria, and decisions.
    verification.
 4. [Identity and OIDC](identity.md) for Keycloak, PKCE, redirect URIs, and
    platform-tool SSO.
-5. [Observability](observability.md) and [Backup and recovery](backup-recovery.md)
+5. [Feature management](feature-management.md) for deployment flags, runtime
+   product flags, ownership, rollout, and cleanup.
+6. [Observability](observability.md) and [Backup and recovery](backup-recovery.md)
    for production-readiness requirements.
-6. [Roadmap](roadmap.md) and [Execution plan](execution-plan.md) for priorities
+7. [Roadmap](roadmap.md) and [Execution plan](execution-plan.md) for priorities
    and delivery evidence.

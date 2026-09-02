@@ -15,6 +15,7 @@ delivery model, and the roadmap for contributors and operators.
 - [BFF API explorer](api-explorer/)
 - [Architecture](architecture.md)
 - [Identity and OIDC](identity.md)
+- [Feature management](feature-management.md)
 - [Repository map](repositories.md)
 - [Development guide](development.md)
 - [Operations and deployment](operations.md)
