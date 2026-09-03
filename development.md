@@ -15,6 +15,29 @@ title: Development guide
 4. Open a pull request with a concise summary and validation evidence.
 5. Update [the roadmap](roadmap.md) when the change completes a milestone.
 
+## Local-first application development
+
+Use two different environments for two different jobs:
+
+| Task | Preferred environment |
+| --- | --- |
+| Build and iterate on the frontend, BFF, or a changed domain service | Run the application directly on localhost using its normal development command |
+| Validate deployment manifests, service discovery, Istio sidecars, Argo CD, and observability | Use the local Kind cluster or the disposable GitHub Actions smoke workflow |
+| Validate a complete release across images and cluster resources | Use GitHub Actions before changing the local cluster |
+
+The normal fast loop is: run only the application being changed locally, point
+it at required localhost or forwarded dependencies, and use the cluster for
+integration checks. This avoids waiting for image builds and Argo reconciliation
+during feature work while preserving confidence that the same application can
+be deployed by Helm. Keep deployment-specific checks in CI and do not delete
+or recreate the local cluster for ordinary code changes.
+
+When a local application needs a dependency that is not running locally, use a
+targeted port-forward or run that dependency from the cluster. The frontend
+should call the BFF, the BFF should call the domain services through its
+configured local addresses, and clients must not bypass the BFF to call
+internal gRPC services.
+
 ## Go quality baseline
 
 The service CI enforces `gofmt`, `go vet`, unit tests, race detection,
