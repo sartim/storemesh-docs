@@ -50,6 +50,11 @@ repository to create the Kind cluster and install Argo CD:
 ./storemesh-scripts/scripts/bootstrap-argocd.sh
 ```
 
+The local Kind profile uses one control-plane node and one worker to reduce
+Docker resource usage while retaining a dedicated scheduling target for
+workloads. Existing clusters are not resized or deleted by the scripts; apply
+the profile only when intentionally creating a fresh development cluster.
+
 Before submitting the user-service application, create the Kubernetes Secret
 `storemesh-user-service-secrets` in the `storemesh-user-service` namespace.
 Use External Secrets or a secret manager for shared environments; never commit
