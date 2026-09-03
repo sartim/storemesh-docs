@@ -32,6 +32,12 @@ during feature work while preserving confidence that the same application can
 be deployed by Helm. Keep deployment-specific checks in CI and do not delete
 or recreate the local cluster for ordinary code changes.
 
+Infrastructure work follows a stricter rule: use Docker and Kubernetes only
+when the change requires container, image, networking, scheduling, or cluster
+behavior. Prefer the disposable GitHub Actions workflows to validate and debug
+those changes first, and use the persistent local cluster only for interactive
+investigation that CI cannot reproduce efficiently.
+
 When a local application needs a dependency that is not running locally, use a
 targeted port-forward or run that dependency from the cluster. The frontend
 should call the BFF, the BFF should call the domain services through its
