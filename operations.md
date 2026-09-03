@@ -5,13 +5,15 @@ title: Operations
 
 # Operations and deployment
 
-## Local Kafka
+## Optional Kafka event delivery
 
-The `storemesh-kafka` chart is disabled by default and expects Confluent for
-Kubernetes CRDs to be installed first. It provisions a small KRaft cluster and
-initial event topics for orders, inventory, carts, and analytics. Use one
-replica only for local Kind; production requires multiple brokers, durable
-storage, TLS/SASL, ACLs, backups, and monitored consumer lag.
+Kafka is not installed in the default Kind cluster. The `storemesh-kafka` chart
+is disabled by default, has no Argo CD Application, and is only a CFK-based
+optional deployment for an environment that explicitly chooses to run a local
+broker. The Order Service's outbox publisher is independently disabled by
+default; enabling it requires an externally reachable `KAFKA_BROKERS` value.
+This separation lets the application retain its order functionality and
+durable outbox when Kafka is absent.
 
 Order events are first written to the Order Service PostgreSQL outbox. Kafka
 publishing must be retryable and idempotent; operators should monitor pending

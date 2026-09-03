@@ -50,6 +50,10 @@ The initial client-safe set is:
 `kafka_analytics` is intentionally server-side and is not returned to clients.
 The BFF uses OpenFeature as the application abstraction, allowing the
 provider implementation to evolve without coupling product code to Flagsmith.
+Kafka infrastructure remains a separate deployment decision: the runtime flag
+can control analytics behavior when a broker is available, but it must not be
+used to install Kafka. Helm keeps the outbox publisher disabled by default, so
+orders continue to work and pending events remain durable when Kafka is off.
 
 ## Local and CI/CD usage
 
