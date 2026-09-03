@@ -93,6 +93,23 @@ Apply `storemesh-product-service/migrations/001_products.sql` and
 the coordinated workflow. A successful local verification created an order
 with a 2,500 minor-unit total, retried it with the same idempotency key, and
 confirmed inventory availability decreased only once.
+
+### Important order-seeding prerequisite
+
+Order creation reserves inventory and persists an idempotency key in the same
+workflow. The Order Service PostgreSQL schema must therefore contain
+`orders.idempotency_key` with a unique index, allowing null values for older
+records. The local bootstrap applies this migration idempotently before Argo
+CD synchronizes the services. If a database predates this field, run the
+bootstrap again or apply the Order Service migration before creating orders;
+otherwise persistence fails with `column "idempotency_key" of relation
+"orders" does not exist`.
+
+Clients should send a stable `Idempotency-Key` header for each create-order
+attempt and reuse that exact value when retrying the same checkout. A new
+checkout must use a new key. Successful retries return the original order and
+do not reserve inventory a second time.
+
 Verify the deployment with:
 
 ```sh

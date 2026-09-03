@@ -382,6 +382,9 @@ Service uses the coordinated path; otherwise it retains the persistent-only
 mode for compatibility and isolated development.
 Create requests may include an `idempotency_key`; PostgreSQL enforces a unique
 key and retries return the original order without reserving inventory again.
+The bootstrap and migration path must include the matching
+`orders.idempotency_key` column and unique partial index; omitting either
+causes persistence failures even though the gRPC contract accepts the field.
 An in-process gRPC integration test exercises the generated Product and
 Inventory clients with the coordination workflow; deployment-level tests can
 reuse the same scenario against the Kind services.
