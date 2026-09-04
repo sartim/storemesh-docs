@@ -60,6 +60,27 @@ For a physical device, use HTTPS and a reachable issuer/API origin such as an
 authenticated ngrok tunnel. Never expose PostgreSQL, Redis, gRPC, or
 observability ports through the tunnel.
 
+### Downstream service activation
+
+The BFF, Product, Order, and Inventory Helm charts all support the same
+`config.keycloakIssuer` and `config.keycloakAudience` settings. The Argo CD
+applications keep the issuer empty by default because Keycloak is an optional
+local dependency and the legacy-compatible smoke path must remain usable.
+When Keycloak is enabled, set the issuer to the exact URL used in the token's
+`iss` claim and use the `storemesh-bff` audience consistently. For an
+in-cluster-only path this is typically:
+
+```text
+http://storemesh-keycloak.<namespace>.svc.cluster.local:8080/realms/storemesh
+```
+
+The ready-to-adapt values file is
+[`examples/service-keycloak-oidc-values.yaml`](https://github.com/sartim/storemesh-argocd-repo/blob/main/examples/service-keycloak-oidc-values.yaml).
+Apply the same values to all four Argo applications only after Keycloak
+health and realm discovery succeed. Public web/mobile clients must obtain
+tokens from an issuer reachable by those clients; an internal service DNS
+name cannot be used as their external issuer.
+
 ## Operations checklist
 
 - Use managed secrets and an external PostgreSQL database outside Kind.
