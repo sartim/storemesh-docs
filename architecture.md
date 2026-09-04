@@ -401,3 +401,7 @@ Order Service now exposes the same optional OIDC boundary at its gRPC edge,
 using the configured issuer JWKS and audience. Its Product client continues to
 use a short-lived service JWT, so downstream service credentials are not
 forwarded from the customer request.
+Inventory Service also supports the optional Keycloak RS256 boundary for
+directly protected inventory operations. Order-to-Inventory traffic remains
+an internal mesh call in the current deployment and should be protected by
+the service-mesh policy or a dedicated workload credential when enabled.
