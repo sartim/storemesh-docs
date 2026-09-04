@@ -125,6 +125,36 @@ kubectl get pods -n storemesh-inventory-service
 kubectl get pods -n storemesh-order-service
 ```
 
+### Using the local Argo CD CLI
+
+The Argo CD CLI can be used against the local Kind installation for application
+inspection and synchronization. In one terminal, select the cluster and
+forward the Argo CD API server:
+
+```sh
+kubectl config use-context kind-storemesh
+kubectl -n argocd get pods
+kubectl -n argocd port-forward svc/argocd-server 8443:443
+```
+
+In a second terminal, retrieve the generated development password and log in:
+
+```sh
+argocd login localhost:8443 \
+  --username admin \
+  --password "$(kubectl -n argocd get secret argocd-initial-admin-secret \
+    -o jsonpath='{.data.password}' | base64 -d)" \
+  --insecure
+argocd app list
+argocd app get storemesh-bff
+argocd app sync storemesh-bff
+```
+
+The local server uses a development certificate, so `--insecure` is expected
+for this port-forward only. Use a trusted HTTPS endpoint and managed OIDC
+credentials in shared environments. Argo CD is not required by the current
+GitHub Actions Helm deployment path.
+
 The domain charts also install one-replica PodDisruptionBudgets and ingress
 NetworkPolicies. Product and Inventory accept gRPC traffic from the Order
 namespace; Order currently accepts workload traffic from its own namespace
