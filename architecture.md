@@ -397,3 +397,7 @@ tokens when `KEYCLOAK_ISSUER` and `KEYCLOAK_AUDIENCE` are configured; it
 discovers and validates signing keys from the issuer JWKS endpoint. This keeps
 browser, mobile, and admin calls on Keycloak while the legacy HS256 service-token
 path remains available only for controlled migration compatibility.
+Order Service now exposes the same optional OIDC boundary at its gRPC edge,
+using the configured issuer JWKS and audience. Its Product client continues to
+use a short-lived service JWT, so downstream service credentials are not
+forwarded from the customer request.
