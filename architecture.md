@@ -392,3 +392,8 @@ Product Service enforces JWT authentication on gRPC calls. Order Service now
 supports short-lived service JWTs through `PRODUCT_JWT_SECRET`, with issuer and
 audience defaults matching Product Service; shared secret delivery remains an
 environment/secret-manager responsibility.
+During the Keycloak migration, Product Service also accepts RS256 OIDC access
+tokens when `KEYCLOAK_ISSUER` and `KEYCLOAK_AUDIENCE` are configured; it
+discovers and validates signing keys from the issuer JWKS endpoint. This keeps
+browser, mobile, and admin calls on Keycloak while the legacy HS256 service-token
+path remains available only for controlled migration compatibility.
