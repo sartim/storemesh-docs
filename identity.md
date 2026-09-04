@@ -86,6 +86,13 @@ The optional Keycloak Argo CD Application is
 It is intentionally excluded from the default bootstrap and requires the
 `storemesh-keycloak-admin` Secret to be created outside Git.
 
+The local realm import also adds a `storemesh-bff` audience mapper to the web,
+Android, and iOS clients' access tokens. This is required because signature
+validity alone does not prove that a token was issued for the BFF. If clients
+or a realm are created manually, reproduce that mapper and verify the decoded
+access token contains `aud: storemesh-bff` before enabling strict downstream
+validation.
+
 ## Operations checklist
 
 - Use managed secrets and an external PostgreSQL database outside Kind.
