@@ -51,7 +51,9 @@ The `Kind platform smoke` workflow now owns the repeatable CPU-heavy validation
 path: it creates a temporary Kind cluster on a GitHub-hosted runner, bootstraps
 data services and Argo CD, validates application rollouts, Istio enrollment,
 Prometheus/Kiali, and ECK logging, collects diagnostics, and deletes the
-cluster. Local Docker remains the interactive development path.
+cluster. Application feature development remains a direct local-process
+workflow; Docker and Kind are reserved for infrastructure and deployment
+validation.
 
 ### P1 — Customer and admin frontend journeys
 
