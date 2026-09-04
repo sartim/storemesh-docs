@@ -20,6 +20,12 @@ publishing must be retryable and idempotent; operators should monitor pending
 outbox age, publish failures, and consumer lag before treating analytics as
 complete.
 
+The disposable platform smoke also exercises the client-facing GraphQL contract
+against the running BFF: catalog composition, account-scoped cart persistence,
+cart clearing, and repeated order creation with one idempotency key. This is a
+network-backed contract check using seeded data; it does not replace hosted
+mobile UI tests or production authorization validation.
+
 ## Local Keycloak OIDC
 
 The `storemesh-keycloak` Helm chart imports the local `storemesh` realm with
