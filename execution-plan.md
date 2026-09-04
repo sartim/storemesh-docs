@@ -149,7 +149,7 @@ integration tests remain release work.
 | P1 | Create native iOS foundation and catalog journey | iOS + BFF | Stable REST contract | Login/catalog MVP implemented |
 | P2 | Add native mobile authentication and secure session storage | Android/iOS + Keycloak/BFF | OIDC issuer and redirect clients | Android and iOS PKCE login, secure token storage, startup restoration, and authenticated catalog access implemented |
 | P2 | Add native mobile product details and order history | Android/iOS + BFF | Product and `ListOrders` contracts | Implemented; GraphQL reads and integration hardening next |
-| P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Cart contract, PostgreSQL persistence, local-memory fallback, BFF routes, web GraphQL checkout, Android cart/checkout, iOS checkout UI, native GraphQL cart/order mutations, and deterministic iOS model-contract tests implemented; emulator-backed integration tests remain next |
+| P1 | Add persistent cross-device cart and checkout | Order Service + BFF + Android/iOS + frontend | CartService contract, authentication, order contract, idempotency | Cart contract, PostgreSQL persistence, local-memory fallback, BFF routes, web GraphQL checkout, Android cart/checkout, iOS checkout UI, native GraphQL cart/order mutations, deterministic iOS model-contract tests, and hosted mobile smoke workflows implemented; network-backed integration tests remain next |
 
 ## Cross-repository completion checklist
 
