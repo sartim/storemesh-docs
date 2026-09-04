@@ -36,7 +36,7 @@ when milestone status or priority changes.
 | Production readiness | In progress | User, Product, Inventory, and Order Services expose the shared `/metrics` contract with Go/process collectors; all four charts provide opt-in Prometheus scraping, while live discovery and production storage/access validation remain environment work |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
 | Feature management | In progress | The Go BFF has an OpenFeature boundary with the official Flagsmith provider, safe defaults, and a client-safe `/api/v1/config` response ([BFF commit 414b258](https://github.com/sartim/storemesh-bff-service/commit/414b258)); the opt-in self-hosted Flagsmith Argo application is published ([Argo commit bba8f5b](https://github.com/sartim/storemesh-argocd-repo/commit/bba8f5b)); and Next.js now consumes the BFF flags with local defaults ([frontend commit 4bdca9f](https://github.com/sartim/storemesh-frontend/commit/4bdca9f)). Helm configuration is opt-in ([Helm commit 2dc5456](https://github.com/sartim/storemesh-helm-repo/commit/2dc5456)); native clients now load the client-safe flags with local fallbacks ([Android commit 483fabd](https://github.com/sartim/storemesh-android/commit/483fabd), [iOS commit a51b4f9](https://github.com/sartim/storemesh-ios/commit/a51b4f9)). Governance and the architecture guidance are documented in [feature management](feature-management.md); environment key activation remains next. GitHub Actions and Helm continue to own infrastructure/deployment flags; Keycloak remains the identity and authorization authority. |
-| Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1); resource-heavy platform smoke validation now runs in disposable GitHub Actions Kind environments |
+| Local platform bootstrap | Complete | Repeatable Kind and Argo CD scripts merged in [storemesh-scripts pull request #1](https://github.com/sartim/storemesh-scripts/pull/1); the disposable GitHub Actions Kind platform smoke is green, including application readiness, Istio gRPC enrollment, demo catalog/inventory/order traffic, and observability validation ([run 33857216027](https://github.com/sartim/storemesh-scripts/actions/runs/33857216027)) |
 | Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
 | GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
 | Additional domain services | Complete | Product, Inventory, and Order Services are deployed and healthy in the local Kind cluster. Inventory uses PostgreSQL-backed replica-safe reservations ([runtime PR #2](https://github.com/sartim/storemesh-inventory-service/pull/2)); Order consumes Product and Inventory gRPC contracts, authenticates to Product with service JWTs, coordinates price snapshots and reservations, and supports PostgreSQL-backed idempotent retries. The deployed workflow was verified end to end, including a successful order, a same-key retry, and persistent stock reduction. |
@@ -54,23 +54,20 @@ roadmap is updated with evidence.
 
 ## Next prioritized work
 
-1. Run the disposable GitHub Actions Kind platform smoke workflow and tune the
-   local Kind profile based on its diagnostics; complete a clean application,
-   Istio, Prometheus, Kiali, Kibana, and Grafana validation run.
-2. Complete Keycloak token acceptance in downstream protected service paths,
+1. Complete Keycloak token acceptance in downstream protected service paths,
    configure platform-tool OIDC role mappings, and remove direct User Service
    password login after migration evidence.
-3. Adopt the BFF GraphQL contract in Android and iOS, finish iOS checkout UI,
+2. Adopt the BFF GraphQL contract in Android and iOS, finish iOS checkout UI,
    and add client integration tests for cart persistence and order creation.
-4. Add cross-repository API/UI integration tests and harden admin/order
+3. Add cross-repository API/UI integration tests and harden admin/order
    authorization, including GraphQL resolver authorization tests.
-5. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
+4. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
    health across all domain services.
-6. Add outbox leasing/claiming, publish Cart and Inventory events, and build
+5. Add outbox leasing/claiming, publish Cart and Inventory events, and build
    the first Kafka analytics projection.
-7. Complete restore rehearsal, HTTPS/cert-manager activation, and Fluent Bit
+6. Complete restore rehearsal, HTTPS/cert-manager activation, and Fluent Bit
    redaction/TLS validation in a controlled environment.
-8. Add GraphQL cancellation/admin mutations only after authorization,
+7. Add GraphQL cancellation/admin mutations only after authorization,
    idempotency, and audit requirements are defined; keep mobile releases
    SemVer-tagged through Actions.
    platform repositories' manually triggered GitHub Actions workflows.
