@@ -81,6 +81,11 @@ health and realm discovery succeed. Public web/mobile clients must obtain
 tokens from an issuer reachable by those clients; an internal service DNS
 name cannot be used as their external issuer.
 
+The optional Keycloak Argo CD Application is
+[`storemesh-keycloak-application.yaml`](https://github.com/sartim/storemesh-argocd-repo/blob/main/storemesh-keycloak-application.yaml).
+It is intentionally excluded from the default bootstrap and requires the
+`storemesh-keycloak-admin` Secret to be created outside Git.
+
 ## Operations checklist
 
 - Use managed secrets and an external PostgreSQL database outside Kind.
