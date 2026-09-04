@@ -134,7 +134,8 @@ such as an order summary may eventually need Product, Inventory, Order, and
 User data combined into one client-oriented response.
 
 The implemented Go BFF is the client-facing edge for the current web
-application. Its current external protocol is REST, with GraphQL as the next
+application. Its current external protocols are REST for resource and
+operational routes and GraphQL for composed client views. GraphQL is the
 composition surface; both use the domain services' gRPC contracts internally:
 
 ```text

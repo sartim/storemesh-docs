@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><header className="site-header"><Link className="brand" href="/">StoreMesh <span>Docs</span></Link><SearchBox /><div className="header-links"><Link href="/architecture/">Architecture map</Link><Link href="/api-explorer/">API explorer</Link><a href="https://github.com/sartim/storemesh-docs">GitHub</a></div></header>{children}</body></html>;
+  return <html lang="en"><body><header className="site-header"><Link className="brand" href="/">StoreMesh <span>Docs</span></Link><SearchBox /><nav className="header-links" aria-label="Primary navigation"><Link href="/docs/roadmap/">Roadmap</Link><Link href="/architecture/">Architecture map</Link><Link href="/api-explorer/">API explorer</Link><a href="https://github.com/sartim/storemesh-docs">GitHub</a></nav></header>{children}<footer className="site-footer"><span>StoreMesh documentation</span><span>Canonical source: Markdown in <a href="https://github.com/sartim/storemesh-docs">GitHub</a></span></footer></body></html>;
 }

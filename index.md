@@ -6,8 +6,10 @@ title: StoreMesh
 # StoreMesh
 
 StoreMesh is an open-source, cloud-native commerce platform built as a set of
-independently deployable services. This guide records the architecture, the
-delivery model, and the roadmap for contributors and operators.
+independently deployable services. This guide is the shared reference for
+contributors, application developers, and platform operators: it explains the
+system boundaries, the client-facing API, local development workflow, and the
+remaining delivery priorities.
 
 ## Start here
 
@@ -26,14 +28,17 @@ delivery model, and the roadmap for contributors and operators.
 
 ## Current platform baseline
 
-The user service provides identity, authentication, sessions, role management,
-explicit HTTP handlers, and an internal gRPC API. It includes production
-readiness endpoints, Prometheus metrics, OpenTelemetry tracing, security
-scanning, Helm packaging, and Argo CD configuration.
+Keycloak is the target identity authority for web and native clients through
+OIDC and Authorization Code + PKCE. User Service remains the customer-profile
+and legacy compatibility boundary while the migration is completed. The
+domain services expose internal gRPC contracts, health endpoints, metrics,
+tracing, security scanning, Helm packaging, and Argo CD definitions.
 
-The platform includes a Go BFF for the web edge. Browser clients use its
-REST/JSON API, while the BFF consumes the canonical internal gRPC APIs exposed
-by the domain services. The Next.js frontend is deployed behind the BFF and
-Istio ingress in local Kind. Argo CD manifests remain available for a future
-reachable GitOps environment, while current CI deployment uses explicit manual
-Helm Actions.
+The platform includes a Go BFF for the client edge. REST/JSON remains the
+resource and operational surface; GraphQL composes catalog, cart, and order
+views for browser and native clients. The BFF consumes canonical internal
+gRPC APIs exposed by the domain services. The Next.js frontend is deployed
+behind the BFF, with Istio available for mesh-aware local and on-premises
+deployments. Current deployment validation uses explicit manual Helm Actions
+and disposable GitHub Actions Kind smoke tests; Argo CD definitions remain
+available for a reachable GitOps environment.
