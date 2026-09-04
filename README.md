@@ -47,8 +47,8 @@ backlog, cross-repository dependencies, acceptance criteria, and decisions.
 
 1. [Architecture](architecture.md) for boundaries, transports, identity, and
    platform trade-offs.
-2. [Development guide](development.md) for contribution rules and code
-   organization.
+2. [Repository map](repositories.md) for service ownership and repository
+   boundaries.
 3. [Operations](operations.md) for Kind, Helm, Argo CD, secrets, and runtime
    verification.
 4. [Identity and OIDC](identity.md) for Keycloak, PKCE, redirect URIs, and

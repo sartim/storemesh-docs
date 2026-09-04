@@ -19,7 +19,6 @@ remaining delivery priorities.
 - [Identity and OIDC](identity.md)
 - [Feature management](feature-management.md)
 - [Repository map](repositories.md)
-- [Development guide](development.md)
 - [Operations and deployment](operations.md)
 - [Observability](observability.md)
 - [Backup and recovery](backup-recovery.md)
