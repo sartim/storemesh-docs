@@ -214,7 +214,7 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-02 | Added authenticated persistent-cart API methods to Android and iOS, aligned with the BFF cart contract; native cart UI and checkout integration remain next. |
 | 2026-09-02 | Added the native iOS cart sheet with account-backed loading, quantity controls, and clear-cart support; native checkout submission and Android cart UI remain next. |
 | 2026-09-02 | Completed the Android native cart-list UI and checkout with account-sync messaging, quantity controls, line totals, subtotal summary, customer-scoped order creation, and post-success cart clearing. |
-| 2026-09-02 | Added an Istio enrollment validation script that checks domain namespace labels, injected `istio-proxy` sidecars, and readiness before strict gRPC mTLS promotion; the disposable local cluster is currently unavailable for runtime validation. |
+| 2026-09-09 | Promoted the applied Istio policy to STRICT workload mTLS for User, Product, Inventory, Order, BFF, and frontend namespaces; added namespace-scoped authorization policies, sidecar/security validation, and Argo CD manifest CI. A fresh Kind runtime proof and production service-account authorization remain pending. |
 | 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |
 | 2026-09-01 | Added the Order Service `event_outbox` migration and transactional `OrderCreated` write; publisher worker and consumer projections remain next. |
 | 2026-09-01 | Added the initial single-instance outbox publisher worker; production worker leasing, Kafka delivery hardening, and analytics consumers remain next. |
