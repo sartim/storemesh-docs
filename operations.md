@@ -61,6 +61,18 @@ Docker resource usage while retaining a dedicated scheduling target for
 workloads. Existing clusters are not resized or deleted by the scripts; apply
 the profile only when intentionally creating a fresh development cluster.
 
+### Kubernetes resource policy
+
+StoreMesh charts use CPU requests without CPU limits so workloads can absorb
+short CPU bursts without throttling. Memory remains bounded with explicit
+requests and limits: core Go services use 100m CPU and 128–256Mi memory
+requests, BFF/frontend use 100m and 256Mi requests with 512Mi limits, and
+Keycloak uses 250m and 512Mi with a 1Gi limit. Elasticsearch remains at 250m
+and 2Gi with a 2Gi memory limit because its local single-node runtime requires
+that baseline. These are development and test values, not production sizing;
+production environments should tune them from observed usage and workload
+SLOs.
+
 Before submitting the user-service application, create the Kubernetes Secret
 `storemesh-user-service-secrets` in the `storemesh-user-service` namespace.
 Use External Secrets or a secret manager for shared environments; never commit
