@@ -212,6 +212,14 @@ The strict policy template is maintained in the Argo CD repository at
 `examples/istio-strict-grpc-policy.yaml`; apply it through an environment
 overlay, one namespace at a time, after gRPC smoke tests pass.
 
+For production edge hardening, use the non-applied
+`examples/istio-production-edge.yaml` template. It routes HTTPS traffic to
+the frontend and BFF, validates Keycloak JWTs on protected BFF API and
+GraphQL paths, and applies conservative connection-pool and outlier settings.
+Replace the example hostname, TLS Secret, issuer, and JWKS URL before applying
+it through a production overlay. Do not enable retries for mutating order
+requests without an explicit idempotency policy.
+
 The User, Product, Inventory, and Order charts also provide opt-in
 `ServiceMonitor` resources. Enable `serviceMonitor.enabled` in an
 environment-specific values file after installing the Prometheus Operator.
