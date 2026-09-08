@@ -176,24 +176,25 @@ through this Ingress.
 
 ### Istio and internal gRPC
 
-When the opt-in Istio applications are synchronized, Argo CD labels the User,
+When the Istio applications are synchronized, Argo CD labels the User,
 Product, Inventory, Order, BFF, and frontend namespaces with
 `istio-injection=enabled`. New pods must be restarted after enrollment for
-sidecars to appear. The mesh policy initially uses `PeerAuthentication` mode
-`PERMISSIVE`, allowing existing direct gRPC and sidecar mTLS traffic during
-migration. Verify `2/2` pods, gRPC health, and Kiali topology before changing
-each namespace to `STRICT`; do not enable strict mTLS globally as a first step.
+sidecars to appear. The applied mesh policy uses `PeerAuthentication` mode
+`STRICT` and namespace-scoped `AuthorizationPolicy` rules for the approved
+request graph. Verify `2/2` pods, gRPC health, and Kiali topology with
+`storemesh-scripts/scripts/validate-istio-grpc.sh` before changing application
+traffic or adding a new caller.
 
 The service charts provide opt-in `PrometheusRule` resources for deployment
 availability; the User Service also includes a repeated-restart alert. Enable
 these rules only after installing a Prometheus Operator-compatible monitoring
 stack and supply any required release labels through environment values.
 
-Before promoting Istio mTLS from `PERMISSIVE` to `STRICT`, run the read-only
-`storemesh-scripts/scripts/validate-istio-grpc.sh` check. It verifies the
-enrolled namespaces, `istio-proxy` sidecars, and container readiness without
-changing cluster state. Confirm gRPC calls and telemetry after the check, then
-promote namespaces individually.
+The validation script verifies the enrolled namespaces, `istio-proxy` sidecars,
+container readiness, `STRICT` mTLS, and the authorization-policy objects
+without changing cluster state. Confirm gRPC calls and telemetry after the
+check. For an intentional migration rollback, use a separate environment
+overlay with `PERMISSIVE`; do not weaken the shared production policy.
 
 The strict policy template is maintained in the Argo CD repository at
 `examples/istio-strict-grpc-policy.yaml`; apply it through an environment

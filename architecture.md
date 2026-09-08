@@ -44,16 +44,15 @@ stack. Elasticsearch and Kibana, managed by the Elastic Cloud on Kubernetes
 (ECK) operator, are the selected centralized logging path, with Fluent Bit (or
 an equivalent node collector) forwarding logs and applying retention and
 redaction policy. Istio is an optional service-mesh layer for
-traffic policy, mTLS, access telemetry, and uniform tracing. It can manage the
+traffic policy, mTLS, access telemetry, and uniform tracing. It manages the
 current internal gRPC boundaries because gRPC uses HTTP/2, including service
 discovery, mTLS, traffic shifting, timeout/retry policy, and mesh telemetry.
-It is not required for those boundaries: services can communicate directly over
-ClusterIP gRPC with their existing contracts and NetworkPolicies. In this
-project, the local deployment path does support Istio for those gRPC calls:
-the Argo CD applications enroll the service namespaces, inject sidecars, and
-apply `PERMISSIVE` mTLS during migration. Therefore “optional” describes
-whether an environment must install Istio, not whether Istio can be used when
-it is installed. OpenTelemetry Collector is preferred
+Services can still communicate directly over ClusterIP gRPC when Istio is not
+installed. In this project, the Kind deployment path installs Istio, enrolls
+the application namespaces, injects sidecars, applies `STRICT` mTLS, and
+enforces namespace-scoped `AuthorizationPolicy` rules. Therefore “optional”
+describes whether an environment must install Istio, not the security mode of
+an environment that has enabled the mesh. OpenTelemetry Collector is preferred
 as the stable ingestion boundary so the trace backend can be changed without
 modifying services.
 
