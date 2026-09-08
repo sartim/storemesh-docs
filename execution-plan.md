@@ -22,7 +22,7 @@ milestones.
 - A feature is not complete until its implementation, tests, deployment path,
   and documentation are all represented.
 
-**Last updated:** 2026-09-02
+**Last updated:** 2026-09-08
 
 ## Current focus
 
@@ -112,7 +112,7 @@ manual trigger and immutable image tag.
 
 ### P1 — Establish native mobile clients
 
-**Status:** Native MVP implemented; Android and iOS checkout foundations plus GraphQL catalog/cart/order integration are in place; mobile integration tests next
+**Status:** Native MVP implemented; Android and iOS checkout foundations plus GraphQL catalog/cart/order integration are in place; network-backed mobile integration tests next
 **Repositories:** `storemesh-android`, `storemesh-ios`, `storemesh-bff`,
 `storemesh-docs`
 
@@ -128,8 +128,8 @@ typed BFF client boundary, supports local emulator/device configuration, and
 implements login, catalog, checkout, and order history with platform-native
 tests and accessibility behavior. Both clients now meet splash, login,
 refresh-session, local/ngrok API routing, drawer/menu, catalog, search,
-filtering, product details, and order-history slices. Checkout and mobile
-integration tests remain release work.
+filtering, product details, order history, and checkout slices. Network-backed
+mobile integration tests remain release work.
 
 ## Ordered backlog
 
