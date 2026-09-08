@@ -71,6 +71,12 @@ surface:
 - use Recharts only for dashboard metrics after the operational data contract
   is settled.
 
+For fast native development, Product Service seeds 32 active demo products
+when `DATABASE_URL` is not set. The frontend derives deterministic image URLs
+from each SKU; this keeps local visual validation lightweight while leaving
+persistent and production environments free of demo data. See the Product
+Service and frontend READMEs for the exact startup behavior.
+
 **Acceptance criteria:** met in the frontend implementation; production-like
 integration coverage and final backend authorization hardening remain follow-up
 work. All journeys use the BFF and no browser code calls internal gRPC
