@@ -1,5 +1,6 @@
 export const documents = [
   { slug: "architecture", title: "Architecture", description: "Boundaries, transports, identity, and platform trade-offs." },
+  { slug: "api-contracts", title: "Client API contracts", description: "Versioned BFF GraphQL shapes and client fixture guidance." },
   { slug: "identity", title: "Identity and OIDC", description: "Keycloak, PKCE, redirect URIs, and platform-tool SSO." },
   { slug: "feature-management", title: "Feature management", description: "Deployment flags, runtime product flags, rollout, and governance." },
   { slug: "repositories", title: "Repository map", description: "The services, clients, platform, and documentation repositories." },
