@@ -40,7 +40,7 @@ when milestone status or priority changes.
 | Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
 | GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
 | Additional domain services | Complete | Product, Inventory, and Order Services are deployed and healthy in the local Kind cluster. Inventory uses PostgreSQL-backed replica-safe reservations ([runtime PR #2](https://github.com/sartim/storemesh-inventory-service/pull/2)); Order consumes Product and Inventory gRPC contracts, authenticates to Product with service JWTs, coordinates price snapshots and reservations, and supports PostgreSQL-backed idempotent retries. The deployed workflow was verified end to end, including a successful order, a same-key retry, and persistent stock reduction. |
-| Edge composition / BFF | In progress | Go BFF exposes REST/JSON for resource and operational routes plus authenticated GraphQL queries and mutations for products, cart, orders, cart replacement, and idempotent order creation, backed by canonical internal gRPC APIs. Production promotion remains pending environment setup; resolver hardening and client adoption remain next. |
+| Edge composition / BFF | In progress | Go BFF exposes REST/JSON for resource and operational routes plus authenticated GraphQL queries and mutations for products, cart, orders, cart replacement, and idempotent order creation, backed by canonical internal gRPC APIs. Canonical v1 fixtures are aligned across BFF, Android, iOS, and Next.js; route authentication, protected resolver, and idempotency-key schema tests now provide regression coverage. Production promotion remains pending environment setup; network-backed client integration remains next. |
 | Web frontend | In progress | Next.js, React, and TypeScript frontend provides Keycloak login, GraphQL-backed catalog/cart/order/checkout flows, a role-aware admin area, and REST-backed cancellation/admin operations. Native local Product Service mode provides 32 demo products with deterministic SKU-based visuals for storefront testing. Payment, fulfillment, GraphQL cancellation, and admin mutations remain future scope. |
 | Native mobile clients | In progress | Android and iOS have native splash/login, Keycloak PKCE, secure Keychain/Keystore sessions, configurable localhost/ngrok routing, catalog search/filtering, product details, order history, and native cart/checkout foundations. Catalog and cart reads use the authenticated BFF GraphQL contract; Android now has deterministic Compose checks for login and saved-cart presentation, and iOS has unit plus hosted launch coverage. Network-backed mobile integration tests remain next. |
 | Documentation platform evolution | In progress | Next.js + TypeScript site consumes canonical Markdown and provides responsive navigation, client-side search, an interactive architecture map, versioned routes, and a BFF API explorer; publishing cutover and richer API execution remain next |
@@ -58,9 +58,12 @@ roadmap is updated with evidence.
    configure platform-tool OIDC role mappings, and remove direct User Service
    password login after migration evidence.
 2. Maintain the BFF GraphQL contract in Android and iOS, and add client
-   integration tests for cart persistence and order creation. The Android
-   Compose smoke checks are now part of the hosted emulator job; keep local
-   application development independent of Docker and Kind.
+   integration tests for cart persistence and order creation. Canonical v1
+   fixtures are now aligned across BFF, Android, iOS, and Next.js; BFF route
+   authentication, protected resolver, and idempotency-key validation have
+   regression tests. The Android Compose smoke checks are now part of the
+   hosted emulator job; keep local application development independent of
+   Docker and Kind.
 3. Add cross-repository API/UI integration tests and harden admin/order
    authorization, including GraphQL resolver authorization tests.
 4. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
