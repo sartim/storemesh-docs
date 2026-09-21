@@ -292,3 +292,17 @@ reconciles the selected chart revision into the target cluster.
 The user-service release workflow explicitly dispatches container publication
 after creating a semantic version, because GitHub-token-created tags do not
 start a second workflow automatically.
+
+## Network-backed local commerce validation
+
+For application development, the scripts repository provides an opt-in flow
+that runs against independently started services without Docker or Kubernetes:
+
+```sh
+ACCESS_TOKEN='...' RUN_COMMERCE_FLOW=1 ./scripts/validate-local-app.sh
+```
+
+It reads the catalog, updates the authenticated customer cart, creates an
+order with a unique idempotency key, and clears the cart. Set `BFF_URL` to an
+HTTPS ngrok origin when validating a physical mobile device. The flow uses
+development data only and is not a production load test.
