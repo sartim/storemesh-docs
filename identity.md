@@ -134,7 +134,19 @@ secret configuration, role-mapping verification, then removal or restriction
 of local fallback accounts. Record the result in the environment's deployment
 evidence before calling platform SSO complete.
 
-Non-applied Grafana and Argo CD configuration examples are maintained in the
+The platform role contract is:
+
+- `admin`: Argo CD administrator.
+- `observability-admin`: Grafana administrator and observability administrator.
+- `operator`: read-only platform access unless a tool-specific policy grants more.
+- Any authenticated role not explicitly elevated: read-only access.
+
+The local Keycloak realm maps realm roles to a `groups` claim for Grafana, Kiali,
+Kibana, and Argo CD. This keeps role mapping consistent across tools that support
+groups claims while retaining least privilege by default. Non-applied activation
+examples live in `storemesh-argocd-repo/examples/` for each platform tool.
+
+Non-applied Grafana, Kiali, Kibana, and Argo CD configuration examples are maintained in the
 [`storemesh-argocd-repo`](https://github.com/sartim/storemesh-argocd-repo/tree/main/examples)
 repository. They are templates only and require environment-specific issuer,
 HTTPS callback, secret, and role values before use.
