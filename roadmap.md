@@ -31,7 +31,7 @@ when milestone status or priority changes.
 | --- | --- | --- |
 | Platform foundation | Complete | User service, Helm chart, Argo CD, Kind, scripts, and documentation repositories created |
 | Identity and authorization | In progress | Keycloak/OIDC is the target authority; the local realm, BFF JWKS validation, web PKCE foundation, Android/iOS native PKCE flows, and platform-tool role contract/examples are implemented. BFF admin routes now require a verified `admin` role from top-level, realm, or resource access claims, and Product Service can run in Keycloak-only mode with strict OIDC precedence. The legacy User Service HS256 JWT path and separate Order-to-Product service JWT remain transitional; callback validation, confidential secrets, tool-specific RBAC, and password-login retirement remain next |
-| Eventing and analytics platform | In progress | Order Service writes transactional `OrderCreated` records to a PostgreSQL outbox. Kafka remains an opt-in integration: the publisher is packaged but disabled by default, no Kafka/CFK is installed by local Argo bootstrap, and an external broker is required before enabling delivery; leasing, Cart/Inventory events, and downstream analytics consumers remain next |
+| Eventing and analytics platform | In progress | Order Service writes transactional `OrderCreated` records to a PostgreSQL outbox, and the optional publisher now claims rows with expiring PostgreSQL leases for safe concurrent workers. Kafka remains an opt-in integration: no Kafka/CFK is installed by local Argo bootstrap, and an external broker is required before enabling delivery; Cart/Inventory events and downstream analytics consumers remain next |
 | API contracts and transports | Complete | gRPC contracts, explicit HTTP handlers, OpenAPI generation, and transport authorization |
 | Production readiness | In progress | User, Product, Inventory, and Order Services expose the shared `/metrics` contract with Go/process collectors; all four charts provide opt-in Prometheus scraping, while live discovery and production storage/access validation remain environment work |
 | Delivery automation | Complete | CI, linting, security scans, CodeQL, container validation, semantic release configuration, and Helm validation |
@@ -68,8 +68,8 @@ roadmap is updated with evidence.
    authorization, including GraphQL resolver authorization tests.
 4. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
    health across all domain services.
-5. Add outbox leasing/claiming, publish Cart and Inventory events, and build
-   the first Kafka analytics projection.
+5. Publish Cart and Inventory events, add consumer idempotency, and build the
+   first Kafka analytics projection.
 6. Complete restore rehearsal, HTTPS/cert-manager activation, and Fluent Bit
    redaction/TLS validation in a controlled environment.
 7. Add GraphQL cancellation/admin mutations only after authorization,
