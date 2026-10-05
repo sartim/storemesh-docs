@@ -15,10 +15,13 @@ default; enabling it requires an externally reachable `KAFKA_BROKERS` value.
 This separation lets the application retain its order functionality and
 durable outbox when Kafka is absent.
 
-Order events are first written to the Order Service PostgreSQL outbox. Kafka
-publishing must be retryable and idempotent; operators should monitor pending
-outbox age, publish failures, and consumer lag before treating analytics as
-complete.
+Order and cart events are first written to the Order Service PostgreSQL
+outbox. Inventory adjustments and reservation lifecycle events are written to
+the Inventory Service outbox. The optional publishers use expiring PostgreSQL
+leases and publish to `storemesh.order.events`, `storemesh.cart.events`, and
+`storemesh.inventory.events`. Kafka publishing must be retryable and
+idempotent; operators should monitor pending outbox age, publish failures, and
+consumer lag before treating analytics as complete.
 
 The disposable platform smoke also exercises the client-facing GraphQL contract
 against the running BFF: catalog composition, account-scoped cart persistence,
