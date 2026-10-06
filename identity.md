@@ -45,6 +45,12 @@ HTTP requests and reload JWKS when a token presents an unknown key ID, with a
 short refresh throttle to limit repeated fetches. This supports Keycloak
 signing-key rotation while keeping unknown or invalid tokens rejected.
 
+The Product Service also enforces catalog write authorization at its gRPC
+boundary: Keycloak OIDC tokens need the `admin` realm role for
+`CreateProduct`, `UpdateProduct`, and `ArchiveProduct`. Authenticated customer
+tokens can continue to read the catalog. The legacy HS256 compatibility path
+is transitional and does not replace OIDC role-based authorization.
+
 PKCE protects public clients because no client secret is shipped in browser or
 mobile binaries. Redirect URIs must be exact and separately registered for
 each client.
