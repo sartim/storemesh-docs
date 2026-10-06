@@ -39,6 +39,12 @@ Authorization Code + PKCE:
 6. The BFF validates the Keycloak JWT signature using Keycloak JWKS, plus issuer,
    audience, expiry, and role claims, before making internal gRPC calls.
 
+The BFF and Product, Order, and Inventory Services verify that the OIDC
+discovery document reports the configured issuer. Their validators use bounded
+HTTP requests and reload JWKS when a token presents an unknown key ID, with a
+short refresh throttle to limit repeated fetches. This supports Keycloak
+signing-key rotation while keeping unknown or invalid tokens rejected.
+
 PKCE protects public clients because no client secret is shipped in browser or
 mobile binaries. Redirect URIs must be exact and separately registered for
 each client.
@@ -100,7 +106,8 @@ validation.
 - Configure Grafana, Kiali, Kibana, and Argo CD as separate confidential OIDC
   clients with protected secrets.
 - Map only required Keycloak roles to platform tools and BFF authorization.
-- Rotate signing keys and verify BFF JWKS refresh behavior during key rotation.
+- Rotate signing keys and verify BFF and downstream service JWKS refresh
+  behavior during key rotation; automated tests cover unknown-key refresh.
 - Retire direct User Service password login only after all clients use PKCE,
   downstream services accept the Keycloak token contract, and
   migration/rollback evidence is recorded.
