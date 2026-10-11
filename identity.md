@@ -51,6 +51,15 @@ boundary: Keycloak OIDC tokens need the `admin` realm role for
 tokens can continue to read the catalog. The legacy HS256 compatibility path
 is transitional and does not replace OIDC role-based authorization.
 
+The Order Service propagates the verified OIDC `sub` and realm `admin` role
+from its gRPC interceptor into service-layer authorization. Customer order
+creation, retrieval, cancellation, and list queries are scoped to the subject;
+an omitted customer filter is automatically scoped to the caller. Only an
+`admin` can query across customers or access another customer's order. The
+service intentionally returns `NotFound` for cross-customer order retrieval
+and cancellation. Cart operations remain restricted to the owning subject,
+including for administrators.
+
 PKCE protects public clients because no client secret is shipped in browser or
 mobile binaries. Redirect URIs must be exact and separately registered for
 each client.
