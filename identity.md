@@ -138,23 +138,28 @@ identity, with authorization claims enforced at the receiving service.
 ## Platform-tool SSO status
 
 The local Keycloak realm import reserves clients for Grafana, Kiali, Kibana, and
-Argo CD, but client registration alone does not enable SSO. Each tool still
-requires an environment-specific OIDC configuration, callback URL, role
-mapping, and confidential client secret. The current local defaults are:
+Argo CD, but client registration alone does not enable SSO. Each tool requires
+its own confidential client, exact callback, role mapping, and protected
+secret. Grafana and Argo CD have non-applied role-aware examples; callback
+URIs in the local realm are configurable via Helm values. The local defaults
+are:
 
 | Tool | Current local access | OIDC rollout requirement |
 | --- | --- | --- |
-| Grafana | Local admin login | Configure `auth.generic_oauth`, issuer, scopes, role mapping, and a Secret-backed client secret |
-| Kiali | Anonymous local access | Change the Kiali auth strategy to OpenID and map approved roles |
-| Kibana | ECK-generated `elastic` user | Configure the Elastic OIDC provider and callback settings with protected credentials |
-| Argo CD | Local admin credential | Configure Argo CD Dex/OIDC, group claims, and admin role mapping |
+| Grafana | Local admin login | Example allows only `observability-admin` and `operator`; maps them to Grafana organization Admin and Viewer, respectively, and requires strict role resolution. Callback: `http://localhost:3001/login/generic_oauth`. |
+| Argo CD | Local admin credential | Example defaults to read-only and maps only the Keycloak `admin` group to Argo CD admin. Callback: `https://localhost:8443/auth/callback`. |
+| Kiali | Anonymous local access | OIDC sign-in does not itself enforce per-user permissions. Per-user access requires Kubernetes API OIDC trust or a supported OIDC-aware API proxy, plus Kubernetes RBAC. The current Kind API is not configured for this, so do not activate Kiali SSO yet. Callback must be the exact Kiali root URL (local port-forward uses HTTPS). |
+| Kibana | ECK-generated `elastic` user | OIDC SSO is not included in the free Basic license; the example is gated on an Elastic license that includes SSO. When licensed, map the `groups` claim to explicit Elastic roles. Callback: `https://localhost:5601/api/security/oidc/callback`. |
 
 This staged approach keeps the disposable Kind cluster usable while avoiding
 committing secrets or accidentally changing access policy in a shared cluster.
-The activation order is Keycloak health and issuer discovery, tool callback and
-secret configuration, role-mapping verification, then removal or restriction
-of local fallback accounts. Record the result in the environment's deployment
-evidence before calling platform SSO complete.
+Port-forward `localhost` is browser-only and cannot be used as the issuer from
+inside a pod. Use one issuer hostname reachable from both the browser and each
+OIDC client pod, then configure that exact issuer consistently in Keycloak,
+the application, and the browser. The activation order is Keycloak health and
+issuer discovery, exact callback and secret configuration, role-mapping
+verification, then removal or restriction of local fallback accounts. Record
+runtime login and denial evidence before calling platform SSO complete.
 
 The platform role contract is:
 
@@ -164,9 +169,11 @@ The platform role contract is:
 - Any authenticated role not explicitly elevated: read-only access.
 
 The local Keycloak realm maps realm roles to a `groups` claim for Grafana, Kiali,
-Kibana, and Argo CD. This keeps role mapping consistent across tools that support
-groups claims while retaining least privilege by default. Non-applied activation
-examples live in `storemesh-argocd-repo/examples/` for each platform tool.
+Kibana, and Argo CD. This supplies a consistent role input but does not
+automatically grant access: each tool enforces its own policy, and Kiali
+requires Kubernetes-side OIDC/RBAC. Non-applied activation examples live in
+`storemesh-argocd-repo/examples/`; see its README for license and authorization
+gates.
 
 Non-applied Grafana, Kiali, Kibana, and Argo CD configuration examples are maintained in the
 [`storemesh-argocd-repo`](https://github.com/sartim/storemesh-argocd-repo/tree/main/examples)

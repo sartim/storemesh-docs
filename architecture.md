@@ -321,6 +321,19 @@ scheme redirects. Shared or physical-device testing must use HTTPS, managed
 secrets, explicitly registered redirect URIs, and a reachable issuer; tunnel
 URLs and credentials must remain outside Git.
 
+Platform tools use separate OIDC clients and role mappings rather than sharing
+one broad administrator account. Argo CD defaults to read-only and elevates
+only the Keycloak `admin` group. Grafana permits the dedicated
+`observability-admin` and `operator` groups, mapping them to Admin and Viewer.
+Kiali OIDC sign-in cannot provide per-user Kubernetes authorization unless the
+Kubernetes API trusts those identities and RBAC binds least-privilege roles;
+the current Kind API does not, so Kiali SSO is not enabled. Kibana's OIDC SSO
+requires an Elastic subscription that includes the feature; the free Basic
+ECK deployment keeps its native generated credentials. In all server-side
+integrations, the OIDC issuer must be reachable from both the user's browser
+and the workload pod; a developer machine's `localhost` port-forward is not a
+valid pod-side issuer.
+
 ## Product service
 
 The Product Service is the first commerce-domain boundary after identity. It

@@ -29,7 +29,7 @@ when milestone status or priority changes.
 
 | Milestone | Status | Outcome |
 | --- | --- | --- |
-| Identity authorization hardening | In progress | Product Service enforces the Keycloak `admin` role for catalog create, update, and archive calls. Order Service enforces token-subject ownership for order and cart operations, automatically scopes customer order lists, and reserves cross-customer order access for realm `admin`. Remaining work includes platform-tool role activation and retiring transitional HS256 paths. |
+| Identity authorization hardening | In progress | Product Service enforces the Keycloak `admin` role for catalog mutations. Order Service enforces token-subject ownership for orders and carts, scopes customer lists, and reserves cross-customer order access for realm `admin`. Argo CD/Grafana role and callback examples are validated; Kiali activation is gated on Kubernetes API OIDC/RBAC, Kibana OIDC is gated on an Elastic SSO license, and live issuer/secrets/client configuration plus legacy HS256 retirement remain. |
 | Platform foundation | Complete | User service, Helm chart, Argo CD, Kind, scripts, and documentation repositories created |
 | Identity and authorization | In progress | Keycloak/OIDC is the target authority; the local realm, BFF JWKS validation, web PKCE foundation, Android/iOS native PKCE flows, platform-tool role contract/examples, and downstream JWKS rotation handling are implemented. BFF admin routes require a verified `admin` role; Product Service supports strict OIDC precedence, and BFF/Product/Order/Inventory verify discovery issuer and refresh unknown signing key IDs. The legacy User Service HS256 JWT path and separate Order-to-Product service JWT remain transitional; callback validation, confidential secrets, tool-specific RBAC, and password-login retirement remain next |
 | Eventing and analytics platform | In progress | Order Service writes transactional `OrderCreated`, `CartUpdated`, and `CartCleared` records to a PostgreSQL outbox, while Inventory writes transactional stock/reservation events to its own outbox; both optional publishers use expiring PostgreSQL leases and separate Kafka topics. Kafka remains an opt-in integration: no Kafka/CFK is installed by local Argo bootstrap, and an external broker is required before enabling delivery; consumer idempotency and downstream analytics projections remain next |
@@ -55,9 +55,11 @@ roadmap is updated with evidence.
 
 ## Next prioritized work
 
-1. Complete Keycloak token acceptance in downstream protected service paths,
-   configure platform-tool OIDC role mappings, and remove direct User Service
-   password login after migration evidence.
+1. Activate Argo CD and Grafana OIDC in an environment with a browser-and-pod-
+   reachable issuer, exact callback URLs, and out-of-band client Secrets.
+   Configure Kubernetes API OIDC/RBAC before enabling Kiali SSO; use Kibana
+   OIDC only where the Elastic license includes SSO. Then remove direct User
+   Service password login after migration evidence.
 2. Maintain the BFF GraphQL contract in Android and iOS, and add client
    integration tests for cart persistence and order creation. Canonical v1
    fixtures are now aligned across BFF, Android, iOS, and Next.js; BFF route
