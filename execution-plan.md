@@ -22,24 +22,34 @@ milestones.
 - A feature is not complete until its implementation, tests, deployment path,
   and documentation are all represented.
 
-**Last updated:** 2026-09-08
+**Last updated:** 2026-10-14
 
 ## Current focus
 
-### P2 — Next.js documentation platform MVP
+### P1 — Activate platform-tool OIDC in a reachable environment
 
-**Status:** Implemented locally; publishing cutover next
-**Repository:** `storemesh-docs`
+**Status:** Configuration examples and CI contracts are validated; runtime
+activation is waiting on environment values
+**Repositories:** `storemesh-helm-repo`, `storemesh-argocd-repo`,
+`storemesh-docs`
 
-The documentation repository now has a static-exportable Next.js site over the
-existing Markdown source. The MVP includes responsive navigation, search,
-versioned routes, an interactive architecture map, and a BFF API contract
-explorer. Keep Markdown canonical until the site is connected to the chosen
-publishing workflow.
+Argo CD and Grafana have non-applied role-mapping examples with exact,
+configurable callbacks. The Keycloak chart validates the four platform-client
+callbacks. Recent evidence: [Argo CD validation](https://github.com/sartim/storemesh-argocd-repo/actions/runs/38576817037),
+[Helm CI](https://github.com/sartim/storemesh-helm-repo/actions/runs/38576820252),
+and [documentation deployment](https://github.com/sartim/storemesh-docs/actions/runs/38576813490).
+These checks validate configuration shape, not a live login.
 
-**Acceptance criteria:** `npm run build` passes; all tracked guide pages are
-available through current and baseline version routes; the architecture map
-and API explorer render without a backend; direct Markdown remains readable.
+Before activation, choose one Keycloak issuer hostname that is reachable from
+both the user's browser and the platform pods, set each exact callback URI,
+and provision confidential-client secrets out of band. Do not put secrets in
+Git or in a chat message. Kiali additionally requires Kubernetes API OIDC
+trust and RBAC; Kibana OIDC requires an Elastic license that includes SSO.
+
+**Acceptance criteria:** Argo CD and Grafana logins complete against the
+selected issuer; users receive only their mapped roles; negative role tests
+deny access; secrets remain outside Git; and the successful environment
+evidence is recorded before removing the legacy User Service login path.
 
 ### P1 — Disposable platform validation in GitHub Actions
 
