@@ -148,6 +148,15 @@ domain data, not the long-term password authority. The local Keycloak Helm
 chart is development-only until realm configuration and token validation are
 completed.
 
+The deployment boundary is intentional: the optional `start-dev` Keycloak
+chart is for isolated development and disposable tests, while shared
+environments consume an externally operated identity provider. The identity
+operator owns its availability, database, TLS, backups, realm lifecycle, and
+secret rotation; StoreMesh charts only receive the configured issuer and
+secret references. This avoids coupling every StoreMesh installation to a
+development identity deployment and lets operators use their established
+identity platform.
+
 Asynchronous event flows use a transactional outbox after the business write:
 
 ```text

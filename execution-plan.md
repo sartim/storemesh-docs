@@ -22,7 +22,7 @@ milestones.
 - A feature is not complete until its implementation, tests, deployment path,
   and documentation are all represented.
 
-**Last updated:** 2026-10-14
+**Last updated:** 2026-10-18
 
 ## Current focus
 
@@ -35,7 +35,9 @@ activation is waiting on environment values
 
 Argo CD and Grafana have non-applied role-mapping examples with exact,
 configurable callbacks. The Keycloak chart validates the four platform-client
-callbacks. Recent evidence: [Argo CD validation](https://github.com/sartim/storemesh-argocd-repo/actions/runs/38576817037),
+callbacks. The `start-dev` chart is reserved for isolated development and
+disposable tests; shared environments should consume an externally operated
+identity provider. Recent evidence: [Argo CD validation](https://github.com/sartim/storemesh-argocd-repo/actions/runs/38576817037),
 [Helm CI](https://github.com/sartim/storemesh-helm-repo/actions/runs/38576820252),
 and [documentation deployment](https://github.com/sartim/storemesh-docs/actions/runs/38576813490).
 These checks validate configuration shape, not a live login.

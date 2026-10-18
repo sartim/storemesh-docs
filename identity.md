@@ -64,18 +64,57 @@ PKCE protects public clients because no client secret is shipped in browser or
 mobile binaries. Redirect URIs must be exact and separately registered for
 each client.
 
+## Deployment model
+
+The Keycloak chart in `storemesh-helm-repo` is an optional development and
+disposable-test fixture. It runs `start-dev`, imports a development realm, and
+is not the shared or production identity service. The optional Argo CD app is
+not included in the default bootstrap.
+
+For shared environments, the recommended direction is an externally operated
+Keycloak deployment (or another identity provider approved by that environment)
+whose operator owns availability, the production database, HTTPS, backups,
+realm administration, and credential rotation. StoreMesh deployments consume
+the provider's issuer and do not assume ownership of its lifecycle. This keeps
+the public repositories reusable and avoids coupling application installation
+to one operator's identity infrastructure.
+
+Development and CI must remain isolated from shared identities. Current CI
+validates issuer/callback/role configuration and token-verification behavior;
+it does not log in to a shared realm. Any future end-to-end login job should
+provision a disposable identity instance and credentials for that job only.
+Never put real client secrets, admin credentials, or bearer tokens in Git,
+workflow inputs, build artifacts, or project documentation. If a GitHub Actions
+deployment needs a secret, scope it to a protected environment and expose it
+only to the deployment job.
+
+Use one canonical issuer for the tokens consumed by StoreMesh. Browser clients
+and server-side validators must be able to reach the endpoints published in
+OIDC discovery, and every validator must check the exact `iss` value. An
+internal Kubernetes service URL and a public browser URL are not interchangeable
+issuers; if a private backchannel is needed, configure it without changing the
+issuer claim expected by the applications.
+
 ## Local development
 
 The local Helm realm is `storemesh`. The development clients and redirects are
 declared in the Helm chart; local passwords and client values are not suitable
-for shared environments. Android emulator builds use the host alias
-`10.0.2.2`, while the iOS Simulator uses `localhost`:
+for shared environments. Android emulator builds may use `10.0.2.2` as a host
+reachability alias, while the iOS Simulator may use `localhost`. These are
+network paths, not separate valid token issuers:
 
-| Client | Redirect | Local issuer |
+| Client | Redirect | Local Keycloak URL example |
 | --- | --- | --- |
-| Web | `http://localhost:3000/*` | `http://localhost:8081/realms/storemesh` |
-| Android | `com.storemesh.android://oauth/callback` | `http://10.0.2.2:8081/realms/storemesh` |
-| iOS | `storemesh-ios://oauth/callback` | `http://localhost:8081/realms/storemesh` |
+| Web | `http://localhost:3000/*` | One canonical development issuer, reachable by browser and BFF |
+| Android | `com.storemesh.android://oauth/callback` | The same canonical issuer; configure emulator routing/DNS as needed |
+| iOS | `storemesh-ios://oauth/callback` | The same canonical issuer; configure simulator routing/DNS as needed |
+
+Do not configure `localhost` for one client and `10.0.2.2` for another as
+independent issuer values. Keycloak's discovered issuer and token `iss` claim
+must match the value used by every client and validating service. A local
+port-forward alone is not a shared browser-and-pod issuer; use a local hostname
+and network setup that all participants can reach before testing PKCE end to
+end.
 
 For a physical device, use HTTPS and a reachable issuer/API origin such as an
 authenticated ngrok tunnel. Never expose PostgreSQL, Redis, gRPC, or

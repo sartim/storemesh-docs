@@ -43,6 +43,14 @@ tool SSO remains an explicit environment activation step with Secret-backed
 confidential client credentials and role mapping. See the platform-tool status
 matrix in [Identity and OIDC](identity.md).
 
+For staging or production, prefer an externally operated identity provider
+whose operator owns its database, TLS, backups, realm lifecycle, and secret
+rotation. StoreMesh charts should consume its exact issuer; do not install the
+development chart as the shared identity service. Use a protected GitHub
+Actions environment for deployment-only secrets and approvals, or the target
+platform's secret manager for runtime credentials. Ordinary pull-request
+validation must not need access to those secrets.
+
 ## Local platform
 
 Kind requires a running Docker daemon because each cluster node is a Docker

@@ -23,11 +23,8 @@ Open `http://localhost:3000`. `npm run build` creates a static `out/` export.
 The site includes a responsive docs index, client-side section search,
 versioned routes (`/docs/current/...` and `/docs/v0.1/...`), an interactive
 architecture map, and a BFF API contract explorer. The root Markdown files
-remain directly readable on GitHub and remain the content source for both
-Jekyll and Next.js.
-
-The legacy Jekyll configuration remains available while the Next.js publishing
-workflow is evaluated; this keeps the migration reversible.
+remain directly readable on GitHub and are the canonical content source for
+the Next.js site.
 
 GitHub Pages deploys the Next.js static export from `.github/workflows/pages.yml`
 on pushes to `main` or a manual workflow dispatch. The project-site base path is
