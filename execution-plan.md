@@ -232,7 +232,7 @@ For each feature, check the applicable items before moving it to Complete:
 | 2026-09-09 | Resource-profile Kind validation passed with the normalized requests and memory limits; all StoreMesh workloads, Istio checks, functional traffic, observability, and final readiness remained healthy ([workflow run 34287051328](https://github.com/sartim/storemesh-scripts/actions/runs/34287051328)). |
 | 2026-09-01 | Adopted the Confluent for Kubernetes KRaft quickstart as the reference for a future local Kafka analytics/eventing milestone; ZooKeeper is intentionally excluded. |
 | 2026-09-01 | Added the Order Service `event_outbox` migration and transactional `OrderCreated` write; publisher worker and consumer projections remain next. |
-| 2026-09-01 | Added the initial single-instance outbox publisher worker; production worker leasing, Kafka delivery hardening, and analytics consumers remain next. |
+| 2026-09-01 | Added the initial single-instance outbox publisher worker with PostgreSQL leasing and at-least-once delivery; consumer idempotency, Kafka delivery hardening, and analytics projections remain next. |
 | 2026-09-02 | Standardized the Go BFF on complementary REST and GraphQL: REST remains for resource/operational routes, while GraphQL is the composition surface for multi-domain client views. |
 | 2026-09-02 | Integrated the Next.js storefront with the authenticated BFF GraphQL `products`, `cart`, `orders`, `updateCart`, `clearCart`, and `createOrder` operations; cancellation and admin actions remain REST-backed. |
 | 2026-09-02 | Reprioritized the roadmap around Kind stability, complete Keycloak downstream migration, native GraphQL adoption, integration tests, and observability validation. |
