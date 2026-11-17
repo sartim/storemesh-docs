@@ -27,9 +27,14 @@ repository: architecture for boundary changes, operations for runtime or
 deployment changes, development guidance for workflow changes, and this roadmap
 when milestone status or priority changes.
 
+Environment-gated work must name the external prerequisite and its owner. A
+gate on a shared environment must not prevent progress on independently
+testable work; keep the gated milestone visible while advancing the next
+actionable item below it.
+
 | Milestone | Status | Outcome |
 | --- | --- | --- |
-| Identity authorization hardening | In progress | Product Service enforces the Keycloak `admin` role for catalog mutations. Order Service enforces token-subject ownership for orders and carts, scopes customer lists, and reserves cross-customer order access for realm `admin`. Argo CD/Grafana role and callback examples are validated ([Argo validation](https://github.com/sartim/storemesh-argocd-repo/actions/runs/38576817037), [Helm CI](https://github.com/sartim/storemesh-helm-repo/actions/runs/38576820252)); live issuer/secrets/client configuration and legacy HS256 retirement remain. Kiali activation is gated on Kubernetes API OIDC/RBAC, and Kibana OIDC is gated on an Elastic SSO license. |
+| Identity authorization hardening | In progress; shared-environment activation is gated | Product Service enforces the Keycloak `admin` role for catalog mutations. Order Service enforces token-subject ownership for orders and carts, scopes customer lists, and reserves cross-customer order access for realm `admin`. Argo CD/Grafana role and callback examples are validated ([Argo validation](https://github.com/sartim/storemesh-argocd-repo/actions/runs/38576817037), [Helm CI](https://github.com/sartim/storemesh-helm-repo/actions/runs/38576820252)); live issuer/secrets/client configuration and legacy HS256 retirement remain. A local Keycloak health-probe/runtime-smoke fix is under review in [Helm PR #19](https://github.com/sartim/storemesh-helm-repo/pull/19), with its isolated CI run passing ([workflow](https://github.com/sartim/storemesh-helm-repo/actions/runs/39142977801)); it does not activate shared SSO. Kiali activation is gated on Kubernetes API OIDC/RBAC, and Kibana OIDC is gated on an Elastic SSO license. The shared issuer and client Secrets must be supplied by the deployment environment operator; until then, advance independent contract and client work.
 | Platform foundation | Complete | User service, Helm chart, Argo CD, Kind, scripts, and documentation repositories created |
 | Identity and authorization | In progress | Keycloak/OIDC is the target authority; the local realm, BFF JWKS validation, web PKCE foundation, Android/iOS native PKCE flows, platform-tool role contract/examples, and downstream JWKS rotation handling are implemented. BFF admin routes require a verified `admin` role; Product Service supports strict OIDC precedence, and BFF/Product/Order/Inventory verify discovery issuer and refresh unknown signing key IDs. The legacy User Service HS256 JWT path and separate Order-to-Product service JWT remain transitional; callback validation, confidential secrets, tool-specific RBAC, and password-login retirement remain next |
 | Eventing and analytics platform | In progress | Order Service writes transactional `OrderCreated`, `CartUpdated`, and `CartCleared` records to a PostgreSQL outbox, while Inventory writes transactional stock/reservation events to its own outbox; both optional publishers use expiring PostgreSQL leases and separate Kafka topics. Kafka remains an opt-in integration: no Kafka/CFK is installed by local Argo bootstrap, and an external broker is required before enabling delivery; consumer idempotency and downstream analytics projections remain next |
@@ -41,10 +46,10 @@ when milestone status or priority changes.
 | Local data services | Complete | Development-only PostgreSQL and Redis bootstrap is implemented and validated in [storemesh-scripts pull request #4](https://github.com/sartim/storemesh-scripts/pull/4) |
 | GitOps deployment verification | Complete | Argo CD synchronized the user service; PostgreSQL, Redis, and two user-service replicas reached healthy state in the recreated Kind cluster |
 | Additional domain services | Complete | Product, Inventory, and Order Services are deployed and healthy in the local Kind cluster. Inventory uses PostgreSQL-backed replica-safe reservations ([runtime PR #2](https://github.com/sartim/storemesh-inventory-service/pull/2)); Order consumes Product and Inventory gRPC contracts, authenticates to Product with service JWTs, coordinates price snapshots and reservations, and supports PostgreSQL-backed idempotent retries. The deployed workflow was verified end to end, including a successful order, a same-key retry, and persistent stock reduction. |
-| Edge composition / BFF | In progress | Go BFF exposes REST/JSON for resource and operational routes plus authenticated GraphQL queries and mutations for products, cart, orders, cart replacement, and idempotent order creation, backed by canonical internal gRPC APIs. Canonical v1 fixtures are aligned across BFF, Android, iOS, and Next.js; route authentication, protected resolver, and idempotency-key schema tests now provide regression coverage. Production promotion remains pending environment setup; network-backed client integration remains next. |
+| Edge composition / BFF | In progress | Go BFF exposes REST/JSON for resource and operational routes plus authenticated GraphQL queries and mutations for products, cart, orders, cart replacement, and idempotent order creation, backed by canonical internal gRPC APIs. Canonical v1 fixtures are aligned across BFF, Android, iOS, and Next.js; route authentication, protected resolver, and idempotency-key schema tests provide regression coverage. [BFF PR #1](https://github.com/sartim/storemesh-bff-service/pull/1) adds a CI check comparing client fixture copies with BFF canonical fixtures; its hosted validation passed ([workflow](https://github.com/sartim/storemesh-bff-service/actions/runs/44058039380)). Production promotion remains pending environment setup; network-backed client integration remains next. |
 | Web frontend | In progress | Next.js, React, and TypeScript frontend provides Keycloak login, GraphQL-backed catalog/cart/order/checkout flows, a role-aware admin area, and REST-backed cancellation/admin operations. Deterministic Playwright fixtures remain the default, while an opt-in live browser flow now validates the real BFF catalog/cart/order path with a supplied token. Native local Product Service mode provides 32 demo products with deterministic SKU-based visuals for storefront testing. Payment, fulfillment, GraphQL cancellation, and admin mutations remain future scope. |
 | Native mobile clients | In progress | Android and iOS have native splash/login, Keycloak PKCE, secure Keychain/Keystore sessions, configurable localhost/ngrok routing, catalog search/filtering, product details, order history, and native cart/checkout foundations. Both clients now include opt-in network-backed commerce tests for product/cart/order/clear flows against an independently running BFF; Android runs them through the hosted emulator suite when configured, while normal CI skips them without credentials. Further hosted mobile integration and authorization validation remain next. |
-| Documentation platform evolution | In progress | Next.js + TypeScript site consumes canonical Markdown and provides responsive navigation, client-side search, an interactive architecture map, versioned routes, and a BFF API explorer. GitHub Pages publishing is active and was revalidated with the latest content ([deployment](https://github.com/sartim/storemesh-docs/actions/runs/38576813490)); richer API execution remains future scope. |
+| Documentation platform evolution | In progress | Next.js + TypeScript site consumes canonical Markdown and provides responsive navigation, client-side search, an interactive architecture map, versioned routes, and a BFF API explorer. GitHub Pages publishing is active and was revalidated with the latest content ([deployment](https://github.com/sartim/storemesh-docs/actions/runs/38576813490)); a pull-request type-check/build workflow now validates changes without deploying ([passing validation](https://github.com/sartim/storemesh-docs/actions/runs/44058403366)). Richer API execution remains future scope. |
 | Production platform hardening | In progress | Domain Helm charts include one-replica PodDisruptionBudgets and gRPC ingress NetworkPolicies ([PR #9](https://github.com/sartim/storemesh-helm-repo/pull/9)), opt-in ExternalSecret resources ([PR #10](https://github.com/sartim/storemesh-helm-repo/pull/10)), an opt-in User Service HTTPS Ingress ([PR #11](https://github.com/sartim/storemesh-helm-repo/pull/11)), a pinned cert-manager Argo CD application ([PR #4](https://github.com/sartim/storemesh-argocd-repo/pull/4)), a non-applied Let's Encrypt issuer template ([PR #5](https://github.com/sartim/storemesh-argocd-repo/pull/5)), opt-in Prometheus alert rules ([PR #12](https://github.com/sartim/storemesh-helm-repo/pull/12)), and Istio sidecar enrollment with applied `STRICT` mTLS plus service-account-principal `AuthorizationPolicy` rules ([Argo CD commit c9999e5](https://github.com/sartim/storemesh-argocd-repo/commit/c9999e5), [scripts commit 16fa12d](https://github.com/sartim/storemesh-scripts/commit/16fa12d)). The complete mesh path is runtime-validated on disposable Kind, including sidecars, strict mTLS, principal authorization, gRPC traffic, and observability ([workflow run 34285795009](https://github.com/sartim/storemesh-scripts/actions/runs/34285795009)). A non-applied production edge template now covers HTTPS Gateway routing, Keycloak JWT validation, and conservative BFF resilience settings; activation requires environment-specific hostname, TLS, and issuer values. Istio remains optional to install per environment. Remaining mesh work is environment activation and mobile network integration coverage. Staged observability now covers Prometheus/Grafana/Alertmanager ([monitoring PR #8](https://github.com/sartim/storemesh-argocd-repo/pull/8)), OpenTelemetry with Istio telemetry when the mesh is enabled ([Tempo PR #9](https://github.com/sartim/storemesh-argocd-repo/pull/9), [Istio PR #11](https://github.com/sartim/storemesh-argocd-repo/pull/11)), and ECK-managed Elasticsearch/Kibana with Fluent Bit ([operator PR #6](https://github.com/sartim/storemesh-argocd-repo/pull/6), [logging template PR #7](https://github.com/sartim/storemesh-argocd-repo/pull/7), [Fluent Bit template PR #10](https://github.com/sartim/storemesh-argocd-repo/pull/10)). Backup/recovery requirements and an environment activation checklist are documented; restore evidence and approved production activation remain next |
 
 ## Milestone definition of done
@@ -55,29 +60,30 @@ roadmap is updated with evidence.
 
 ## Next prioritized work
 
-1. Activate Argo CD and Grafana OIDC in an environment with a browser-and-pod-
-   reachable issuer, exact callback URLs, and out-of-band client Secrets. The
-   latest chart/example changes and callback/role contracts are CI-validated;
-   no live issuer or client secrets are configured in the development repos.
-   Configure Kubernetes API OIDC/RBAC before enabling Kiali SSO; use Kibana
-   OIDC only where the Elastic license includes SSO. Then remove direct User
-   Service password login after migration evidence.
-2. Maintain the BFF GraphQL contract in Android and iOS, and add client
+1. Complete review of the BFF fixture-parity change ([PR #1](https://github.com/sartim/storemesh-bff-service/pull/1)); its hosted check already passes ([workflow](https://github.com/sartim/storemesh-bff-service/actions/runs/44058039380)). Merge only after review, then retain this guard as the contract baseline for subsequent GraphQL/mobile work. This is independently testable and needs no Docker, Kind, or live identity credentials.
+2. Activate Argo CD and Grafana OIDC in an environment with a browser-and-pod-
+   reachable issuer, exact callback URLs, and out-of-band client Secrets. This
+   is an external-environment gate: no live issuer or client secrets are
+   configured in the development repos. Configure Kubernetes API OIDC/RBAC
+   before enabling Kiali SSO; use Kibana OIDC only where the Elastic license
+   includes SSO. Then remove direct User Service password login after migration
+   evidence.
+3. Maintain the BFF GraphQL contract in Android and iOS, and add client
    integration tests for cart persistence and order creation. Canonical v1
    fixtures are now aligned across BFF, Android, iOS, and Next.js; BFF route
    authentication, protected resolver, and idempotency-key validation have
    regression tests. The Android Compose smoke checks are now part of the
    hosted emulator job; keep local application development independent of
    Docker and Kind.
-3. Add cross-repository API/UI integration tests and harden admin/order
+4. Add cross-repository API/UI integration tests and harden admin/order
    authorization, including GraphQL resolver authorization tests.
-4. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
+5. Enable `ServiceMonitor` resources and verify Prometheus discovery and scrape
    health across all domain services.
-5. Publish Cart and Inventory events, add consumer idempotency, and build the
+6. Publish Cart and Inventory events, add consumer idempotency, and build the
    first Kafka analytics projection.
-6. Complete restore rehearsal, HTTPS/cert-manager activation, and Fluent Bit
+7. Complete restore rehearsal, HTTPS/cert-manager activation, and Fluent Bit
    redaction/TLS validation in a controlled environment.
-7. Add GraphQL cancellation/admin mutations only after authorization,
+8. Add GraphQL cancellation/admin mutations only after authorization,
    idempotency, and audit requirements are defined; keep mobile releases
-   SemVer-tagged through Actions.
-   platform repositories' manually triggered GitHub Actions workflows.
+   SemVer-tagged through the platform repositories' manually triggered
+   GitHub Actions workflows.
