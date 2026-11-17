@@ -79,11 +79,13 @@ the provider's issuer and do not assume ownership of its lifecycle. This keeps
 the public repositories reusable and avoids coupling application installation
 to one operator's identity infrastructure.
 
-Development and CI must remain isolated from shared identities. Helm CI now
-starts a short-lived Keycloak container from the chart-rendered realm and
-checks management health and OIDC discovery; other checks validate
-issuer/callback/role configuration and token-verification behavior. This does
-not test PKCE user login or platform-tool authorization against a shared realm.
+Development and CI must remain isolated from shared identities. The open
+[Helm change](https://github.com/sartim/storemesh-helm-repo/pull/19) adds a
+short-lived Keycloak container smoke using the chart-rendered realm and checks
+management health and OIDC discovery; its [feature-branch run passed](https://github.com/sartim/storemesh-helm-repo/actions/runs/39142977801).
+Other checks validate issuer/callback/role configuration and token-verification
+behavior. This does not test PKCE user login or platform-tool authorization
+against a shared realm.
 Any future end-to-end login job should provision a disposable identity instance
 and credentials for that job only.
 Never put real client secrets, admin credentials, or bearer tokens in Git,
